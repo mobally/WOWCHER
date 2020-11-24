@@ -1,0 +1,82 @@
+<?php
+// @codingStandardsIgnoreFile
+
+/** @var Cordial\Sync\Block\Widget\Backinstock $block */
+
+if ($block->canShow()) :
+?>
+    <?php ($block->getData('title')) ? $title = $block->getData('title') : $title = __('Product Out of Stock Subscription'); ?>
+    <?php ($block->getData('button')) ? $button = $block->getData('button') : $button = __('Alert me'); ?>
+    <?php ($block->getData('link')) ? $link = $block->getData('link') : $link = __('No, thank you'); ?>
+    <?php ($block->getData('notify')) ? $notify = $block->getData('notify') : $notify = __('Alert me when this is back in stock'); ?>
+    <div id="cordial-modal">
+        <h1><?php echo $notify ?></h1>
+        <form class="form" action="<?= $block->escapeUrl($block->getAjaxUrl()) ?>" id="backinstock-form" method="post"
+              data-hasrequired="* Required Fields">
+            <input name="backinstock_email" autocomplete="email" id="email_address" value="" title="<?= $block->escapeHtmlAttr(__('Email')) ?>"
+                   class="input-text" data-validate="{required:true, 'validate-email':true}" aria-required="true"
+                   type="email">
+            <input type="hidden" name="backinstock_product_id" value="<?= /* @noEscape */  $block->getProductId() ?>"/>
+        </form>
+    </div>
+    <script>
+        require(
+            [
+                'jquery',
+                'Magento_Ui/js/modal/modal',
+                'mage/validation'
+            ],
+            function ($,
+                      modal) {
+                var options = {
+                    type: 'popup',
+                    responsive: true,
+                    innerScroll: true,
+                    title: '<?= $block->escapeHtml($title) ?>',
+                    buttons: [
+                        {
+                            text: 'Confirm',
+                            attr: {
+                                'data-action': 'confirm'
+                            },
+                            'class': 'action primary',
+                            click: function () {
+                                var dataForm = $('#backinstock-form');
+                                dataForm.validation();
+                                var modal = this;
+                                if (dataForm.validation('isValid')) {
+                                    param = dataForm.serialize(),
+                                        $.ajax({
+                                            showLoader: true,
+                                            url: '<?= $block->escapeUrl($block->getAjaxUrl()) ?>',
+                                            data: param,
+                                            type: "POST",
+                                            dataType: 'json',
+                                        }).done(function (data) {
+                                            dataForm.html('<h2>' + data.message + '</h2>');
+                                            setTimeout(function () {
+                                                modal.closeModal();
+                                            }, 2000);
+                                        });
+
+                                    return true;
+                                }
+                                else
+                                    return false;
+                            }
+                        },
+                        {
+                            text: '<?= $block->escapeHtml($link) ?>',
+                            class: 'action close',
+                            click: function () {
+                                this.closeModal();
+                            }
+                        }]
+                };
+
+                var popup = modal(options, $('#cordial-modal'));
+                $('#cordial-modal').modal('openModal');
+            }
+        );
+    </script>
+<?php endif ?>

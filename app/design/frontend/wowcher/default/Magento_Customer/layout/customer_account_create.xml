@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<!--
+  ~ Copyright (c) On Tap Networks Limited.
+  -->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceBlock name="page.main.title" remove="true" />
+        <referenceBlock name="customer_form_register">
+            <container name="customer.register.agreement" as="customer_register_agreement" label="Customer Register Agreement" htmlTag="div" htmlClass="register-container-agreement" />
+            <block name="customer.form.register.extra" as="customer.form.register.extra" template="Magento_Customer::form/register_title.phtml" />
+        </referenceBlock>
+    </body>
+</page>

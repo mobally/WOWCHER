@@ -1,0 +1,25 @@
+<?xml version="1.0" ?>
+<widgets xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Widget:etc/widget.xsd">
+	<widget class="Cordial\Sync\Block\Widget\Backinstock" id="cordial_sync_backinstock">
+		<label>Back in Stock Widget</label>
+		<description>Alert me when product is back in stoc</description>
+		<parameters>
+			<parameter name="title" sort_order="10" visible="true" xsi:type="text">
+				<label>Title</label>
+				<value>Product Out of Stock Subscription</value>
+			</parameter>
+			<parameter name="notify" sort_order="20" visible="true" xsi:type="text">
+				<label>Notify text</label>
+				<value>Alert me when this is back in stock</value>
+			</parameter>
+			<parameter name="button" sort_order="30" visible="true" xsi:type="text">
+				<label>Button text</label>
+				<value>Alert me</value>
+			</parameter>
+			<parameter name="link" sort_order="40" visible="true" xsi:type="text">
+				<label>Link text</label>
+				<value>No, thank you</value>
+			</parameter>
+		</parameters>
+	</widget>
+</widgets>

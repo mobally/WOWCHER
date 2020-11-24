@@ -1,0 +1,48 @@
+<?php
+/*
+ * Copyright (c) On Tap Networks Limited.
+ */
+/** @var \Magento\Catalog\Pricing\Render\FinalPriceBox $block */
+/** @var \Magento\Framework\Escaper $escaper */
+?>
+<?php
+$minProduct = $block->getSaleableItem()
+    ->getPriceInfo()
+    ->getPrice(\Magento\Catalog\Pricing\Price\FinalPrice::PRICE_CODE)
+    ->getMinProduct();
+
+if ($minProduct) {
+    $amountRender = $block->getRendererPool()
+        ->createAmountRender(
+            $minProduct->getPriceInfo()->getPrice('final_price')->getAmount(),
+            $minProduct,
+            $minProduct->getPriceInfo()->getPrice('final_price'),
+            ['include_container' => true]
+        );
+
+    $regularPrice = $block->getRendererPool()
+        ->createAmountRender(
+            $minProduct->getPriceInfo()->getPrice('regular_price')->getAmount(),
+            $minProduct,
+            $minProduct->getPriceInfo()->getPrice('regular_price'),
+            ['include_container' => false]
+        );
+}
+?>
+<?php if ($minProduct) : ?>
+    <?php if($block->getSaleableItem()->getData('display_price_text')): ?>
+        <?php if (!empty($block->getSaleableItem()->getData('price_text'))): ?>
+        <div class="deal-main-price-splat-label"><?= $escaper->escapeHtml($block->getSaleableItem()->getData('price_text')) ?></div>
+        <?php else: ?>
+            <div class="deal-main-price-splat-label"><?= __('From') ?></div>
+        <?php endif; ?>
+    <?php endif; ?>
+    <div class="deal-main-price-splat-new-price deal-main-price-splat-new-price-has-currency">
+        <?= $amountRender->toHtml() ?>
+    </div>
+    <?php if ($block->getSaleableItem()->getData('display_discount')): ?>
+        <span class="deal-main-price-splat-old-price strikethrough">
+            <?= $regularPrice->toHtml() ?>
+        </span>
+    <?php endif; ?>
+<?php endif ?>

@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<!--
+  ~ Copyright (c) On Tap Networks Limited.
+  -->
+
+<page layout="2columns-left" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <update handle="product_details"/>
+    <update handle="catalog_product_view_type_grouped" />
+    <body>
+        <attribute name="class" value="static-product-page"/>
+        <referenceBlock name="cms_page" remove="true" />
+        <block name="context-provider">
+            <arguments>
+                <argument name="context" xsi:type="string">cms_index_index</argument>
+            </arguments>
+        </block>
+        <block class="OnTap\ContextProvider\Block\CategoryResolver" name="context-aware.category.resolver">
+            <arguments>
+                <argument name="resolver_factory" xsi:type="object">OnTap\ContextProvider\Model\VirtualCategoryResolverFactory</argument>
+            </arguments>
+        </block>
+        <referenceBlock name="page.main.title" remove="true"/>
+    </body>
+</page>

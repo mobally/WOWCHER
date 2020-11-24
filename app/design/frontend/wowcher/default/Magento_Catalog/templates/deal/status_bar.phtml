@@ -1,0 +1,40 @@
+<?php
+/** @var \Magento\Catalog\Block\Product\View $block */
+/** @var \Magento\Framework\Escaper $escaper */
+$product = $block->getProduct();
+/** @var \OnTap\Deal\ViewModel\SocialCue\TotalBought $totalBoughtCue */
+$totalBoughtCue = $block->getTotalBought();
+/** @var \OnTap\Deal\ViewModel\SocialCue\SaveUpTo $saveUpToCue */
+$saveUpToCue = $block->getSaveUpTo();
+?>
+<div class="deal-status-bar-wrapper">
+    <div class="product-name-mobile"><?= $escaper->escapeHtml($product->getName()) ?></div>
+    <div class="deal-status-bar-item-merchant">
+    </div>
+
+    <?php if ($totalBoughtCue->canShow($product)): ?>
+        <div class="deal-status-bar-item deal-status-bar-item-stats">
+            <div class="deal-status-bar-label"><?php echo __('Bought') ?></div>
+            <div class="deal-status-bar-value">
+                <?= $escaper->escapeHtml($totalBoughtCue->getValue($product)); ?>
+            </div>
+        </div>
+    <?php endif; ?>
+
+    <?php if ($saveUpToCue->canShow($product)): ?>
+        <div class="deal-status-bar-item deal-status-bar-item-stats">
+            <div class="deal-status-bar-label"><?php echo __('Save up to') ?></div>
+            <div class="deal-status-bar-value"><?= $saveUpToCue->getValue($product) ?></div>
+        </div>
+    <?php endif; ?>
+
+    <div class="deal-status-bar-item deal-status-bar-item-countdown">
+        <div class="deal-status-bar__countdown"></div>
+    </div>
+
+    <div class="deal-status-bar-item deal-status-bar-item-buttons">
+        <a class="secondary tocart" href="#product_addtocart_form">
+            <span><?= __('Buy!') ?></span>
+        </a>
+    </div>
+</div>

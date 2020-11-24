@@ -1,0 +1,45 @@
+<?php
+/*
+ * Copyright (c) On Tap Networks Limited.
+ */
+/** @var \OnTap\StoreSwitcher\Block\Link $block */
+/* @var \Magento\Framework\Escaper $escaper */
+?>
+<li class="header-store-switcher" data-block="store-switcher" >
+    <div class="switcher-link action" data-trigger="trigger"></div>
+
+    <div class="block hidden-content"
+         data-mage-init='{
+        "dropdownDialog": {
+            "appendTo": "[data-block=store-switcher]",
+            "triggerTarget":".switcher-link",
+            "closeOnMouseLeave": false,
+            "closeOnEscape": true,
+            "autoOpen": false,
+            "triggerClass": "active",
+            "parentClass": "active",
+            "buttons": []
+        }
+     }'>
+        <div id="switcher-content-wrapper" class="content">
+            <div class="switcher store switcher-store" id="switcher-store">
+                <strong class="label switcher-label">
+                    <span><?= $escaper->escapeHtml(__('Location')) ?></span>
+                </strong>
+                <div class="actions dropdown options switcher-options">
+                    <ul class="dropdown switcher-dropdown" data-target="dropdown">
+                        <?php foreach ($block->getAllStores() as $store): ?>
+                            <?php $selected = ($block->getCurrentStoreCode() == $store['value']) ? "active" : ''?>
+                            <li>
+                                <a class="<?= /* @noEscape */ $selected; ?>"
+                                   href="<?= $escaper->escapeUrl($block->getStoreUrl($store['value'])) ?>">
+                                    <?= $escaper->escapeHtml($store['label']) ?>
+                                </a>
+                            </li>
+                        <?php endforeach; ?>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</li>

@@ -1,0 +1,42 @@
+//
+//  Variables
+//  _____________________________________________
+
+@form-element-input__border-color: @color-gray83;
+@form-element-input__padding: 10px 14px;
+@select__padding: 10px 14px;
+@form-element-input__focus__border: 1px solid @color-blue;
+@form-element-input__height: auto;
+@form-element-input__border-radius: 0;
+@form-element-validation__border-error: @error-theme-color;
+@form-element-input__font-family: @font_family_1;
+@form-element-input-placeholder__color: @color-gray60;
+
+//
+//  Common
+//  _____________________________________________
+
+& when (@media-common = true) {
+	input:not([disabled]),
+	textarea:not([disabled]),
+	select:not([disabled]) {
+		&:focus {
+			.lib-css(box-shadow, @focus__box-shadow);
+		}
+	}
+
+	input[type="text"]::placeholder,
+	input[type="password"]::placeholder,
+	input[type="url"]::placeholder,
+	input[type="tel"]::placeholder,
+	input[type="search"]::placeholder,
+	input[type="number"]::placeholder,
+	input[type="datetime"]::placeholder,
+	input[type="email"]::placeholder {
+		opacity: 1;
+	}
+
+	input::-webkit-input-placeholder {
+		font-style: normal;
+	}
+}

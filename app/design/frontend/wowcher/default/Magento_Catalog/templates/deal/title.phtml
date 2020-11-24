@@ -1,0 +1,8 @@
+<?php
+/** @var \OnTap\ContextProvider\Block\ProductAwareTemplate $block */
+/** @var \Magento\Framework\Escaper $escaper */
+?>
+<div class="deal-header">
+    <h1><?= $escaper->escapeHtml($block->getProduct()->getName()) ?></h1>
+    <h3><?= $block->getProduct()->getData('short_description') ?></h3>
+</div>

@@ -1,0 +1,37 @@
+<?php
+/** @var \Magento\Catalog\Block\Product\View\Description $block */
+/** @var \OnTap\Deal\Block\Serializer $serializer $serializer */
+$serializer = $block->getSerializer();
+?>
+<div class="deal-details-columns">
+    <?php
+        $highlights = $block->getProduct()->getData('highlights');
+        $data = $serializer->unserialize($highlights);
+    ?>
+    <?php if ($data !== false && is_array($data)): ?>
+        <h2 class="deal-details-wide-heading"><?= __('Highlights') ?></h2>
+        <div class="deal-details-wide-bullet-list">
+            <ul class="deal-bullet-list">
+                <?php foreach ($data as $line): ?>
+                    <li><?= $line ?></li>
+                <?php endforeach; ?>
+            </ul>
+        </div>
+    <?php endif; ?>
+</div>
+<div class="deal-details-columns">
+    <?php
+        $fineprint = $block->getProduct()->getData('terms');
+        $data = $serializer->unserialize($fineprint);
+    ?>
+    <?php if ($data !== false && is_array($data)): ?>
+        <h2 class="deal-details-wide-heading"><?= __('The Fine Print') ?></h2>
+        <div class="deal-details-wide-bullet-list">
+            <ul class="deal-bullet-list">
+                <?php foreach ($data as $line): ?>
+                    <li><?= $line ?></li>
+                <?php endforeach; ?>
+            </ul>
+        </div>
+    <?php endif; ?>
+</div>

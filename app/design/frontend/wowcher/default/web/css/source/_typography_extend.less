@@ -1,0 +1,38 @@
+//
+//  Common
+//  _____________________________________________
+
+& when (@media-common = true) {
+	.lib-font-face(
+		@family-name: 'Courgette',
+		@font-path: '@{baseDir}fonts/courgette/courgette-regular',
+		@font-weight: normal,
+		@font-style: normal
+	);
+
+	.lib-font-face(
+		@family-name: 'Open Sans',
+		@font-path: '@{baseDir}fonts/open-sans/opensans-extrabold',
+		@font-weight: 800,
+		@font-style: normal
+	);
+
+	.lib-font-face(
+		@family-name: 'Open Sans',
+		@font-path: '@{baseDir}fonts/open-sans/opensans-extrabolditalic',
+		@font-weight: 800,
+		@font-style: italic
+	);
+
+	h1,
+	h2,
+	h3,
+	h4,
+	h5,
+	h6 {
+		.lib-font-size(14);
+		font-weight: @font-weight__bold;
+		line-height: 1.4;
+		margin: 0 0 10px;
+	}
+}

@@ -1,0 +1,103 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceBlock name="header.links">
+            <block class="Magento\Customer\Block\Account\Customer" name="customer" template="Magento_Customer::account/customer.phtml" before="-"/>
+            <block class="Magento\Customer\Block\Account\AuthorizationLink" name="authorization-link-login" template="Magento_Customer::account/link/authorization.phtml">
+                <arguments>
+                    <argument name="sortOrder" xsi:type="number">10</argument>
+                </arguments>
+            </block>
+        </referenceBlock>
+
+        <referenceContainer name="header.panel">
+            <block class="Magento\Framework\View\Element\Html\Links" name="header.links">
+                <arguments>
+                    <argument name="css_class" xsi:type="string">header links</argument>
+                </arguments>
+            </block>
+        </referenceContainer>
+
+        <referenceContainer name="header.container">
+            <block class="OnTap\Menu\Block\Menu"
+                   name="wowcher.slider.menu"
+                   template="OnTap_Menu::slidermenu.phtml"
+                   after="-">
+            </block>
+        </referenceContainer>
+
+        <referenceContainer name="header-wrapper">
+            <block class="OnTap\Subscribe\Block\Link"
+                   name="header-menu"
+                   template="OnTap_Subscribe::subscribe.phtml">
+            </block>
+            <block class="OnTap\StoreSwitcher\Block\Link"
+                   name="header-menu-stores"
+                   template="OnTap_StoreSwitcher::switcher.phtml">
+            </block>
+        </referenceContainer>
+
+        <referenceBlock name="catalog.topnav" remove="true"/>
+        <referenceBlock name="sale.reorder.sidebar" remove="true"/>
+
+        <referenceBlock name="store.menu">
+            <block class="OnTap\Menu\Block\Menu"
+                   name="wowcher.menu"
+                   template="OnTap_Menu::topmenu.phtml"
+                   before="-">
+                <block name="custom.menu.items.desktop" class="Magento\Cms\Block\Block">
+                    <arguments>
+                        <argument name="block_id" xsi:type="string">custom-menu-items</argument>
+                    </arguments>
+                </block>
+            </block>
+            <block class="OnTap\Menu\Block\Menu"
+                   name="wowcher.mobile.menu"
+                   template="OnTap_Menu::mobilemenu.phtml"
+                   before="-">
+                <block name="custom.menu.items" class="Magento\Cms\Block\Block">
+                    <arguments>
+                        <argument name="block_id" xsi:type="string">custom-menu-items</argument>
+                    </arguments>
+                </block>
+            </block>
+        </referenceBlock>
+
+        <referenceBlock name="checkout.cart.coupon" remove="true"/>
+
+        <referenceContainer name="footer">
+            <container name="footer-bottom" htmlTag="div" htmlClass="footer-bottom" label="Footer Bottom" after="-">
+                <container name="footer-bottom-links" label="Footer Bottom Links" after="copyright"/>
+                <container name="footer-text" label="Footer Text" after="footer-bottom-links"/>
+                <container name="social-links" label="Footer Social Links" after="-"/>
+            </container>
+        </referenceContainer>
+
+        <referenceBlock name="footer_links" remove="true"/>
+        <referenceBlock name="report.bugs" remove="true" />
+        <referenceBlock name="currency" remove="true"/>
+        <referenceBlock name="wish-list-link" remove="true" />
+        <referenceBlock name="catalog.compare.link" remove="true"/>
+        <referenceBlock name="form.subscribe" remove="true" />
+        <referenceBlock name="catalog.compare.link" remove="true"/>
+
+        <move element="footer-bottom" destination="footer" after="-"/>
+        <move element="copyright" destination="footer-bottom" before="-"/>
+        <move element="minicart" destination="header-wrapper" after="logo"/>
+        <move element="header" destination="header.links" before="-"/>
+        <move element="register-link" destination="header.links"/>
+        <move element="top.links" destination="customer"/>
+        <move element="authorization-link" destination="top.links" after="-"/>
+        <move element="header.panel.wrapper" destination="header-wrapper" after="minicart"/>
+        <move element="navigation.sections" destination="header.container" before="main.countdown"/>
+
+
+        <referenceBlock name="category.product.addto.compare" remove="true"/>
+        <referenceBlock name="catalog.compare.sidebar" remove="true"/>
+        <referenceBlock name="view.addto.compare" remove="true" />
+        <referenceBlock name="related.product.addto.compare" remove="true" />
+        <referenceBlock name="upsell.product.addto.compare" remove="true" />
+        <referenceBlock name="crosssell.product.addto.compare" remove="true" />
+        <referenceBlock name="catalogsearch.product.addto.compare" remove="true"/>
+    </body>
+</page>

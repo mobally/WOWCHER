@@ -1,0 +1,22 @@
+<?xml version="1.0" ?>
+<!--
+/*
+ * Copyright (c) On Tap Networks Limited.
+ */
+ -->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+	<default>
+		<carriers>
+			<standard>
+				<model>OnTap\StandardShipping\Model\Carrier\Standard</model>
+				<active>0</active>
+				<title>Standard</title>
+				<name>Standard</name>
+				<price>0.00</price>
+				<specificerrmsg>This shipping method is not available. To use this shipping method, please contact us.</specificerrmsg>
+				<sallowspecific>0</sallowspecific>
+			</standard>
+		</carriers>
+	</default>
+</config>

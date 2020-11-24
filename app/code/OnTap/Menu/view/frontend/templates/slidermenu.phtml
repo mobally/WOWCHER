@@ -1,0 +1,31 @@
+<?php
+/*
+ * Copyright (c) On Tap Networks Limited.
+ */
+/** @var OnTap\Menu\Block\Menu $block */
+/* @var \Magento\Framework\Escaper $escaper */
+?>
+<?php $menu = $block->getCategories(); ?>
+
+<?php if ($menu): ?>
+    <nav class="slider-navigation" data-mage-init='{"OnTap_Menu/js/custom-slider": {}}'>
+        <div class="navigation-arrow navigation-arrow-left previous">
+            <img src="<?= $escaper->escapeUrl($block->getViewFileUrl('images/nav-slider-arrow-left.png')) ?>"
+                 alt="Arrow" width="8" height="8"/>
+        </div>
+        <ul id="main-navigation-slider"
+            data-mage-init='{"menu":{"responsive":false, "expanded":false}}'>
+           <?php foreach ($menu as $category): ?>
+                <li>
+                    <a href="<?= $escaper->escapeUrl($category['url']) ?>">
+                        <?= $escaper->escapeHtml($category['label']) ?>
+                    </a>
+                </li>
+           <?php endforeach; ?>
+        </ul>
+        <div class="navigation-arrow navigation-arrow-right next">
+            <img src="<?= $escaper->escapeUrl($block->getViewFileUrl('images/nav-slider-arrow-right.png')) ?>"
+                 alt="Arrow" width="8" height="8"/>
+        </div>
+    </nav>
+<?php endif; ?>

@@ -1,0 +1,44 @@
+<?xml version="1.0"?>
+<!--
+  ~ Copyright (c) On Tap Networks Limited.
+  -->
+<page layout="2columns-left" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <update handle="catalog_product_opengraph" />
+    <update handle="page_calendar"/>
+    <update handle="product_details"/>
+    <body>
+        <attribute name="itemtype" value="http://schema.org/Product" />
+        <attribute name="itemscope" value="itemscope"/>
+
+        <referenceBlock name="page.main.title" remove="true" />
+
+        <referenceBlock name="root">
+            <arguments>
+                <argument name="add_attribute" xsi:type="string">itemscope itemtype="http://schema.org/Product"</argument>
+                <argument name="css_class" xsi:type="string">product</argument>
+                <argument name="add_base_attribute" xsi:type="string">itemprop="name"</argument>
+            </arguments>
+        </referenceBlock>
+
+        <referenceBlock name="breadcrumbs" template="Magento_Catalog::product/breadcrumbs.phtml">
+            <arguments>
+                <argument name="viewModel" xsi:type="object">Magento\Catalog\ViewModel\Product\Breadcrumbs</argument>
+            </arguments>
+        </referenceBlock>
+
+        <referenceContainer name="content">
+        </referenceContainer>
+
+        <referenceContainer name="content.aside">
+            <block class="Magento\Catalog\Block\Product\View\Additional" name="product.info.additional" as="product_additional_data"/>
+        </referenceContainer>
+
+        <referenceBlock name="product.info.addtocart">
+            <block class="Magento\Catalog\Block\ShortcutButtons\InCatalog" name="addtocart.shortcut.buttons"/>
+        </referenceBlock>
+
+        <referenceBlock name="product.info.addtocart.additional">
+            <block class="Magento\Catalog\Block\ShortcutButtons\InCatalog" name="addtocart.shortcut.buttons.additional"/>
+        </referenceBlock>
+    </body>
+</page>

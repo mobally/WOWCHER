@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<!--
+  ~ Copyright (c) On Tap Networks Limited.
+  -->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceBlock name="page.main.title" remove="true"/>
+        <referenceBlock name="customer.new" remove="true" />
+        <referenceBlock name="customer_form_login">
+            <block class="Magento\Customer\Block\Form\Login\Info" as="form_customer_new" name="form.customer.new" template="Magento_Customer::form/newcustomer.phtml"/>
+            <container name="customer.login.agreement" as="customer_login_agreement" label="Customer Login Agreement" htmlTag="div" htmlClass="login-container-agreement" />
+        </referenceBlock>
+    </body>
+</page>

@@ -1,0 +1,109 @@
+//
+//  Common
+//  _____________________________________________
+
+& when (@media-common = true) {    
+	* {
+		box-sizing: border-box;
+	}
+
+	.visible-lg, .visible-lg-block, 
+	.visible-lg-inline,
+	.visible-lg-inline-block, 
+	.visible-md, .visible-md-block, 
+	.visible-md-inline, .visible-md-inline-block, 
+	.visible-sm, .visible-sm-block, .visible-sm-inline, 
+	.visible-sm-inline-block, .visible-xs, .visible-xs-block, 
+	.visible-xs-inline, .visible-xs-inline-block {
+		display: none;
+	}
+
+	ul.list {
+		padding: 0;
+		margin: 0;
+		list-style: none;
+	}
+
+	body {
+		background: url('@{baseDir}images/bg-tile-default.png') repeat @color-white;
+		font-family: @font_family_1;
+		.lib-font-size(14);
+		line-height: 1.4;
+	}
+
+	a.secondary {
+		.lib-font-size(14);
+		border-radius: 5px;
+		background: @button__background;
+		border: 0;		
+		box-sizing: border-box;
+		color: @button__color;		
+		display: inline-block;
+		padding: 7px 15px;
+		line-height: 1.6rem;		
+		vertical-align: middle;
+		text-align: center;
+
+		&:hover {
+			background: @button__hover__background;
+			text-decoration: none;
+		}
+	}
+}
+
+
+//
+//  Mobile
+//  _____________________________________________
+
+.media-width(@extremum, @break) when (@extremum = 'max') and (@break = @screen__m767) {
+	.hidden-xs {
+		display: none !important;
+		background: red;
+	}
+
+	.visible-xs {
+		display: block !important;
+	}
+}
+
+.media-width(@extremum, @break) when (@extremum = 'max') and (@break = @screen__m) {
+	.hidden-xs {
+		display: none !important;
+	}
+
+	.visible-xs {
+		display: block !important;
+	}
+
+	.page-main {
+		padding-left: 15px;
+		padding-right: 15px;
+	}
+}
+
+//
+//  Desktop
+//  _____________________________________________
+
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__l1200) {
+	.page-main {
+		max-width: @layout__max-width;
+		margin: 0 auto;
+	}
+}
+
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__m992) {
+	.page-main {
+		max-width: @layoutl__max-width;
+		margin: 0 auto;
+	}
+}
+
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__m) {
+	.page-main {
+		max-width: @layoutm__max-width;
+		margin: 0 auto;
+		padding-top: 20px;
+	}
+}

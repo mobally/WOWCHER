@@ -1,0 +1,12 @@
+//
+//  Flex layout
+//  _____________________________________________
+
+
+.lib-vendor-prefix-justify-content(
+    @_value: center
+) {
+    justify-content: ~"-webkit-@{_value}";
+    justify-content: ~"-ms-@{_value}box";
+    justify-content: @_value;
+}

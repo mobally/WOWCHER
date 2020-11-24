@@ -1,0 +1,23 @@
+//
+//  Variables
+//  _____________________________________________
+
+@button__padding__l: 9px 16px 8px 16px;
+@button__font-size__l: 16px; 
+@button__font-family: @font_family_1;
+
+//
+//  Common
+//  _____________________________________________
+
+& when (@media-common = true) {
+	.action.primary {
+		border-bottom: 3px solid @primary-button-hover;
+	}
+
+	.action.primary:hover,
+	.action.primary:active,
+	.action.primary:focus {
+		border-bottom: 3px solid @primary-button-border-hover;
+	}
+}

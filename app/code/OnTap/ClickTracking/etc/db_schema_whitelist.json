@@ -1,0 +1,16 @@
+{
+    "newsletter_subscriber": {
+        "column": {
+            "gclid": true,
+            "msclkid": true,
+            "ito": true
+        }
+    },
+    "sales_order": {
+        "column": {
+            "gclid": true,
+            "msclkid": true,
+            "ito": true
+        }
+    }
+}

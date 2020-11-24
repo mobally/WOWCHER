@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<!--
+  ~ Copyright (c) On Tap Networks Limited.
+  -->
+
+<page layout="2columns-left" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <attribute name="class" value="static-product-page"/>
+
+        <referenceContainer name="sidebar.main">
+            <block template="OnTap_StaticDesign::pdp-left-content.phtml" />
+        </referenceContainer>
+
+        <referenceContainer name="content">
+            <block template="OnTap_StaticDesign::pdp-right-content.phtml" />
+        </referenceContainer>
+
+        <referenceContainer name="columns">
+            <block template="OnTap_StaticDesign::pdp-bottom-content.phtml" />
+        </referenceContainer>
+        
+    </body>
+</page>

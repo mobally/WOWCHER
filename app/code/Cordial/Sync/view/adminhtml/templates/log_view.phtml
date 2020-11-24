@@ -1,0 +1,62 @@
+<?php
+/**
+ * Cordial/Magento Integration RFP
+ *
+ * @category    Cordial
+ * @package     Cordial_Sync
+ * @author      Cordial Team <info@cordial.com>
+ * @copyright   Cordial (http://cordial.com)
+ * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
+
+// @codingStandardsIgnoreFile
+
+/**
+ * @var $block \Cordial\Sync\Block\Adminhtml\Log\View
+ */
+
+$log = $block->getLog();
+?>
+
+<div class="fieldset-wrapper customer-information">
+    <div class="fieldset-wrapper-title">
+        <span class="title"><?php /* @escapeNotVerified */ echo __('Log Information') ?></span>
+    </div>
+    <table class="admin__table-secondary">
+        <tbody>
+        <?php echo $block->getChildHtml(); ?>
+        <tr>
+            <th><?php /* @escapeNotVerified */ echo __('Log ID:') ?></th>
+            <td><?php /* @escapeNotVerified */ echo $log->getId() ?></td>
+        </tr>
+        <tr>
+            <th><?php /* @escapeNotVerified */ echo __('Method:') ?></th>
+            <td><?php /* @escapeNotVerified */ echo $log->getMethod() ?></td>
+        </tr>
+        <tr>
+            <th><?php /* @escapeNotVerified */ echo __('Path:') ?></th>
+            <td><?php /* @escapeNotVerified */ echo $log->getPath() ?></td>
+        </tr>
+        <tr>
+            <th><?php /* @escapeNotVerified */ echo __('Parameters body:') ?></th>
+            <td><textarea style="width: 100%;" rows="4"><?php /* @escapeNotVerified */ echo $log->getOptions() ?></textarea></td>
+        </tr>
+        <tr>
+            <th><?php /* @escapeNotVerified */ echo __('API Response:') ?></th>
+            <td><textarea style="width: 100%;" rows="4"><?php /* @escapeNotVerified */ echo $log->getBody() ?></textarea></td>
+        </tr>
+        <tr>
+            <th><?php /* @escapeNotVerified */ echo __('Code:') ?></th>
+            <td><?php /* @escapeNotVerified */ echo $log->getCode() ?></td>
+        </tr>
+        <tr>
+            <th><?php /* @escapeNotVerified */ echo __('Message:') ?></th>
+            <td><?php /* @escapeNotVerified */ echo $log->getMessage() ?></td>
+        </tr>
+        <tr>
+            <th><?php /* @escapeNotVerified */ echo __('Created At:') ?></th>
+            <td><?php /* @escapeNotVerified */ echo $log->getCreatedAt() ?></td>
+        </tr>
+        </tbody>
+    </table>
+</div>

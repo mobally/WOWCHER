@@ -1,0 +1,13 @@
+<?php
+/*
+ * Copyright (c) On Tap Networks Limited.
+ */
+/** @var \Magento\Customer\Block\Form\Login\Info $block */
+/** @var \Magento\Framework\Escaper $escaper */
+?>
+<?php if ($block->getRegistration()->isAllowed()) : ?>
+    <em>
+        <?= __('Not yet signed up?') ?>
+        <a href="<?= $escaper->escapeUrl($block->getCreateAccountUrl()) ?>"><?= __('Register here') ?></a>&period;
+    </em>
+<?php endif; ?>

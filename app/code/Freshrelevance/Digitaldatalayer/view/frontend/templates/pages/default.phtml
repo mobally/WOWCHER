@@ -1,0 +1,15 @@
+<?php
+/** @var \Freshrelevance\Digitaldatalayer\Block\DdlProduct $block */
+?>
+
+<?php if ($block->moduleEnabled()): ?>
+    <script type="text/javascript">
+        (function () {
+            window.dod = (<?= $block->getTransactionalData(); ?>);
+        })();
+    </script>
+<?php endif; ?>
+<!-- You have successfully installed the W3C Digital Data Layer Extension by Fresh Relevance.
+With Fresh Relevance, you can create effortless personalization, live email content and cart and browse abandonment emails.
+If you want to know more about us, then check us out at http://www.freshrelevance.com
+If you need help with the extension, go to http://www.freshrelevance.com/contact -->

@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<!--
+  ~ Copyright (c) On Tap Networks Limited.
+  -->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+        <add id="OnTap_ProductImport::import" title="Deal Import" translate="title"
+             module="OnTap_ProductImport" sortOrder="61" parent="Magento_Catalog::catalog"
+             action="productimport/deal/index" resource="OnTap_ProductImport::import"/>
+    </menu>
+</config>

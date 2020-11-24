@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright (c) On Tap Networks Limited.
+  -->
+<widgets xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Widget:etc/widget.xsd">
+    <widget id="geoip_notice_control" class="OnTap\StoreSwitcher\Block\Widget\GeoIpNoticeControl">
+        <label>GeoIp Control</label>
+        <description>Control toolbar for GeoIp switcher</description>
+        <parameters>
+            <parameter name="content_text" xsi:type="text" visible="true" required="true">
+                <label>Text content</label>
+            </parameter>
+            <parameter name="continue_button_label" xsi:type="text" visible="true" required="true">
+                <label translate="true">Continue button Label</label>
+            </parameter>
+            <parameter name="selected_country_id" xsi:type="text" visible="true" required="true">
+                <label translate="true">ISO code for the country that is selected by default</label>
+            </parameter>
+        </parameters>
+    </widget>
+</widgets>

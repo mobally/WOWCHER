@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:Acl/etc/acl.xsd">
+    <acl>
+        <resources>
+            <resource id="Magento_Backend::admin">
+                <resource id="Cordial_Sync::sync" title="Cordial Sync" sortOrder="100">
+                    <resource id="Cordial_Sync::sync_touched" title="Sync" sortOrder="10" />
+                    <resource id="Cordial_Sync::sync_template" title="Templates" sortOrder="40" />
+                    <resource id="Cordial_Sync::sync_configuration" title="Configuration" sortOrder="50" />
+                    <resource id="Cordial_Sync::sync_log" title="Log" sortOrder="60" />
+                </resource>
+                <resource id="Magento_Backend::stores">
+                    <resource id="Magento_Backend::stores_settings">
+                        <resource id="Magento_Config::config">
+                            <resource id="Cordial_Sync::sync_config" title="Cordial Sync"/>
+                        </resource>
+                    </resource>
+                </resource>
+            </resource>
+        </resources>
+    </acl>
+</config>

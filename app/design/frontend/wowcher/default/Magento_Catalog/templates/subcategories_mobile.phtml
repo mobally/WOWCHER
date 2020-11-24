@@ -1,0 +1,62 @@
+<?php
+/** @var \OnTap\Deal\Block\Subcategories $block */
+/** @var \Magento\Framework\Escaper $escaper */
+$categories = $block->getCategoriesList();
+$currentCategory = $block->getCurrentCategory();
+$parentCategory = $currentCategory->getParentCategory();
+?>
+<?php if (!empty($categories)): ?>
+<div class="faceted-navigation mobile" data-role="container" data-mage-init='{"collapsible":{
+        "active": false,
+        "openedState": "_show",
+        "closedState": "_hide",
+        "animate": 100,
+        "collapsible": true
+    }}'>
+    <div class="faceted-navigation-header" data-role="title">
+        <?php if ((int) $currentCategory->getLevel() > 2): ?>
+            <h1 class="faceted-navigation-current-section">
+                <?= $escaper->escapeHtml($currentCategory->getName()) ?>
+            </h1>
+            <h5 class="faceted-navigation-category-label">
+                <?= $escaper->escapeHtml(__('in %1', $parentCategory->getName())) ?>
+            </h5>
+        <?php endif; ?>
+        <?php if ((int) $currentCategory->getLevel() === 2): ?>
+            <h1 class="faceted-navigation-current-section">
+                <?= $escaper->escapeHtml($currentCategory->getName()) ?>
+            </h1>
+        <?php endif; ?>
+    </div>
+
+    <div class="faceted-navigation-list" data-role="content">
+        <ul class="faceted-navigation-items">
+            <?php if ((int) $currentCategory->getLevel() > 2): ?>
+                <li>
+                    <a class="<?= ($parentCategory->getId() === $currentCategory->getId()) ? 'active': '' ?>"
+                       href="<?= $escaper->escapeUrl($parentCategory->getUrl()) ?>">
+                        <?= $escaper->escapeHtml(__('All %1 deals', $parentCategory->getName())) ?>
+                    </a>
+                </li>
+            <?php endif; ?>
+            <?php if ((int) $currentCategory->getLevel() === 2): ?>
+                <li>
+                    <a class="<?= ((int) $currentCategory->getLevel() === 2) ? 'active': '' ?>"
+                       href="<?= $escaper->escapeUrl($currentCategory->getUrl()) ?>">
+                        <?= $escaper->escapeHtml(__('All %1 deals', $currentCategory->getName())) ?>
+                    </a>
+                </li>
+            <?php endif; ?>
+
+            <?php foreach ($categories as $category): ?>
+                <li>
+                    <a class="<?= ($category->getId() === $currentCategory->getId()) ? 'active': '' ?>" href="<?= $category->getUrl() ?>"><?= $escaper->escapeHtml($category->getName()) ?></a>
+                </li>
+            <?php endforeach; ?>
+        </ul>
+        <a class="faceted-navigation-max-items-toggle" href="#">
+            <?= $escaper->escapeHtml(__('Show all subcategories')) ?>
+        </a>
+    </div>
+</div>
+<?php endif; ?>

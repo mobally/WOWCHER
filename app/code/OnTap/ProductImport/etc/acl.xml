@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<!--
+  ~ Copyright (c) On Tap Networks Limited.
+  -->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:Acl/etc/acl.xsd">
+    <acl>
+        <resources>
+            <resource id="Magento_Backend::admin">
+                <resource id="Magento_Catalog::catalog">
+                    <resource id="OnTap_ProductImport::import" title="Deal Import" translate="title" sortOrder="70"/>
+                </resource>
+            </resource>
+        </resources>
+    </acl>
+</config>

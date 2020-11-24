@@ -1,0 +1,71 @@
+//
+//  Common
+//  _____________________________________________
+
+& when (@media-common = true) {
+	.breadcrumbs {
+		display: inline-block;
+		margin-top: 8px;
+		padding: 0 !important;		
+
+		li {
+			&:after {
+				content: "" !important;
+				font-size: 0;
+				background: url('@{baseDir}images/breadcrumbs-arrow.png') no-repeat;
+				height: 9px;
+				padding-right: 4px;
+				width: 6px;
+				vertical-align: middle !important;
+			}
+
+			&:last-child {
+				a {
+					color: @color-magenta;
+				}
+
+				&:after {
+					display: none;
+				}
+			}
+
+			a {
+				color: @color-black;
+				font-weight: @font-weight__bold;
+				.lib-font-size(14);
+				margin-right: 3px;
+				text-transform: capitalize;
+	
+				&:hover {
+					color: @color-magenta !important;
+					text-decoration: none;
+				}
+
+				&:visited {
+					color: @color-black;
+				}
+			}
+		}
+
+		
+
+		strong {
+			color: @color-magenta;
+			font-weight: @font-weight__bold;
+			.lib-font-size(14);
+			text-transform: capitalize;
+		}
+	}
+}
+
+//
+//  Mobile
+//  _____________________________________________
+
+.media-width(@extremum, @break) when (@extremum = 'max') and (@break = @screen__m) {
+	body {
+		.breadcrumbs {
+			display: none;
+		}
+	}
+}

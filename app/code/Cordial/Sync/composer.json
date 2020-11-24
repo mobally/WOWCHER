@@ -1,0 +1,19 @@
+{
+  "name": "cordial/sync",
+  "description": "Cordial/Magento Integration RFP",
+  "keywords": [
+    "magento 2",
+    "Cordial",
+    "integration",
+    "sync",
+    "synchronization"
+  ],
+  "type": "magento2-module",
+  "version": "1.1.9",
+  "autoload": {
+    "files": [ "registration.php" ],
+    "psr-4": {
+      "Cordial\\Sync\\": ""
+    }
+  }
+}

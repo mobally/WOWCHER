@@ -1,0 +1,86 @@
+<?xml version="1.0" ?>
+<form xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
+	<argument name="data" xsi:type="array">
+		<item name="js_config" xsi:type="array">
+			<item name="provider" xsi:type="string">cordial_sync_template_form.template_form_data_source</item>
+			<item name="deps" xsi:type="string">cordial_sync_template_form.template_form_data_source</item>
+		</item>
+		<item name="label" translate="true" xsi:type="string">General Information</item>
+		<item name="config" xsi:type="array">
+			<item name="dataScope" xsi:type="string">data</item>
+			<item name="namespace" xsi:type="string">cordial_sync_template_form</item>
+		</item>
+		<item name="template" xsi:type="string">templates/form/collapsible</item>
+		<item name="buttons" xsi:type="array">
+			<item name="back" xsi:type="string">Cordial\Sync\Block\Adminhtml\Template\Edit\BackButton</item>
+			<item name="delete" xsi:type="string">Cordial\Sync\Block\Adminhtml\Template\Edit\DeleteButton</item>
+			<item name="save" xsi:type="string">Cordial\Sync\Block\Adminhtml\Template\Edit\SaveButton</item>
+			<item name="save_and_continue" xsi:type="string">Cordial\Sync\Block\Adminhtml\Template\Edit\SaveAndContinueButton</item>
+		</item>
+	</argument>
+	<dataSource name="template_form_data_source">
+		<argument name="dataProvider" xsi:type="configurableObject">
+			<argument name="class" xsi:type="string">Cordial\Sync\Model\Template\DataProvider</argument>
+			<argument name="name" xsi:type="string">template_form_data_source</argument>
+			<argument name="primaryFieldName" xsi:type="string">template_id</argument>
+			<argument name="requestFieldName" xsi:type="string">template_id</argument>
+			<argument name="data" xsi:type="array">
+				<item name="config" xsi:type="array">
+					<item name="submit_url" path="*/*/save" xsi:type="url"/>
+				</item>
+			</argument>
+		</argument>
+		<argument name="data" xsi:type="array">
+			<item name="js_config" xsi:type="array">
+				<item name="component" xsi:type="string">Magento_Ui/js/form/provider</item>
+			</item>
+		</argument>
+	</dataSource>
+	<fieldset name="General">
+		<argument name="data" xsi:type="array">
+			<item name="config" xsi:type="array">
+				<item name="label" xsi:type="string"/>
+			</item>
+		</argument>
+		<field name="store_id">
+			<argument name="data" xsi:type="array">
+				<item name="options" xsi:type="object">Magento\Store\Model\System\Store</item>
+				<item name="config" xsi:type="array">
+					<item name="label" xsi:type="string" translate="true">Store</item>
+					<item name="dataType" xsi:type="string">number</item>
+					<item name="formElement" xsi:type="string">select</item>
+					<item name="source" xsi:type="string">template</item>
+				</item>
+			</argument>
+		</field>
+		<field name="orig_template_code">
+			<argument name="data" xsi:type="array">
+				<item name="options" xsi:type="object">Cordial\Sync\Model\System\Template</item>
+				<item name="config" xsi:type="array">
+					<item name="label" xsi:type="string" translate="true">Template Name</item>
+					<item name="fieldGroup" xsi:type="string">orig_template_code</item>
+					<item name="dataType" xsi:type="string">text</item>
+					<item name="formElement" xsi:type="string">select</item>
+					<item name="source" xsi:type="string">template</item>
+				</item>
+			</argument>
+		</field>
+		<field name="template_code">
+			<argument name="data" xsi:type="array">
+				<item name="options" xsi:type="object">Cordial\Sync\Model\System\CordialTemplate</item>
+				<item name="config" xsi:type="array">
+					<item name="dataType" xsi:type="string">text</item>
+					<item name="component" xsi:type="string">Cordial_Sync/js/form/element/template</item>
+					<item name="label" xsi:type="string" translate="true">Cordial Template Name</item>
+					<item name="formElement" xsi:type="string">select</item>
+					<item name="storageConfig" xsi:type="array">
+						<item name="refreshUrl" xsi:type="url" path="cordial_sync/template/refresh"/>
+					</item>
+					<item name="imports" xsi:type="array">
+						<item name="default" xsi:type="string">${ $.provider }:data.store_id</item>
+					</item>
+				</item>
+			</argument>
+		</field>
+	</fieldset>
+</form>

@@ -1,0 +1,47 @@
+<?xml version="1.0"?>
+<!--
+  ~ Copyright (c) On Tap Networks Limited.
+  -->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <virtualType name="OnTap\ContextProvider\Model\VirtualProductResolverFactory" type="OnTap\ContextProvider\Model\ResolverFactory">
+        <arguments>
+            <argument name="resolverPool" xsi:type="array">
+                <item name="catalog_category_view" xsi:type="string">
+                    \OnTap\ContextProvider\Model\ProductResolver\FirstInCategory
+                </item>
+                <item name="catalog_product_view" xsi:type="string">
+                    \OnTap\ContextProvider\Model\ProductResolver\FromProductViewUrl
+                </item>
+                <item name="cms_index_index" xsi:type="string">
+                    \OnTap\ContextProvider\Model\ProductResolver\FirstProductGlobally
+                </item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="OnTap\ContextProvider\Model\VirtualCategoryResolverFactory" type="OnTap\ContextProvider\Model\ResolverFactory">
+        <arguments>
+            <argument name="resolverPool" xsi:type="array">
+                <item name="catalog_category_view" xsi:type="string">
+                    \OnTap\ContextProvider\Model\CategoryResolver\FromCategoryViewUrl
+                </item>
+                <item name="catalog_product_view" xsi:type="string">
+                    \OnTap\ContextProvider\Model\CategoryResolver\FromProductViewUrl
+                </item>
+                <item name="cms_index_index" xsi:type="string">
+                    \OnTap\ContextProvider\Model\CategoryResolver\DefaultCategory
+                </item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <type name="Magento\Catalog\Controller\Product\View">
+        <plugin name="ensure_category_url" type="OnTap\ContextProvider\Plugin\Catalog\Controller\Product\ViewPlugin" />
+    </type>
+    <type name="Magento\GroupedProduct\Block\Stockqty\Type\Grouped">
+        <plugin name="load_product_before_identities" type="OnTap\ContextProvider\Plugin\GroupedProduct\Block\Stockqty\Type\GroupedPlugin" />
+    </type>
+    <type name="OnTap\ContextProvider\Plugin\GroupedProduct\Block\Stockqty\Type\GroupedPlugin">
+        <arguments>
+            <argument name="resolverFactory" xsi:type="object">OnTap\ContextProvider\Model\VirtualProductResolverFactory</argument>
+        </arguments>
+    </type>
+</config>

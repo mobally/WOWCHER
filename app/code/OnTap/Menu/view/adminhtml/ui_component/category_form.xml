@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<!--
+/*
+ * Copyright (c) On Tap Networks Limited.
+ */
+-->
+<form xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
+    <fieldset name="content">
+        <field name="dropdown_cms_static_block">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="dataType" xsi:type="string">varchar</item>
+                    <item name="formElement" xsi:type="string">input</item>
+                    <item name="label" xsi:type="string" translate="true">Drop-down CMS static block</item>
+                    <item name="prefer" xsi:type="string">toggle</item>
+                </item>
+            </argument>
+        </field>
+    </fieldset>
+</form>

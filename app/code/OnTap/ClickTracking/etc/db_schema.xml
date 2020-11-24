@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<!--
+  ~ Copyright (c) On Tap Networks Limited.
+  -->
+<schema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:Setup/Declaration/Schema/etc/schema.xsd">
+    <table name="newsletter_subscriber">
+        <column name="gclid" xsi:type="varchar" nullable="true" length="255" comment="Tracking (gclid)" />
+        <column name="msclkid" xsi:type="varchar" nullable="true" length="255" comment="Tracking (msclkid)" />
+        <column name="ito" xsi:type="varchar" nullable="true" length="255" comment="Tracking (ito)" />
+    </table>
+    <table name="sales_order">
+        <column name="gclid" xsi:type="varchar" nullable="true" length="255" comment="Tracking (gclid)" />
+        <column name="msclkid" xsi:type="varchar" nullable="true" length="255" comment="Tracking (msclkid)" />
+        <column name="ito" xsi:type="varchar" nullable="true" length="255" comment="Tracking (ito)" />
+    </table>
+</schema>

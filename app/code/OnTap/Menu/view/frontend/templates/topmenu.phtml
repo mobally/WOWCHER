@@ -1,0 +1,25 @@
+<?php
+/*
+ * Copyright (c) On Tap Networks Limited.
+ */
+/** @var OnTap\Menu\Block\Menu $block */
+/* @var \Magento\Framework\Escaper $escaper */
+?>
+<?php $columnsLimit = $block->getColumnsLimit() ?: 0 ?>
+<?php $menu = $block->getHtml('level-top', 'submenu', $columnsLimit) ?>
+
+<nav class="navigation" data-action="navigation">
+    <ul id="main-navigation" class='links'
+        data-mage-init='{"menu":{"responsive":true, "expanded":true, "position":{"my":"left top","at":"left bottom"}},
+        "OnTap_Menu/js/more-navigation": {}}'>
+        <?= /* @noEscape */ $menu ?>
+        <li class="more-options">
+            <div class="more-title"><?= $escaper->escapeHtml(__('More Options')) ?></div>
+            <?= /* @noEscape */  $block->getChildHtml() ?>
+        </li>
+        <li class="level0 category-item level-top parent ui-menu-item more-link">
+            <button class=""><?= $escaper->escapeHtml(__('More +')) ?></button>
+            <ul class='hidden-links hidden'></ul>
+        </li>
+    </ul>
+</nav>

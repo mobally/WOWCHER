@@ -1,0 +1,11 @@
+
+<form action="<?php echo $block->getUrl('productimport/deal/import') ?>" method="post">
+    <?php echo $block->getBlockHtml('formkey'); ?>
+    <p>
+        <label for="id_deal_id">https://public-api.wowcher.co.uk/v1/deal/<input type="text" name="deal_id" id="id_deal_id" placeholder="ID" /></label>
+        <button class="button" type="submit">Go</button>
+    </p>
+    <p>
+        Note: existing product (deal) will be REPLACED
+    </p>
+</form>

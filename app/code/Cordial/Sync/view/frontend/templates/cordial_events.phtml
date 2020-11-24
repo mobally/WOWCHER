@@ -1,0 +1,27 @@
+<?php
+
+// @codingStandardsIgnoreFile
+
+/* @var $block \Cordial\Sync\Block\Html\Loader */
+
+if ($block->isEnable()):
+    $events = $block->getJsEvent();
+?>
+<div data-bind="scope: 'cordial'">
+    <div data-bind="html: events().data"><?php echo $events; ?></div>
+</div>
+<script type="text/x-magento-init">
+        {
+            "*": {
+                "Magento_Ui/js/core/app": {
+                    "components": {
+                        "cordial": {
+                            "component": "Cordial_Sync/js/cordial-events"
+                        }
+                    }
+                }
+            }
+        }
+</script>
+<?php
+endif;

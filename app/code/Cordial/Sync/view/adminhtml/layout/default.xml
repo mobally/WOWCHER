@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Cordial/Magento Integration RFP
+ *
+ * @category    Cordial
+ * @package     Cordial_Sync
+ * @author      Cordial Team <info@cordial.com>
+ * @copyright   Cordial (http://cordial.com)
+ * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
+-->
+
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="admin-1column" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <head>
+        <css src="Cordial_Sync::css/default.css"/>
+    </head>
+</page>

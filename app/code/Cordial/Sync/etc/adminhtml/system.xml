@@ -1,0 +1,91 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Cordial/Magento Integration RFP
+ *
+ * @category    Cordial
+ * @package     Cordial_Sync
+ * @author      Cordial Team <info@cordial.com>
+ * @copyright   Cordial (http://cordial.com)
+ * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <section id="cordial_sync" translate="label" type="text" sortOrder="400" showInDefault="1" showInWebsite="1"
+                 showInStore="1">
+            <label>Cordial Integration</label>
+            <tab>service</tab>
+            <resource>Magento_Config::config</resource>
+            <group id="general" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1"
+                   showInStore="1">
+
+                <label>General Settings</label>
+
+                <field id="module_version" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+					<label>Module Version</label>
+					<frontend_model>Cordial\Sync\Block\Adminhtml\System\Config\ModuleVersion</frontend_model>
+				</field>
+
+                <field id="active" translate="label" type="select" sortOrder="2" showInDefault="1"
+                       showInWebsite="1" showInStore="1">
+                        <label>Cordial Integration</label>
+                        <source_model>Magento\Config\Model\Config\Source\Enabledisable</source_model>
+                </field>
+                <field id="api_info" translate="label tooltip" type="label" sortOrder="5" showInDefault="1"
+                       showInWebsite="1" showInStore="0">
+                    <label>Configure Store</label>
+                    <comment>Select a store from the "Store View" menu to configure.</comment>
+                </field>
+                <field id="api_key" translate="label" type="password" sortOrder="10" showInDefault="0"
+                       showInWebsite="0" showInStore="1">
+                    <label>Cordial API Key</label>
+                </field>
+                <field id="sync_options" translate="label comment" type="text" sortOrder="70" showInDefault="0"
+                       showInWebsite="0" showInStore="1">
+                    <label>Post Data to Cordial</label>
+                    <!--sync/system_config_form_field_syncOptions-->
+                    <frontend_model>Cordial\Sync\Block\System\Config\Form\Field\SyncOptions</frontend_model>
+                    <comment>Please choose options to sync</comment>
+                </field>
+                <field id="sync_button" translate="label tooltip" type="button" sortOrder="71" showInDefault="0"
+                       showInWebsite="0" showInStore="1">
+                    <frontend_model>Cordial\Sync\Block\System\Config\Form\Field\SyncButton</frontend_model>
+                    <tooltip>Will post all records from each of the selected collections above. Useful for posting all historic data.</tooltip>
+                </field>
+                <field id="account_key" translate="label" type="password" sortOrder="25" showInDefault="0"
+                       showInWebsite="0" showInStore="1">
+                    <label>Cordial Account Key</label>
+                </field>
+                <field id="js_listener" translate="label tooltip" type="textarea" sortOrder="30" showInDefault="1"
+                       showInWebsite="1" showInStore="1">
+                    <label>JavaScript Listener</label>
+                    <frontend_model>Cordial\Sync\Block\System\Config\Form\Field\JsListener</frontend_model>
+                    <tooltip>You may customize the base JavaScript code. Visit support.cordial.com for more details.</tooltip>
+                </field>
+                <field id="route" translate="label tooltip comment" type="select" sortOrder="35" showInDefault="0"
+                       showInWebsite="0" showInStore="1">
+                    <label>Send all Magento emails through Cordial</label>
+                    <source_model>Magento\Config\Model\Config\Source\Enabledisable</source_model>
+                    <tooltip>If enabled, each Magento system email will be delivered as a Cordial automation template.</tooltip>
+                </field>
+                <field id="customer_attributes_map" translate="label comment" sortOrder="50" showInDefault="0" showInWebsite="0" showInStore="1">
+                    <label>Customer Attributes Mapping</label>
+                    <frontend_model>Cordial\Sync\Block\System\Config\Form\Field\MapCustomerAttributes</frontend_model>
+                    <backend_model>Magento\Config\Model\Config\Backend\Serialized\ArraySerialized</backend_model>
+                    <comment>Map Magento customer attributes to Cordial contact attributes. Be sure to use the Cordial contact attribute key (versus the name).</comment>
+                </field>
+                <field id="create_fields" translate="label comment" type="button" sortOrder="55" showInDefault="0"
+                       showInWebsite="0" showInStore="1">
+                    <label>Create Attributes on Cordial</label>
+                    <frontend_model>Cordial\Sync\Block\System\Config\Form\Field\CreateMapAttributes</frontend_model>
+                    <comment>Send any new attributes that were created with the mapping above to Cordial. Be sure to save the configuration above before sending.</comment>
+                    <depends>
+                        <field id="active">1</field>
+                    </depends>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>

@@ -1,0 +1,33 @@
+--- a/vendor/magento/module-catalog/Block/Product/ListProduct.php	2020-10-23 15:52:56.000000000 +0300
++++ b/vendor/magento/module-catalog/Block/Product/ListProduct.php	2020-10-22 15:28:04.000000000 +0300
+@@ -452,18 +452,19 @@
+             $this->setCategoryId($this->_storeManager->getStore()->getRootCategoryId());
+         }
+
++        // TODO: remove this hack
+         // if this is a product view page
+-        if ($this->_coreRegistry->registry('product')) {
+-            // get collection of categories this product is associated with
+-            $categories = $this->_coreRegistry->registry('product')
+-                ->getCategoryCollection()->setPage(1, 1)
+-                ->load();
+-            // if the product is associated with any category
+-            if ($categories->count()) {
+-                // show products from this category
+-                $this->setCategoryId(current($categories->getIterator())->getId());
+-            }
+-        }
++//        if ($this->_coreRegistry->registry('product')) {
++//            // get collection of categories this product is associated with
++//            $categories = $this->_coreRegistry->registry('product')
++//                ->getCategoryCollection()->setPage(1, 1)
++//                ->load();
++//            // if the product is associated with any category
++//            if ($categories->count()) {
++//                // show products from this category
++//                $this->setCategoryId(current($categories->getIterator())->getId());
++//            }
++//        }
+
+         $origCategory = null;
+         if ($this->getCategoryId()) {

@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<!--
+  ~ Copyright (c) On Tap Networks Limited.
+  -->
+
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Api/etc/extension_attributes.xsd">
+    <extension_attributes for="Magento\Sales\Api\Data\OrderInterface">
+        <attribute code="gclid" type="string" />
+        <attribute code="msclkid" type="string" />
+        <attribute code="ito" type="string" />
+    </extension_attributes>
+</config>

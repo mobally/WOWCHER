@@ -1,0 +1,247 @@
+//
+//  Common
+//  _____________________________________________
+
+& when (@media-common = true) {
+	#bio_ep {
+		background: transparent !important;
+		border-radius: 6px;
+		max-width: 920px !important;
+		width: 100%;
+	}
+
+	.subscribe-canvas-desktop {
+		border-radius: 6px;
+		background-size: cover;
+		height: 100%;
+		position: absolute;
+		width: 100%;
+		top: 0;
+	}
+
+	.subscribe-canvas-mobile {
+		display: none;
+	}
+
+	div#bio_ep_close {
+		right: 35px !important;
+		top: 15px !important;
+	}
+
+	#bio_ep_bg {
+		background: rgba(51,51,51,.8) !important;
+		opacity: 1 !important;
+	}
+
+	.subscribe-lightbox {
+		font-family: @font_family_1;
+		max-width: 400px;
+		position: relative;
+		background: @color-white;
+		border: 1px solid @color-gray60;
+		border: 1px solid rgba(0,0,0,.2);
+		border-radius: 6px;
+		box-shadow: 0 3px 9px rgba(0,0,0,.5);
+		outline: 0;
+		padding: 16px 20px;
+		margin: 5px 20px 5px 0;
+		min-height: 540px;
+		float: right;
+
+		.subscribe.tmp3-form {
+			margin-top: 20px;
+		}
+		
+		.input-text {
+			.lib-font-size(16);
+			background: url('@{baseDir}images/email-subscribe.png') no-repeat 10px center @color-white;
+			border-radius: 5px;
+			border: 1px solid @color-gray78;
+			color: @theme-grey8;
+			font-family: @font_family_1;
+			margin-bottom: 25px;
+			padding: 10px 6px 10px 45px;
+			transition: border-color .25s ease-in-out;
+			line-height: 23px;
+
+			&:focus {
+				border-color: rgba(235,0,140,.7);
+				box-shadow: none;
+			}
+		}
+
+		.subscribe-form-terms {
+			.lib-font-size(14);
+			color: @color-gray20;
+			margin-bottom: 10px;
+			text-align: justify;
+
+			a {
+				color: @color-gray20;
+				text-decoration: underline;
+				
+				&:hover {
+					color: @color-blue;
+				}
+			}
+		}
+
+		.action.secondary {
+			.lib-font-size(26);
+			border-radius: 5px;
+			font-weight: @font-weight__regular;
+			font-family: @font_family_1;
+			text-transform: uppercase;
+			width: 100%;
+			padding: 19px 15px;
+		}
+
+		.mage-error {
+			top: -28px;
+		}
+	}
+	
+	.subscribe-form-cta {
+		display: inline-block;
+		width: 100%;
+
+		.desktop-logo {
+			background: url('@{baseDir}images/logo__black--transparent.png') no-repeat;
+			width: 100px;
+			height: 65px;
+			float: left;
+		}
+
+		.mobile-logo {
+			background: url('@{baseDir}images/wowcher_logo_white.png') no-repeat;
+			width: 100px;
+			height: 65px;
+			float: left;
+		}
+
+		a {
+			.lib-font-size(18);
+			border: 1px solid #eb008c;
+			border-radius: 4px;
+			background: @color-white;
+			color: #eb008c;
+			float: right;
+			padding: 3px 10px;
+			text-transform: uppercase;
+			margin: 10px 32px 0 0;
+
+			&:hover {
+				text-decoration: none;
+			}
+		}
+	}
+
+	.mageplaza-betterpopup-content {
+		max-height: 40px;
+
+		#popup-success-content {
+			background: @color-white;
+			padding: 30px 0;
+		}
+	}
+}
+
+//
+//  Mobile
+//  _____________________________________________
+
+.media-width(@extremum, @break) when (@extremum = 'max') and (@break = @screen__m) {
+	.desktop-logo,
+	.subscribe-canvas-desktop {
+		display: none !important;
+	}
+
+	.subscribe-canvas-mobile {
+		display: block !important;
+		background-size: cover;
+		height: 100%;
+		position: absolute;
+		width: 100%;
+		top: 0;
+		
+		&:before {
+			content: "";
+			position: absolute;
+			top: 0;
+			right: 0;
+			bottom: 0;
+			left: 0;
+			background: rgba(0,0,0,.4);
+			z-index: 0;
+		}
+	}
+
+	body {
+		#bio_ep {
+			transform: none;
+			left: 0;
+			right: 0;
+			top: 0;
+			bottom: 0;
+			max-width: none !important;
+			height: 100vh;
+			width: 100%;
+			overflow-y: scroll;
+			z-index: 9999999999;
+		}
+
+		div#bio_ep_close {
+			right: 20px !important;
+			top: 85px !important;
+		}
+
+		#bio_ep_content {
+			padding-top: 79px;
+			vertical-align: top;
+			height: 100vh;
+		}
+	
+		.subscribe-lightbox {
+			box-shadow: none;
+			border: 0;
+			background: none;
+			margin: 0;
+			padding: 0 20px;
+			max-width: none;
+			min-height: 565px;
+
+			.subscribe-form-terms {
+				color: @color-white;
+
+				a {
+					color: @color-blue;
+				}
+			}
+
+			.subscribe.tmp3-form {
+				margin-top: 35px;
+			}
+
+			.mage-error {
+				top: -45px;
+			}
+		}
+
+		.subscribe-form-intro-copy {
+			.lib-font-size(15.5);
+			display: block !important;
+			color: @color-white;
+			margin: 9px 0 0 0;
+		}
+	}
+}
+
+//
+//  Desktop
+//  _____________________________________________
+
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__m) {
+	.mobile-logo {
+		display: none !important;
+	}
+}

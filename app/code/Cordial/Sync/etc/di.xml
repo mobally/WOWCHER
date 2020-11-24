@@ -1,0 +1,60 @@
+<?xml version="1.0" ?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+	<preference for="Magento\Email\Model\Template\Filter" type="Cordial\Sync\Model\Email\Template\Filter"/>
+	<preference for="Magento\Email\Model\Template" type="Cordial\Sync\Model\Email\Template"/>
+	<preference for="\Magento\Framework\Mail\Message" type="Cordial\Sync\Model\Message"/>
+	<type name="Magento\Framework\Mail\TransportInterfaceFactory">
+		<plugin name="cordial-send-message" type="Cordial\Sync\Plugin\TransportInterfaceFactory" sortOrder="1" />
+	</type>
+	<preference for="Magento\Framework\Mail\Template\TransportBuilder" type="Cordial\Sync\Model\Email\Template\TransportBuilder" />
+
+	<preference for="Cordial\Sync\Api\LogRepositoryInterface" type="Cordial\Sync\Model\LogRepository"/>
+	<preference for="Cordial\Sync\Api\Data\LogInterface" type="Cordial\Sync\Model\Log"/>
+	<preference for="Cordial\Sync\Api\Data\LogSearchResultsInterface" type="Magento\Framework\Api\SearchResults"/>
+	<preference for="Magento\CustomerImportExport\Model\Import\Customer" type="Cordial\Sync\Model\Import\Customer"/>
+
+	<virtualType name="Cordial\Sync\Model\ResourceModel\Log\Grid\Collection" type="Magento\Framework\View\Element\UiComponent\DataProvider\SearchResult">
+		<arguments>
+			<argument name="mainTable" xsi:type="string">cordial_sync_log</argument>
+			<argument name="resourceModel" xsi:type="string">Cordial\Sync\Model\ResourceModel\Log\Collection</argument>
+		</arguments>
+	</virtualType>
+	<virtualType name="Cordial\Sync\Model\ResourceModel\Template\Grid\Collection" type="Magento\Framework\View\Element\UiComponent\DataProvider\SearchResult">
+		<arguments>
+			<argument name="mainTable" xsi:type="string">cordial_sync_template</argument>
+			<argument name="resourceModel" xsi:type="string">Cordial\Sync\Model\ResourceModel\Template\Collection</argument>
+		</arguments>
+	</virtualType>
+	<virtualType name="Cordial\Sync\Model\ResourceModel\Touched\Grid\Collection" type="Magento\Framework\View\Element\UiComponent\DataProvider\SearchResult">
+		<arguments>
+			<argument name="mainTable" xsi:type="string">cordial_sync_touched</argument>
+			<argument name="resourceModel" xsi:type="string">Cordial\Sync\Model\ResourceModel\Touched\Collection</argument>
+		</arguments>
+	</virtualType>
+	<virtualType name="Magento\Sales\Model\ResourceModel\Order\Grid">
+		<arguments>
+			<argument name="columns" xsi:type="array">
+				<item name="cordial_sync" xsi:type="string">
+					sales_order.cordial_sync
+				</item>
+			</argument>
+		</arguments>
+	</virtualType>
+	<type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
+		<arguments>
+			<argument name="collections" xsi:type="array">
+				<item name="cordial_log_grid_data_source" xsi:type="string">Cordial\Sync\Model\ResourceModel\Log\Grid\Collection</item>
+				<item name="cordial_sync_template_grid_data_source" xsi:type="string">Cordial\Sync\Model\ResourceModel\Template\Grid\Collection</item>
+				<item name="cordial_sync_touched_grid_data_source" xsi:type="string">Cordial\Sync\Model\ResourceModel\Touched\Grid\Collection</item>
+			</argument>
+		</arguments>
+	</type>
+
+  <type name="Magento\Framework\Console\CommandList">
+        <arguments>
+            <argument name="commands" xsi:type="array">
+                <item name="cordialSync" xsi:type="object">Cordial\Sync\Console\SyncRun</item>
+            </argument>
+        </arguments>
+  </type>
+</config>

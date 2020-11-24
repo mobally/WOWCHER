@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Cordial/Magento Integration RFP
+ *
+ * @category    Cordial
+ * @package     Cordial_Sync
+ * @author      Cordial Team <info@cordial.com>
+ * @copyright   Cordial (http://cordial.com)
+ * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+        <add id="Cordial_Sync::sync" title="Cordial" translate="title" module="Cordial_Sync" sortOrder="100" dependsOnModule="Cordial_Sync" resource="Cordial_Sync::sync"/>
+        <add id="Cordial_Sync::sync_touched" title="Sync" translate="title" module="Cordial_Sync" sortOrder="40" parent="Cordial_Sync::sync" action="cordial_sync/touched" resource="Cordial_Sync::sync_touched"/>
+        <add id="Cordial_Sync::sync_template" title="Templates Map" translate="title" module="Cordial_Sync" sortOrder="40" parent="Cordial_Sync::sync" action="cordial_sync/template" resource="Cordial_Sync::sync_template"/>
+        <add id="Cordial_Sync::sync_config" title="Configuration" translate="title" module="Cordial_Sync" sortOrder="50" parent="Cordial_Sync::sync" action="adminhtml/system_config/edit/section/cordial_sync" resource="Cordial_Sync::sync_configuration"/>
+        <add id="Cordial_Sync::sync_log" title="Log" translate="title" module="Cordial_Sync" sortOrder="50" parent="Cordial_Sync::sync" action="cordial_sync/log/index" resource="Cordial_Sync::sync_log"/>
+    </menu>
+</config>

@@ -1,0 +1,26 @@
+<?php
+/*
+ * Copyright (c) On Tap Networks Limited.
+ */
+/** @var \Magento\Customer\Block\Widget\Name $block */
+?>
+<div class="field field-name-firstname required">
+    <div class="control">
+        <input type="text" id="<?= $block->escapeHtmlAttr($block->getFieldId('firstname')) ?>"
+               name="<?= $block->escapeHtmlAttr($block->getFieldName('firstname')) ?>"
+               value="<?= $block->escapeHtmlAttr($block->getObject()->getFirstname()) ?>"
+               title="<?= $block->escapeHtmlAttr($block->getStoreLabel('firstname')) ?>"
+               placeholder="<?= $block->escapeHtmlAttr($block->getStoreLabel('firstname')) ?>"
+               class="input-text <?= $block->escapeHtmlAttr($block->getAttributeValidationClass('firstname')) ?>" <?= ($block->getAttributeValidationClass('firstname') == 'required-entry') ? ' data-validate="{required:true}"' : '' ?>>
+    </div>
+</div>
+<div class="field field-name-lastname required">
+    <div class="control">
+        <input type="text" id="<?= $block->escapeHtmlAttr($block->getFieldId('lastname')) ?>"
+               name="<?= $block->escapeHtmlAttr($block->getFieldName('lastname')) ?>"
+               placeholder="<?= $block->escapeHtmlAttr($block->getStoreLabel('lastname')) ?>"
+               value="<?= $block->escapeHtmlAttr($block->getObject()->getLastname()) ?>"
+               title="<?= $block->escapeHtmlAttr($block->getStoreLabel('lastname')) ?>"
+               class="input-text <?= $block->escapeHtmlAttr($block->getAttributeValidationClass('lastname')) ?>" <?= ($block->getAttributeValidationClass('lastname') == 'required-entry') ? ' data-validate="{required:true}"' : '' ?>>
+    </div>
+</div>

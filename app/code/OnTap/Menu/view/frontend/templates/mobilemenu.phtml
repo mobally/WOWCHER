@@ -1,0 +1,74 @@
+<?php
+/*
+ * Copyright (c) On Tap Networks Limited.
+ */
+/** @var OnTap\Menu\Block\Menu $block */
+/* @var \Magento\Framework\Escaper $escaper */
+?>
+
+<nav class="mobile-navigation" data-action="navigation">
+    <div id="mobile-navigation" data-mage-init='{"accordion": {}, "OnTap_Menu/js/custom-accordion": {}}'>
+        <div data-role="collapsible">
+            <div data-role="trigger">
+                <span>
+                    <img src="<?= $escaper->escapeUrl($block->getViewFileUrl('images/shop-by-category.png')) ?>"
+                         alt="<?= $escaper->escapeHtml(__('Shop By Category')) ?>"
+                         width="21"
+                         height="18"/>
+                </span>
+                <span><?= $escaper->escapeHtml(__('Shop By Category')) ?></span>
+            </div>
+        </div>
+        <div data-role="content">
+            <ul id="main-navigation-mobile"
+                class="main-navigation-mobile"
+                data-mage-init='{"menu":{"responsive":true,
+                "expanded":true,
+                "position":{"my":"left top","at":"left bottom"}}}'>
+                <?php foreach ($block->getCategories() as $category): ?>
+                    <li>
+                        <a href="<?= $escaper->escapeUrl($category['url']) ?>">
+                            <?= $escaper->escapeHtml($category['label']) ?>
+                        </a>
+                    </li>
+                <?php endforeach; ?>
+            </ul>
+        </div>
+        <div class="subscribe-mobile">
+            <span>
+                <img src="<?= $escaper->escapeUrl($block->getViewFileUrl('images/subscribe.png')) ?>"
+                     alt="<?= $escaper->escapeHtml(__('Subscribe')) ?>"
+                     width="22"
+                     height="19"/>
+            </span>
+            <span class="mp-better-popup-click-trigger">
+                <?= $escaper->escapeHtml(__('Subscribe')) ?>
+            </span>
+        </div>
+        <div data-role="collapsible">
+            <div data-role="trigger">
+                <span>
+                    <img src="<?= $escaper->escapeUrl($block->getViewFileUrl('images/user-mobile.png')) ?>"
+                         alt="<?= $escaper->escapeHtml(__('My Account ')) ?>"
+                         width="22"
+                         height="19"/>
+                </span>
+                <span><?= $escaper->escapeHtml(__('My Account ')) ?></span>
+            </div>
+        </div>
+        <div data-role="content" class="my-account-content"></div>
+        <div data-role="collapsible">
+            <div data-role="trigger">
+                <span><img src="<?= $escaper->escapeUrl($block->getViewFileUrl('images/more-options.png')) ?>"
+                           alt="<?= $escaper->escapeHtml(__('More Options')) ?>"
+                           width="22"
+                           height="19"/>
+                </span>
+                <span><?= $escaper->escapeHtml(__('More Options')) ?></span>
+            </div>
+        </div>
+        <div data-role="content">
+            <?= /* @noEscape */ $block->getChildHtml() ?>
+        </div>
+    </div>
+</nav>

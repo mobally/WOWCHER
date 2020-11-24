@@ -1,0 +1,57 @@
+<?php
+/*
+ * Copyright (c) On Tap Networks Limited.
+ */
+/** @var \OnTap\Subscribe\Block\Link $block */
+/* @var \Magento\Framework\Escaper $escaper */
+?>
+
+<li data-block="subscribe" class="header-subscribe">
+    <div class="subscribe-link action" data-trigger="trigger"></div>
+
+    <div class="block hidden-content"
+         data-mage-init='{
+        "dropdownDialog": {
+            "appendTo": "[data-block=subscribe]",
+            "triggerTarget":".subscribe-link",
+            "timeout": "2000",
+            "closeOnMouseLeave": false,
+            "closeOnEscape": true,
+            "autoOpen": false,
+            "triggerClass": "active",
+            "parentClass": "active",
+            "buttons": []
+        }
+     }'>
+        <div id="subscribe-content-wrapper" class="content">
+            <form class="form subscribe"
+                  novalidate
+                  action="<?= $escaper->escapeUrl($block->getFormActionUrl()) ?>"
+                  method="post"
+                  data-mage-init='{"validation": {"errorClass": "mage-error"}}'
+                  id="newsletter-validate-detail">
+                <div class="field newsletter">
+                    <div class="control">
+                        <label for="newsletter">
+                            <input name="email"
+                                   type="email"
+                                   id="newsletter-popup"
+                                   placeholder="<?= $escaper->escapeHtml(__('Your email')) ?>"
+                                   data-mage-init='{"mage/trim-input":{}}'
+                                   data-validate="{required:true, 'validate-email':true}"
+                            />
+                        </label>
+                    </div>
+                </div>
+            <div class="actions">
+                <button class="action subscribe primary"
+                        title="<?= $escaper->escapeHtmlAttr(__('Sign Up')) ?>"
+                        type="submit"
+                        aria-label="Subscribe">
+                    <span><?= $escaper->escapeHtml(__('Sign Up')) ?></span>
+                </button>
+            </div>
+            </form>
+        </div>
+    </div>
+</li>

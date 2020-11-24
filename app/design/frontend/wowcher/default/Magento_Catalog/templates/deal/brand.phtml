@@ -1,0 +1,23 @@
+<?php
+/** @var \Magento\Catalog\Block\Product\View\Description $block */
+/** @var \Magento\Framework\Escaper $escaper */
+/** @var \OnTap\Deal\ViewModel\SocialCue\BusinessImage $businessImageCue */
+$businessImageCue = $block->getBusinessImage();
+$product = $block->getProduct();
+?>
+<?php if ($businessImageCue->canShow($product)): ?>
+    <div class="deal-details-wide-logo">
+        <?php $website = $escaper->escapeUrl($businessImageCue->getWebAddressValue($product)); ?>
+        <?php if ($website): ?>
+            <a href="<?= $website ?>" target="_blank">
+                <img width="150"
+                     src="<?= $escaper->escapeUrl($businessImageCue->getImgValue($product)) ?>"
+                     alt="<?= $escaper->escapeHtml($businessImageCue->getAltValue($product)) ?>" />
+            </a>
+        <?php else: ?>
+            <img width="150"
+                 src="<?= $escaper->escapeUrl($businessImageCue->getImgValue($product)) ?>"
+                 alt="<?= $escaper->escapeHtml($businessImageCue->getAltValue($product)) ?>" />
+        <?php endif; ?>
+    </div>
+<?php endif; ?>

@@ -1,0 +1,29 @@
+<?php
+/**
+ * Cordial/Magento Integration RFP
+ *
+ * @category    Cordial
+ * @package     Cordial_Sync
+ * @author      Cordial Team <info@cordial.com>
+ * @copyright   Cordial (http://cordial.com)
+ * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
+
+// @codingStandardsIgnoreFile
+?>
+
+<?php /* @var $block Cordial\Sync\Block\System\Config\Form\Field\SyncOptions */ ?>
+
+<?php
+
+?>
+<input type="hidden" name="<?php echo $this->getNamePrefix() ?>" value="" /><!-- this is send if nothing is checked -->
+<ul class="checkboxes">
+    <?php foreach ($this->getValues() as $name => $label): ?>
+        <li>
+            <input type="checkbox" class="cordial-sync-options" value="<?php echo $name?>" name="<?php echo $this->getNamePrefix() ?>[]" id="<?php echo $this->getHtmlId() . '_' . $name ?>"/><label for="<?php echo $this->getHtmlId() . '_' . $name ?>">
+                <?php echo $label ?>
+            </label>
+        </li>
+    <?php endforeach;?>
+</ul>

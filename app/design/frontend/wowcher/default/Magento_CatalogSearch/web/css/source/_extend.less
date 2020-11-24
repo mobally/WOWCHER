@@ -1,0 +1,35 @@
+//
+//  Common
+//  _____________________________________________
+
+& when (@media-common = true) {
+	.page-header {
+		.search-autocomplete {
+			ul li {
+				padding: 10px !important;
+
+				.qs-option-name {
+					color: @color-magenta;
+				}
+
+				.amount {
+					top: 10px;
+				}
+			}
+		}
+	}
+}
+
+
+//
+//  Mobile
+//  _____________________________________________
+
+.media-width(@extremum, @break) when (@extremum = 'max') and (@break = @screen__m) {
+	.page-header {
+		.search-autocomplete {
+			margin-top: 0;
+			width: 100% !important;
+		}
+	}
+}

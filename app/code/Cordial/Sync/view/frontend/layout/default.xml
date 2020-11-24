@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceContainer name="after.body.start">
+            <block class="Cordial\Sync\Block\Html\Loader" name="cordial.loader" template="Cordial_Sync::page/loader.phtml"/>
+            <block class="Cordial\Sync\Block\Html\Loader" name="cordial.events" template="Cordial_Sync::cordial_events.phtml" />
+        </referenceContainer>
+    </body>
+</page>

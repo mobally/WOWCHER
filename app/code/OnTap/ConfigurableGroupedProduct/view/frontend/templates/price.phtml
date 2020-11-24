@@ -1,0 +1,31 @@
+<?php
+/*
+ * Copyright (c) On Tap Networks Limited.
+ */
+/** @var \OnTap\ConfigurableGroupedProduct\Block\Price $block */
+/** @var \Magento\Framework\Escaper $escaper */
+?>
+
+<?php
+$minProduct = $block->getProduct()
+    ->getPriceInfo()
+    ->getPrice(\Magento\Catalog\Pricing\Price\FinalPrice::PRICE_CODE)
+    ->getMinProduct();
+
+if ($minProduct) {
+    $amountRender = $block->getRenderPool()->createAmountRender(
+            $minProduct->getPriceInfo()->getPrice('final_price')->getAmount(),
+            $minProduct,
+            $minProduct->getPriceInfo()->getPrice('final_price'),
+            ['include_container' => true]
+        );
+}
+?>
+
+<div class="price-box">
+    <?php if ($minProduct) : ?>
+        <p class="minimal-price">
+            <span class="price-label"><?= __('Starting at') ?></span><?= $amountRender->toHtml() ?>
+        </p>
+    <?php endif ?>
+</div>

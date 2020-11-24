@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+    <default>
+        <cordial_sync>
+            <general>
+                <active>0</active>
+                <js_listener>
+                    <![CDATA[<script>
+                        requirejs([], function() {
+                            var t = document.createElement('script');
+                            t.setAttribute("data-cordial-track-key", "$accountkey");
+                            t.setAttribute("data-cordial-url", "track.cordial.io");
+                            t.setAttribute("data-auto-track", false);
+                            t.src = '//track.cordial.io/track.js';
+                            t.async = true;
+                            t.onload = cordialMagento;
+                            document.body.appendChild(t);
+                        });
+                    </script>]]>
+                </js_listener>
+            </general>
+        </cordial_sync>
+    </default>
+</config>

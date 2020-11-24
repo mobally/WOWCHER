@@ -1,0 +1,11 @@
+--- a/vendor/smartcat/magento-connector/Model/ResourceModel/ProjectEntity/Grid/Collection.php	2020-10-07 15:37:31.000000000 +0300
++++ b/vendor/smartcat/magento-connector/Model/ResourceModel/ProjectEntity/Grid/Collection.php	2020-10-07 15:37:01.000000000 +0300
+@@ -29,7 +29,7 @@
+ use Magento\Framework\DB\Adapter\AdapterInterface;
+ use Magento\Framework\Event\ManagerInterface;
+ use Magento\Framework\Model\ResourceModel\Db\AbstractDb;
+-use Magento\Sales\Ui\Component\DataProvider\Document;
++use Magento\Framework\View\Element\UiComponent\DataProvider\Document;
+ use Psr\Log\LoggerInterface;
+ use SmartCat\Connector\Model\ResourceModel\ProjectEntity\Collection as EntityCollection;
+

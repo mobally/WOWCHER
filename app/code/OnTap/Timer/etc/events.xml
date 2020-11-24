@@ -1,0 +1,10 @@
+<?xml version="1.0" ?>
+<!--
+  ~ Copyright (c) On Tap Networks Limited.
+  -->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:Event/etc/events.xsd">
+    <event name="layout_load_before">
+        <observer name="add_handle_empty_cart" instance="OnTap\Timer\Observer\Checkout\Controller\Cart\IndexObserver" />
+    </event>
+</config>

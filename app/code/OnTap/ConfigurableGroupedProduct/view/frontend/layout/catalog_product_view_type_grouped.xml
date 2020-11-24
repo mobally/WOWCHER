@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<!--
+  ~ Copyright (c) On Tap Networks Limited.
+  -->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceContainer name="product.info.grouped.extra">
+            <container name="product.info.grouped.configurable-ui" htmlTag="div" htmlClass="configurable-ui">
+                <block class="OnTap\ConfigurableGroupedProduct\Block\Configurable" name="product.info.grouped.extra.configurable"
+                       template="OnTap_ConfigurableGroupedProduct::configurable.phtml">
+<!--                    <block class="OnTap\ConfigurableGroupedProduct\Block\Price" name="product.info.grouped.extra.configurable.price"-->
+<!--                           as="pricing"-->
+<!--                           template="OnTap_ConfigurableGroupedProduct::price.phtml">-->
+<!--                    </block>-->
+                </block>
+            </container>
+        </referenceContainer>
+    </body>
+</page>

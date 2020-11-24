@@ -1,0 +1,39 @@
+<!--
+  ~ Copyright (c) On Tap Networks Limited.
+  -->
+<div class="fieldset" tabindex="0">
+    <div class="field configurable required">
+        <label class="label" for="id_row">
+            <span><!-- ko text: rowLabel --><!-- /ko --></span>
+        </label>
+        <div class="control">
+            <select name="row" id="id_row" data-validate='{required:true}' data-bind="
+                options: rowOptions,
+                optionsValue: 'id',
+                optionsText: 'header',
+                optionsCaption: $t('Choose an Option...'),
+                value: selectedRowValue,
+                optionsAfterRender: setOptionDisable
+            "></select>
+        </div>
+    </div>
+    <!-- ko if: hasTwoOptions -->
+    <div class="field configurable required">
+        <label class="label" for="id_column">
+            <span><!-- ko text: columnLabel --><!-- /ko --></span>
+        </label>
+        <div class="control">
+            <select name="column" id="id_column" data-validate='{required:true}' data-bind="
+                enable: selectedRowValue(),
+                options: _columnOptions,
+                optionsValue: 'id',
+                optionsText: 'header',
+                optionsCaption: $t('Choose an Option...'),
+                value: selectedColumnValue,
+                optionsAfterRender: setOptionDisable
+            "></select>
+        </div>
+    </div>
+    <!-- /ko -->
+</div>
+<input data-bind='attr: {"name": qtyFieldName}' type="hidden" value="1" />

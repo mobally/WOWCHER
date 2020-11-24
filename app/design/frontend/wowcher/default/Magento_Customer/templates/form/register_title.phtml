@@ -1,0 +1,16 @@
+<?php
+/*
+ * Copyright (c) On Tap Networks Limited.
+ */
+/** @var \Magento\Framework\View\Element\Template $block */
+?>
+<div class="page-title">
+    <div class="login-title">
+        <strong id="block-customer-login-heading" role="heading" aria-level="2"><?= __('Register') ?></strong>
+    </div>
+    <div>
+        <em>
+            <?= __('Already registered?') ?> <a href="<?= $block->getUrl('customer/account/login') ?>"><?= __('Login here') ?></a>&period;
+        </em>
+    </div>
+</div>

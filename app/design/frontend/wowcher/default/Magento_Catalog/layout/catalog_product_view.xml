@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<!--
+  ~ Copyright (c) On Tap Networks Limited.
+  -->
+
+<page layout="2columns-left" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <update handle="product_details"/>
+    <body>
+        <attribute name="class" value="static-product-page"/>
+        <block name="context-provider">
+            <arguments>
+                <argument name="context" xsi:type="string">catalog_product_view</argument>
+            </arguments>
+        </block>
+        <block class="OnTap\ContextProvider\Block\CategoryResolver" name="context-aware.category.resolver">
+            <arguments>
+                <argument name="resolver_factory" xsi:type="object">OnTap\ContextProvider\Model\VirtualCategoryResolverFactory</argument>
+            </arguments>
+        </block>
+        <referenceContainer name="deal-container-left">
+            <block class="OnTap\Deal\Block\Subcategories" name="subcategory.navigation" before="sidebar.main.deals_list" template="Magento_Catalog::subcategories.phtml">
+                <block class="OnTap\Deal\Block\Subcategories" name="subcategory.navigation.mobile" template="Magento_Catalog::subcategories_mobile.phtml" />
+            </block>
+        </referenceContainer>
+    </body>
+</page>

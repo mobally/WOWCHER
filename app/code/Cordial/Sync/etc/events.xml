@@ -1,0 +1,39 @@
+<?xml version="1.0" ?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Event/etc/events.xsd">
+	<event name="customer_save_before">
+		<observer instance="Cordial\Sync\Observer\Customer\SaveBefore" name="cordial_sync_customer_save_before"/>
+	</event>
+	<event name="customer_save_after">
+		<observer instance="Cordial\Sync\Observer\Customer\SaveAfter" name="cordial_sync_customer_save_after"/>
+	</event>
+	<event name="customer_delete_after">
+		<observer instance="Cordial\Sync\Observer\Customer\DeleteAfter" name="cordial_sync_customer_delete_after"/>
+	</event>
+	<event name="catalog_product_save_commit_after">
+		<observer instance="Cordial\Sync\Observer\Product\SaveAfter" name="cordial_sync_product_save_after"/>
+	</event>
+	<event name="catalog_product_delete_after">
+		<observer instance="Cordial\Sync\Observer\Product\DeleteAfter" name="cordial_sync_product_delete_after"/>
+	</event>
+	<event name="sales_order_save_after">
+		<observer instance="Cordial\Sync\Observer\Sales\SaveAfter" name="cordial_sync_order_save_after"/>
+	</event>
+	<event name="admin_sales_order_address_update">
+		<observer instance="Cordial\Sync\Observer\Sales\EditAfter" name="cordial_sync_order_edit_after"/>
+	</event>
+	<event name="newsletter_subscriber_save_after">
+		<observer instance="Cordial\Sync\Observer\Subscriber\SaveAfter" name="cordial_sync_subscriber_save_after"/>
+	</event>
+	<event name="newsletter_subscriber_delete_after">
+		<observer instance="Cordial\Sync\Observer\Subscriber\DeleteAfter" name="cordial_sync_subscriber_delete_after"/>
+	</event>
+	<event name="catalog_product_import_bunch_delete_commit_before">
+		<observer instance="Cordial\Sync\Observer\Import\ProductCommitBefore" name="cordial_sync_import_product_delete_commit_before"/>
+	</event>
+	<event name="catalog_product_import_bunch_save_after">
+		<observer instance="Cordial\Sync\Observer\Import\ProductSaveAfter" name="cordial_sync_import_product_save_after"/>
+	</event>
+	<event name="admin_system_config_changed_section_cordial_sync">
+		<observer instance="Cordial\Sync\Observer\ConfigObserver" name="cordial_sync_admin_system_config_changed_section"/>
+	</event>
+</config>

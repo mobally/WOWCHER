@@ -1,0 +1,107 @@
+<?php
+/**
+ * Cordial/Magento Integration RFP
+ *
+ * @category    Cordial
+ * @package     Cordial_Sync
+ * @author      Cordial Team <info@cordial.com>
+ * @copyright   Cordial (http://cordial.com)
+ * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
+
+// @codingStandardsIgnoreFile
+?>
+
+<?php /* @var $block Cordial\Sync\Block\System\Config\Form\Field\SyncButton */ ?>
+
+<script>
+    require([
+        'jquery'
+    ], function ($) {
+
+        $('#cordial_sync_button').click(function () {
+            ajaxCordialSync()
+        });
+
+        function ajaxCordialSync() {
+            this.syncSuccess = true;
+            this.needReload = false;
+            this.iterator = 0;
+            this.options = $('.cordial-sync-options:checked');
+            var optionsChecked = (options.length > 0);
+            if (!optionsChecked) {
+                alert('Please select options');
+                return;
+            }
+
+            this.urls = [];
+            this.urls['index'] = '<?php echo $this->getUrl('cordial_sync/sync/index'); ?>';
+            this.urls['products'] = '<?php echo $this->getUrl('cordial_sync/sync/product'); ?>';
+            this.urls['customers'] = '<?php echo $this->getUrl('cordial_sync/sync/customer'); ?>';
+            this.urls['orders'] = '<?php echo $this->getUrl('cordial_sync/sync/order'); ?>';
+            this.urls['templates'] = '<?php echo $this->getUrl('cordial_sync/sync/template'); ?>';
+
+            this.CordialOptions = function() {
+                if (this.iterator < this.options.length) {
+                    var option = this.options[this.iterator].value;
+                    this.ajaxCordialCall(this.urls[option], 0);
+                }
+
+                if (this.iterator >= this.options.length) {
+                    this.options.each(function () {
+                        $(this).prop('checked', false);
+                    });
+                    if (this.needReload)
+                        location.reload();
+                    if (!this.syncSuccess)
+                        alert('Done with error, please check logs');
+                    if (this.syncSuccess)
+                        alert('Successfully completed');
+                }
+            }
+
+            this.ajaxCordialCall = function (url, startId) {
+                var storeId = '<?php echo $this->getStoreId(); ?>';
+                var self = this;
+                $.ajax({
+                    url: url,
+                    type: 'POST',
+                    dataType: 'json',
+                    showLoader: true,
+                    data: {store: storeId, startId: startId}
+                }).done(function (comp) {
+                    if (comp) {
+                        try {
+                            if (comp.status == 'error') {
+                                self.syncSuccess = false;
+                            }
+                            if (!comp.sync){
+                                self.syncSuccess = false;
+                            }
+                            if (comp.startId) {
+                                startId = comp.startId;
+                                self.ajaxCordialCall(url, startId);
+                            }
+                            else {
+                                self.iterator++
+                                self.CordialOptions();
+                            }
+                        } catch (e) {
+                            self.needReload = true;
+                            return false;
+                        }
+                    }
+                    else {
+                        self.syncSuccess = false;
+                        self.iterator++
+                        self.CordialOptions();
+                    }
+                });
+            }
+
+            this.CordialOptions();
+        }
+    });
+</script>
+
+<?php echo $this->getButtonHtml() ?>

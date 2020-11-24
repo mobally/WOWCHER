@@ -1,0 +1,252 @@
+//
+//  Variables
+//  _____________________________________________
+
+@footer-links-color: @color-white;
+@footer-links-color-hover: @color-blue;
+
+//
+//  Common
+//  _____________________________________________
+
+& when (@media-common = true) {
+	.checkout-payment-method {
+		input[type="radio"] {
+			margin: 0;
+			vertical-align: middle;
+		}
+
+		.ccard {
+			.label {
+				width: auto !important;
+			}			
+		}
+		
+		.credit-card-types {
+			clear: both;
+			margin-left: -10px;
+		}
+
+		.braintree-credit-card-selected {
+			height: 41px;
+		}
+
+		.payment-method-braintree {
+			.hosted-control {
+				.lib-form-element-input(@_type: input-text);
+				height: 42px;
+
+				&:focus {				
+					.lib-css(box-shadow, @focus__box-shadow);
+					border: @form-element-input__focus__border;
+				}
+
+				iframe {
+					input {
+						font-size: 14px !important;
+					}
+				}
+			}
+
+			.cvv {
+				.field-tooltip {
+					top: 4px;
+				}
+			}
+		}
+
+		#braintree_expirationDate {
+			width: 135px;
+		}
+	}
+
+	.opc-wrapper {
+		.shipping-address-item.selected-item {
+			border-color: @color-magenta;
+
+			&:after {
+				background: @color-magenta;
+			}
+		}
+	}
+
+	.opc-block-summary {
+		.content.minicart-items {
+			display: block !important;
+		}
+
+		.items-in-cart {
+			.title {
+				&:after {
+					display: none;
+				}
+			}
+		}
+
+		.minicart-items {
+			.product-item {
+				padding-bottom: 8px;
+			}
+
+			.product-image-container {
+				float: none;
+				width: 100% !important;
+			}
+	
+			.product-item-details {
+				padding: 0;
+
+				.price {
+					.lib-font-size(14);
+				}
+			}
+		}		
+	}
+
+	.payment-method-braintree {
+		.field.number {
+			.label {
+				width: 33% !important;
+			}
+
+			.control {
+				width: 66% !important;
+				max-width: none;
+			}
+		}
+
+		.ccard {
+			margin-bottom: 0 !important;
+
+			.label {
+				width: 33% !important;
+			}
+
+			.control {
+				max-width: 200px;
+			}
+		}
+
+		.cvv {
+			max-width: none;
+		}
+
+		.braintree-credit-card-types {
+			padding-left: 33%;
+		}
+	}
+
+	#payment-method-braintree-paypal {
+		.label {
+			span {
+				display: none;
+			}
+		}
+
+		.actions-toolbar {
+			width: 200px;
+			float: right;
+			margin-top: -68px;
+		}
+	}
+
+	.braintree-paypal-review {
+		.paypal-review-discount {
+			display: none;
+		}
+	}	
+}
+
+//
+//  Mobile
+//  _____________________________________________
+
+.media-width(@extremum, @break) when (@extremum = 'max') and (@break = @screen__xs) {
+	.opc-progress-bar {
+		.opc-progress-bar-item {
+			width: 120px;
+		}
+	}
+}
+
+.media-width(@extremum, @break) when (@extremum = 'max') and (@break = @screen__m) {
+	.opc-progress-bar {
+		.opc-progress-bar-item {
+			width: 185px;
+		}
+	}
+
+	body {
+		.payment-method-braintree {
+			.field.number {
+				.label,
+				.control {
+					width: 100% !important;
+				}
+			}
+
+			.ccard {
+				margin-bottom: 24px !important;
+
+				.label {
+					width: 100% !important;
+				}
+			}
+
+			.braintree-credit-card-types {
+				padding: 0;
+			}
+
+			.field-tooltip {
+				.field-tooltip-content {
+					left: -145px;
+
+					&:before,
+					&:after {
+						left: 145px;
+					}
+				}
+			}
+		}
+
+		#payment-method-braintree-paypal {		
+			.actions-toolbar {
+				margin-top: -54px;
+			}
+		}
+	}
+
+	.braintree-paypal-review,
+	.checkout-onepage-success {
+		.page-main {
+			padding-top: 15px;
+		}
+	}
+}
+
+.media-width(@extremum, @break) when (@extremum = 'max') and (@break = @screen__l1200) {
+	.payment-method-braintree {
+		.field-tooltip {
+			.field-tooltip-content {
+				&:before {
+					border-bottom-color: @color-gray60;
+					border-right-color: transparent;
+					left: auto;
+					right: 10px;
+					margin-top: -21px;
+					top: 0;
+				}
+
+				&:after {
+					border-bottom-color: @color-gray-light01;
+					border-right-color: transparent;
+					left: auto;
+					right: 10px;
+					margin-top: -21px;
+					top: 1px;
+					width: 0;
+				}
+			}
+		}
+	}
+}

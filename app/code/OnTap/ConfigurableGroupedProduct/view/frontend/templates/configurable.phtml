@@ -1,0 +1,43 @@
+<?php
+    /** @var \OnTap\ConfigurableGroupedProduct\Block\Configurable $block */
+    /** @var \Magento\Framework\Escaper $escaper */
+?>
+<?php if ($block->isProductConfigurable()): ?>
+
+    <div class="configurable-ui-pricing">
+        <?= $block->getChildHtml('pricing') ?>
+    </div>
+
+    <div class="product-options-wrapper" data-bind="scope: 'configurable-ui'">
+        <!-- ko template: getTemplate() --><!-- /ko -->
+    </div>
+    <script type="text/x-magento-init">
+        {
+            "*": {
+                "Magento_Ui/js/core/app": {
+                    "components": {
+                        "configurable-ui": {
+                            "component": "OnTap_ConfigurableGroupedProduct/js/view/configurable-ui",
+                            "rowLabel": "<?= $escaper->escapeJs($block->getRowLabel()) ?>",
+                            "columnLabel": "<?= $escaper->escapeJs($block->getColumnLabel()) ?>",
+                            "rowOptions": <?= $block->getRowOptions() ?>,
+                            "columnOptions": <?= $block->getColumnOptions() ?>,
+                            "hasTwoOptions": <?= $block->hasTwoOptions() ?>
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <script>
+        require(['jquery'], function ($) {
+            $('div.table-wrapper.grouped').hide();
+        });
+    </script>
+<?php else: ?>
+    <script>
+        require(['jquery'], function ($) {
+            $('div.table-wrapper.grouped').show();
+        });
+    </script>
+<?php endif; ?>

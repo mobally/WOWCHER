@@ -1,0 +1,175 @@
+<?xml version="1.0"?>
+<!--
+  ~ Copyright (c) On Tap Networks Limited.
+  -->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <head>
+        <css src="mage/gallery/gallery.css"/>
+    </head>
+    <body>
+        <referenceBlock name="head.components">
+            <block class="Magento\Framework\View\Element\Js\Components" name="checkout_page_head_components" template="Magento_Catalog::js/components.phtml"/>
+        </referenceBlock>
+        <referenceContainer name="columns.top">
+            <block name="columns.top.pager" class="OnTap\Deal\Block\DealList" template="Magento_Catalog::pager.phtml" after="category.cms">
+                <block class="Magento\Theme\Block\Html\Pager" name="product_list_toolbar_pager_top" as="product_list_toolbar_pager" />
+            </block>
+        </referenceContainer>
+        <referenceContainer name="content">
+            <block class="OnTap\ContextProvider\Block\ProductResolver" name="context-aware.product.resolver" template="OnTap_ContextProvider::product_view.phtml">
+                <arguments>
+                    <argument name="resolver_factory" xsi:type="object">OnTap\ContextProvider\Model\VirtualProductResolverFactory</argument>
+                </arguments>
+                <container name="deal.primary.container">
+                    <container name="deal.primary" htmlTag="div" htmlClass="deals-item deals-primary-deal">
+                    <block class="OnTap\ContextProvider\Block\ProductAwareTemplate" name="product.info.title" before="product.info.main" template="Magento_Catalog::deal/title.phtml" />
+                    <container htmlClass="deal-lead-image-wrapper" name="product.info.media" htmlTag="div">
+                        <block class="Magento\Framework\View\Element\Template" name="skip_gallery_after.target" before="skip_gallery_before.wrapper" template="Magento_Theme::html/skiptarget.phtml">
+                            <arguments>
+                                <argument name="target_id" xsi:type="string">gallery-prev-area</argument>
+                            </arguments>
+                        </block>
+                        <container name="skip_gallery_before.wrapper" htmlTag="div" htmlClass="action-skip-wrapper">
+                            <block class="Magento\Framework\View\Element\Template" before="product.info.media.image" name="skip_gallery_before" template="Magento_Theme::html/skip.phtml">
+                                <arguments>
+                                    <argument name="target" xsi:type="string">gallery-next-area</argument>
+                                    <argument name="label" translate="true" xsi:type="string">Skip to the end of the images gallery</argument>
+                                </arguments>
+                            </block>
+                        </container>
+                        <block class="Magento\Catalog\Block\Product\View\Gallery" name="product.info.media.image" template="Magento_Catalog::product/view/gallery.phtml">
+                            <arguments>
+                                <argument name="gallery_options" xsi:type="object">Magento\Catalog\Block\Product\View\GalleryOptions</argument>
+                                <argument name="imageHelper" xsi:type="object">Magento\Catalog\Helper\Image</argument>
+                            </arguments>
+                        </block>
+                        <container name="skip_gallery_after.wrapper" htmlTag="div" htmlClass="action-skip-wrapper">
+                            <block class="Magento\Framework\View\Element\Template" after="product.info.media.image" name="skip_gallery_after" template="Magento_Theme::html/skip.phtml">
+                                <arguments>
+                                    <argument name="target" xsi:type="string">gallery-prev-area</argument>
+                                    <argument name="label" translate="true" xsi:type="string">Skip to the beginning of the images gallery</argument>
+                                </arguments>
+                            </block>
+                        </container>
+                        <block class="Magento\Framework\View\Element\Template" name="skip_gallery_before.target" after="skip_gallery_after.wrapper" template="Magento_Theme::html/skiptarget.phtml">
+                            <arguments>
+                                <argument name="target_id" xsi:type="string">gallery-next-area</argument>
+                            </arguments>
+                        </block>
+                        <block template="Magento_Catalog::deal/price.phtml" after="product.info.media.image">
+                            <block class="Magento\Catalog\Pricing\Render" name="product.price.final">
+                                <arguments>
+                                    <argument name="price_render" xsi:type="string">product.price.render.default</argument>
+                                    <argument name="price_type_code" xsi:type="string">deal_price</argument>
+                                    <argument name="zone" xsi:type="string">item_view</argument>
+                                </arguments>
+                            </block>
+                        </block>
+                    </container>
+                    <container name="deal.status-bar" htmlClass="deal-lead-status-bar deal-status-bar-is-hiding-merchant deal-status-bar-is-video" htmlTag="div" after="product.info.media">
+                        <block class="Magento\Catalog\Block\Product\View\Description" template="Magento_Catalog::deal/status_bar.phtml">
+                            <arguments>
+                                <argument name="total_bought" xsi:type="object">OnTap\Deal\ViewModel\SocialCue\TotalBought</argument>
+                                <argument name="save_up_to" xsi:type="object">OnTap\Deal\ViewModel\SocialCue\SaveUpTo</argument>
+                            </arguments>
+                        </block>
+                    </container>
+                    <container name="deal.cue-message-container" htmlClass="cue-message-container" htmlTag="div" after="product.info.media">
+                        <block class="Magento\Catalog\Block\Product\View\Description" template="Magento_Catalog::deal/cue-messages.phtml">
+                            <arguments>
+                                <argument name="total_remaining" xsi:type="object">OnTap\Deal\ViewModel\SocialCue\TotalRemaining</argument>
+                            </arguments>
+                        </block>
+                    </container>
+                    <container name="deal.info" htmlClass="deal deal-details-wide" after="deal.cue-message-container" htmlTag="div">
+                        <container name="product.info.brand" htmlTag="div" htmlClass="deal-details-wide-container">
+                            <block class="Magento\Catalog\Block\Product\View\Description" template="Magento_Catalog::deal/brand.phtml">
+                                <arguments>
+                                    <argument name="business_image" xsi:type="object">OnTap\Deal\ViewModel\SocialCue\BusinessImage</argument>
+                                </arguments>
+                            </block>
+                        </container>
+                        <container name="product.info.hightlights-fineprint" htmlTag="div" htmlClass="deal-details-wide-container">
+                            <block class="Magento\Catalog\Block\Product\View\Description" template="Magento_Catalog::deal/highlights_fineprint.phtml">
+                                <arguments>
+                                    <argument name="serializer" xsi:type="object">OnTap\Deal\Block\Serializer</argument>
+                                </arguments>
+                            </block>
+                        </container>
+                        <container name="product.info.main" htmlTag="div" htmlClass="deal-details-wide-container one-column">
+                            <container name="alert.urls" as="alert_urls" label="Alert Urls" after="product.price.tier"/>
+                            <block class="Magento\Catalog\Block\Product\View" name="product.info" template="Magento_Catalog::product/view/form.phtml" after="alert.urls">
+                                <container name="product.info.form.content" as="product_info_form_content">
+                                    <block class="Magento\Catalog\Block\Product\View" name="product.info.addtocart" as="addtocart" template="Magento_Catalog::product/view/addtocart.phtml"/>
+                                </container>
+                                <block class="Magento\Framework\View\Element\Template" name="product.info.form.options" as="options_container">
+                                    <block class="Magento\Catalog\Block\Product\View" name="product.info.options.wrapper" as="product_options_wrapper" template="Magento_Catalog::product/view/options/wrapper.phtml">
+                                        <block class="Magento\Catalog\Block\Product\View\Options" name="product.info.options" as="product_options" template="Magento_Catalog::product/view/options.phtml">
+                                            <block class="Magento\Catalog\Block\Product\View\Options\Type\DefaultType" name="product.info.options.default" as="default" template="Magento_Catalog::product/view/options/type/default.phtml"/>
+                                            <block class="Magento\Catalog\Block\Product\View\Options\Type\Text" name="product.info.options.text" as="text" template="Magento_Catalog::product/view/options/type/text.phtml"/>
+                                            <block class="Magento\Catalog\Block\Product\View\Options\Type\File" name="product.info.options.file" as="file" template="Magento_Catalog::product/view/options/type/file.phtml"/>
+                                            <block class="Magento\Catalog\Block\Product\View\Options\Type\Select" name="product.info.options.select" as="select" template="Magento_Catalog::product/view/options/type/select.phtml"/>
+                                            <block class="Magento\Catalog\Block\Product\View\Options\Type\Date" name="product.info.options.date" as="date" template="Magento_Catalog::product/view/options/type/date.phtml"/>
+                                        </block>
+                                        <block class="Magento\Framework\View\Element\Html\Calendar" name="html_calendar" as="html_calendar" template="Magento_Theme::js/calendar.phtml"/>
+                                    </block>
+                                    <block class="Magento\Catalog\Block\Product\View" name="product.info.options.wrapper.bottom" as="product_options_wrapper_bottom" template="Magento_Catalog::product/view/options/wrapper/bottom.phtml">
+                                        <block class="Magento\Catalog\Block\Product\View" name="product.info.addtocart.additional" as="product.info.addtocart" template="Magento_Catalog::product/view/addtocart.phtml"/>
+                                    </block>
+                                </block>
+                            </block>
+                            <container name="product.info.extrahint" as="extrahint" label="Product View Extra Hint">
+                                <container name="product.info.social" label="Product social links container" htmlTag="div" htmlClass="product-social-links">
+                                    <block class="Magento\Catalog\Block\Product\View" name="product.info.addto" as="addto" template="Magento_Catalog::product/view/addto.phtml" />
+                                    <block class="Magento\Catalog\Block\Product\View" name="product.info.mailto" template="Magento_Catalog::product/view/mailto.phtml"/>
+                                </container>
+                            </container>
+                        </container>
+                        <container name="product.info.full_details" htmlTag="div" htmlClass="deal-details-wide-container one-column">
+                            <block class="Magento\Catalog\Block\Product\View\Description" template="Magento_Catalog::deal/full_details.phtml" />
+                        </container>
+                    </container>
+                </container>
+                </container>
+                <block name="deal.secondary.list" after="deal.primary" class="OnTap\Deal\Block\DealList" template="Magento_Catalog::right_column_list_large.phtml">
+                    <arguments>
+                        <argument name="offset" xsi:type="string">1</argument>
+                        <argument name="limit" xsi:type="string">3</argument>
+                        <argument name="gallery_options" xsi:type="object">OnTap\Deal\Block\GalleryOptions</argument>
+                        <argument name="image_helper" xsi:type="object">Magento\Catalog\Helper\Image</argument>
+                        <argument name="total_bought" xsi:type="object">OnTap\Deal\ViewModel\SocialCue\TotalBought</argument>
+                        <argument name="business_image" xsi:type="object">OnTap\Deal\ViewModel\SocialCue\BusinessImage</argument>
+                        <argument name="save_up_to" xsi:type="object">OnTap\Deal\ViewModel\SocialCue\SaveUpTo</argument>
+                    </arguments>
+                </block>
+            </block>
+        </referenceContainer>
+        <referenceContainer name="page.bottom.container">
+            <container name="deal.bottom" htmlTag="div" htmlClass="deal-container-bottom">
+                <block name="deal.bottom.list" class="OnTap\Deal\Block\DealList" template="Magento_Catalog::right_column_list_small.phtml">
+                    <arguments>
+                        <argument name="offset" xsi:type="string">4</argument>
+                        <argument name="limit" xsi:type="string">10</argument>
+                        <argument name="total_bought" xsi:type="object">OnTap\Deal\ViewModel\SocialCue\TotalBought</argument>
+                        <argument name="business_image" xsi:type="object">OnTap\Deal\ViewModel\SocialCue\BusinessImage</argument>
+                        <argument name="save_up_to" xsi:type="object">OnTap\Deal\ViewModel\SocialCue\SaveUpTo</argument>
+                    </arguments>
+                    <block class="Magento\Theme\Block\Html\Pager" name="product_list_toolbar_pager_bottom" as="product_list_toolbar_pager" />
+                </block>
+            </container>
+        </referenceContainer>
+        <referenceContainer name="sidebar.main">
+            <container name="deal-container-left" htmlClass="deal-container-left" htmlTag="div">
+                <block name="sidebar.main.deals_list" class="OnTap\Deal\Block\DealList" template="Magento_Catalog::left_column_list.phtml">
+                    <arguments>
+                        <argument name="offset" xsi:type="string">1</argument>
+                        <argument name="limit" xsi:type="string">8</argument>
+                        <argument name="total_bought" xsi:type="object">OnTap\Deal\ViewModel\SocialCue\TotalBought</argument>
+                        <argument name="business_image" xsi:type="object">OnTap\Deal\ViewModel\SocialCue\BusinessImage</argument>
+                        <argument name="save_up_to" xsi:type="object">OnTap\Deal\ViewModel\SocialCue\SaveUpTo</argument>
+                    </arguments>
+                </block>
+            </container>
+        </referenceContainer>
+    </body>
+</page>

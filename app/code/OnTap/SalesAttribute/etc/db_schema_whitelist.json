@@ -1,0 +1,17 @@
+{
+    "quote_item_extra": {
+        "column": {
+            "quote_item_id": true,
+            "business_id": true
+        },
+        "constraint": {
+            "PRIMARY": true,
+            "QUOTE_ITEM_EXTRA_QUOTE_ITEM_ID_QUOTE_ITEM_ITEM_ID": true
+        }
+    },
+    "sales_order_item": {
+        "column": {
+            "business_id": true
+        }
+    }
+}

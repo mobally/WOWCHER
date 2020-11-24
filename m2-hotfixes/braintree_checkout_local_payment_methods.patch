@@ -1,0 +1,47 @@
+diff --git a/vendor/paypal/module-braintree-core/etc/adminhtml/system.xml b/vendor/paypal/module-braintree-core/etc/adminhtml/system.xml
+index cd045b8..c38e281 100644
+--- a/vendor/paypal/module-braintree-core/etc/adminhtml/system.xml
++++ b/vendor/paypal/module-braintree-core/etc/adminhtml/system.xml
+@@ -305,26 +305,23 @@
+                             </comment>
+                         </field>
+                     </group>
+-                    <group id="braintree_local_payment" translate="label" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="42">
++                    <group id="braintree_local_payment" translate="label" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="42">
+                         <label>Local Payment Methods</label>
+                         <comment>
+                             All payments made with a Local Payment Method will be treated as an "Intent Sale" payment action.
+                         </comment>
+                         <frontend_model>Magento\Config\Block\System\Config\Form\Fieldset</frontend_model>
+-                        <field id="active" translate="label" type="select" sortOrder="0" showInDefault="1" showInWebsite="1">
++                        <field id="active" translate="label" type="select" sortOrder="0" showInDefault="1" showInWebsite="1" showInStore="0">
+                             <label>Enable Local Payment Methods</label>
+                             <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                             <config_path>payment/braintree_local_payment/active</config_path>
+                         </field>
+-                        <field id="title" translate="label" type="text" sortOrder="5" showInDefault="1" showInWebsite="1">
++                        <field id="title" translate="label" type="text" sortOrder="5" showInDefault="1" showInWebsite="1" showInStore="0">
+                             <label>Title</label>
+                             <config_path>payment/braintree_local_payment/title</config_path>
+                             <validate>required-entry</validate>
+-                            <depends>
+-                                <field id="active">1</field>
+-                            </depends>
+                         </field>
+-                        <field id="allowed_methods" translate="label" type="multiselect" sortOrder="10" showInDefault="1" showInWebsite="1">
++                        <field id="allowed_methods" translate="label" type="multiselect" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="0">
+                             <label>Allowed Payment Methods</label>
+                             <comment>
+                                 Any particular payment method will only be visible to customers who's billing address is
+@@ -333,9 +330,6 @@
+                             <source_model>PayPal\Braintree\Model\Adminhtml\Source\LpmMethods</source_model>
+                             <config_path>payment/braintree_local_payment/allowed_methods</config_path>
+                             <validate>required-entry</validate>
+-                            <depends>
+-                                <field id="active">1</field>
+-                            </depends>
+                         </field>
+                     </group>
+                     <group id="braintree_googlepay" translate="label" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="45">
+
+

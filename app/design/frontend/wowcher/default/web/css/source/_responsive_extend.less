@@ -1,0 +1,40 @@
+//
+//  Responsive
+//  _____________________________________________
+
+//
+//  Style groups for 'mobile' devices
+//  ---------------------------------------------
+
+& when (@media-target = 'mobile'), (@media-target = 'all') {
+	@media all and (max-width: @screen__400),
+	print {
+		.media-width('max', @screen__400);
+	}
+	
+	@media all and (max-width: @screen__m991),
+	print {
+		.media-width('max', @screen__m991);
+	}
+
+	@media all and (max-width: @screen__l1200),
+	print {
+		.media-width('max', @screen__l1200);
+	}
+}
+
+//
+//  Style groups for 'desktop' devices
+//  ---------------------------------------------
+
+& when (@media-target = 'desktop'), (@media-target = 'all') {
+	@media all and (min-width: @screen__m992),
+	print {
+		.media-width('min', @screen__m992);
+	}
+	 
+	@media all and (min-width: @screen__l1200),
+	print {
+		.media-width('min', @screen__l1200);
+	}
+}

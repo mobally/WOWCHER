@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<!--
+  ~ Copyright (c) On Tap Networks Limited.
+  -->
+<schema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:Setup/Declaration/Schema/etc/schema.xsd">
+    <table name="quote_item_extra" resource="checkout" engine="innodb" comment="quote_item_extra">
+        <column xsi:type="int" name="quote_item_id" padding="10" unsigned="true" nullable="false" identity="false"
+                comment="Quote Item ID"/>
+        <column xsi:type="varchar" length="64" name="business_id" nullable="true" comment="Business ID"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="quote_item_id"/>
+        </constraint>
+        <constraint xsi:type="foreign" referenceId="QUOTE_ITEM_EXTRA_QUOTE_ITEM_ID_QUOTE_ITEM_ITEM_ID"
+                    table="quote_item_extra" column="quote_item_id" referenceTable="quote_item"
+                    referenceColumn="item_id" onDelete="CASCADE"/>
+    </table>
+    <table name="sales_order_item">
+        <column xsi:type="varchar" name="business_id" nullable="true" length="64"
+                comment="Business ID ID"/>
+    </table>
+</schema>

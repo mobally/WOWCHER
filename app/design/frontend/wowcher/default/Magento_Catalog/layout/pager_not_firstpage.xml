@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<!--
+  ~ Copyright (c) On Tap Networks Limited.
+  -->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceContainer name="div.sidebar.main" remove="true" />
+        <referenceContainer name="deal.primary.container" remove="true" />
+        <referenceBlock name="deal.secondary.list" remove="true" />
+        <referenceBlock name="deal.bottom.list">
+            <arguments>
+                <argument name="offset" xsi:type="string">0</argument>
+            </arguments>
+        </referenceBlock>
+    </body>
+</page>

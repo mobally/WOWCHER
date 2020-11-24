@@ -1,0 +1,77 @@
+<?xml version="1.0"?>
+<!--
+  ~ Copyright (c) On Tap Networks Limited.
+  -->
+<view xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Config/etc/view.xsd">
+    <media>
+        <images module="Magento_Catalog">
+            <image id="left_column_list_image" type="small_image">
+                <width>360</width>
+                <height>241</height>
+            </image>
+            <image id="right_column_list_large_image" type="image">
+                <width>750</width>
+                <height>502</height>
+            </image>
+            <image id="right_column_list_small_image" type="small_image">
+                <width>555</width>
+                <height>371</height>
+            </image>
+            <image id="product_page_image_small" type="thumbnail">
+                <width>70</width>
+                <height>47</height>
+            </image>
+            <image id="product_page_image_large" type="image"/>
+            <image id="product_page_image_medium" type="image">
+                <width>750</width>
+                <height>502</height>
+            </image>
+            <image id="product_page_main_image" type="image">
+                <width>750</width>
+                <height>502</height>
+            </image>
+            <image id="product_page_main_image_default" type="image">
+                <width>750</width>
+                <height>502</height>
+            </image>
+            <image id="cart_page_product_thumbnail" type="small_image">
+                <width>110</width>
+                <height>110</height>
+            </image>
+            <image id="mini_cart_product_thumbnail" type="thumbnail">
+                <width>500</width>
+                <height>500</height>
+            </image>
+        </images>
+    </media>
+    <vars module="OnTap_Deal">
+        <!-- This is for the image gallery in list items -->
+        <var name="gallery">
+            <var name="nav">thumbs</var>
+            <var name="loop">true</var>
+            <var name="keyboard">false</var>
+            <var name="arrows">true</var>
+            <var name="caption">false</var>
+            <var name="allowfullscreen">false</var>
+            <var name="navdir">horizontal</var>
+            <var name="navarrows">true</var>
+            <var name="navtype">slides</var>
+            <var name="transition">
+                <var name="effect">slide</var>
+                <var name="duration">200</var>
+            </var>
+        </var>
+        <var name="breakpoints">
+            <var name="mobile">
+                <var name="conditions">
+                    <var name="max-width">767px</var>
+                </var>
+                <var name="options">
+                    <var name="options">
+                        <var name="nav">dots</var>
+                    </var>
+                </var>
+            </var>
+        </var>
+    </vars>
+</view>

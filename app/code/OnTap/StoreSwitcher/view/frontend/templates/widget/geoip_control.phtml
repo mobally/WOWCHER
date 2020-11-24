@@ -1,0 +1,18 @@
+<?php
+/** @var \OnTap\StoreSwitcher\Block\Widget\GeoIpNoticeControl $block */
+/** @var \Magento\Framework\Escaper $escaper */
+?>
+<div class="wow-localeswitcher-text">
+    <?= $escaper->escapeHtml($block->getData('content_text')) ?>
+</div>
+<div class="wow-localeswitcher-action">
+    <div class="wow-localeswitcher-dropdown">
+        <select data-role="region-dropdown">
+            <?php foreach ($block->getRegionOptions() as $option): ?>
+                <option value="<?= $escaper->escapeHtmlAttr($option['value']) ?>" <?= ($option['selected'] === true) ? 'selected="selected"' : '' ?>><?= $escaper->escapeHtml($option['label']) ?></option>
+            <?php endforeach; ?>
+        </select>
+    </div>
+    <button data-role="continue" class="continue"><?= $escaper->escapeHtml($block->getData('continue_button_label')) ?></button>
+    <button data-role="close" class="close"></button>
+</div>

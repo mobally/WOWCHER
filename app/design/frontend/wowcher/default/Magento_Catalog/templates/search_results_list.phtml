@@ -1,0 +1,106 @@
+<?php
+/*
+ * Copyright (c) On Tap Networks Limited.
+ */
+
+/** @var \OnTap\Deal\Block\DealListSearchResults $block */
+/** @var \Magento\Framework\Escaper $escaper */
+/** @var \Magento\Catalog\Model\Product $product */
+
+/** @var \OnTap\Deal\ViewModel\SocialCue\TotalBought $totalBoughtCue */
+$totalBoughtCue = $block->getTotalBought();
+
+/** @var \OnTap\Deal\ViewModel\SocialCue\BusinessImage $businessImageCue */
+$businessImageCue = $block->getBusinessImage();
+
+/** @var \OnTap\Deal\ViewModel\SocialCue\SaveUpTo $saveUpToCue */
+$saveUpToCue = $block->getSaveUpTo();
+
+$image = 'right_column_list_small_image';
+$type = 'right_column_product_list_small';
+?>
+
+<div class="search-filters">
+    <?= $block->getChildHtml() ?>
+</div>
+
+<div class="deal-container-bottom">
+    <?php foreach ($block->getLimitedProductCollection() as $product): ?>
+    <div class="deals-secondary-container">
+        <div class="deals-item deals-secondary-deal">
+            <div class="deal deal-summary">
+                <!-- Product Header section -->
+                <div class="deal-header">
+                    <h2><?= $escaper->escapeHtml($product->getName()) ?></h2>
+                </div>
+
+                <!-- Product Carousel section -->
+                <div class="deal-imagery">
+                    <a href="<?= $escaper->escapeUrl($product->getProductUrl()) ?>" class="product-image">
+                        <?= $block->getImage($product, $image)->toHtml() ?>
+                    </a>
+
+                    <div class="deal-summary-main-price-splat">
+                        <div class="deal-main-price-splat deal-main-price-splat-is-state-compact">
+                            <div class="deal-main-price-splat-flex-wrapper">
+                                <?= $block->getProductPriceHtml($product, $type) ?>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Product Status bar section -->
+                <div class="deal-lead-status-bar">
+                    <div class="product-name-mobile"><?= $escaper->escapeHtml($product->getName()) ?></div>
+                    <div class="deal-status-bar-wrapper">
+                        <?php if ($businessImageCue->canShow($product)): ?>
+                            <div class="deal-status-bar-item-merchant">
+                                <?php $website = $escaper->escapeUrl($businessImageCue->getWebAddressValue($product)); ?>
+                                <?php if ($website): ?>
+                                    <a href="<?= $website ?>" target="_blank">
+                                        <img src="<?= $escaper->escapeUrl($businessImageCue->getImgValue($product)) ?>"
+                                             alt="<?= $escaper->escapeHtml($businessImageCue->getAltValue($product)) ?>" />
+                                    </a>
+                                <?php else: ?>
+                                    <img src="<?= $escaper->escapeUrl($businessImageCue->getImgValue($product)) ?>"
+                                         alt="<?= $escaper->escapeHtml($businessImageCue->getAltValue($product)) ?>"/>
+                                <?php endif; ?>
+                            </div>
+                        <?php endif; ?>
+
+                        <?php if ($totalBoughtCue->canShow($product)): ?>
+                            <div class="deal-status-bar-item deal-status-bar-item-stats">
+                                <div class="deal-status-bar-label"><?php echo __('Bought') ?></div>
+                                <div class="deal-status-bar-value">
+                                    <?= $escaper->escapeHtml($totalBoughtCue->getValue($product)); ?>
+                                </div>
+                            </div>
+                        <?php endif; ?>
+
+                        <?php if ($saveUpToCue->canShow($product)): ?>
+                            <div class="deal-status-bar-item deal-status-bar-item-stats">
+                                <div class="deal-status-bar-label"><?php echo __('Save up to') ?></div>
+                                <div class="deal-status-bar-value"><?= $saveUpToCue->getValue($product) ?></div>
+                            </div>
+                        <?php endif; ?>
+
+                        <div class="deal-status-bar-item deal-status-bar-item-countdown">
+                            <div class="deal-status-bar__countdown"></div>
+                        </div>
+
+                        <div class="deal-status-bar-item deal-status-bar-item-buttons">
+                            <a href="<?= $escaper->escapeUrl($product->getProductUrl()) ?>" class="secondary tocart">
+                                <span><?php echo __('View!') ?></span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <?php endforeach; ?>
+
+    <div class="pagination-bottom">
+        <?= $block->getPagerHtml() ?>
+    </div>
+</div>

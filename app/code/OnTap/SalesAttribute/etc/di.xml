@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<!--
+  ~ Copyright (c) On Tap Networks Limited.
+  -->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <preference for="OnTap\SalesAttribute\Api\Data\QuoteItemExtraInterface" type="OnTap\SalesAttribute\Model\QuoteItemExtra" />
+    <preference for="OnTap\SalesAttribute\Api\Data\OrderItemExtraInterface" type="OnTap\SalesAttribute\Model\OrderItemExtra"/>
+    <type name="Magento\Quote\Api\CartRepositoryInterface">
+        <plugin name="quote_save_extras" type="OnTap\SalesAttribute\Plugin\Quote\Model\CartRepositoryPlugin" />
+    </type>
+    <type name="Magento\Quote\Model\Quote\Item\ToOrderItem">
+        <plugin name="quote_item_extra_to_order_item_extra_conversion" type="OnTap\SalesAttribute\Plugin\Quote\Model\QuoteItemConvert"/>
+    </type>
+    <type name="Magento\Sales\Api\OrderItemRepositoryInterface">
+        <plugin name="order_item_extras" type="OnTap\SalesAttribute\Plugin\Quote\Model\OrderItemRepositoryPlugin"/>
+    </type>
+</config>

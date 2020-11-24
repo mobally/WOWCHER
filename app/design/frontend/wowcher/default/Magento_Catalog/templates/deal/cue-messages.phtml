@@ -1,0 +1,26 @@
+<?php
+/*
+ * Copyright (c) On Tap Networks Limited.
+ */
+
+/** @var \Magento\Catalog\Block\Product\View $block */
+/** @var \Magento\Framework\Escaper $escaper */
+$product = $block->getProduct();
+/** @var \OnTap\Deal\ViewModel\SocialCue\TotalRemaining $totalRemainingCue */
+$totalRemainingCue = $block->getTotalRemaining();
+$stockMessage = $totalRemainingCue->getMessage($product);
+?>
+
+<?php if ($totalRemainingCue->canShow($product) && $stockMessage): ?>
+    <p class="cue-message">
+        <img src="<?= $escaper->escapeUrl($block->getViewFileUrl('images/exclamation-circle.png')) ?>"
+             alt="<?= $escaper->escapeHtml('cue-message-icon') ?>"
+             width="16"
+             height="16"/>
+        <?= $escaper->escapeHtml($stockMessage) ?>
+    </p>
+<?php endif; ?>
+
+<div class="deal-details-narrow-title">
+    <?= $block->getProduct()->getData('short_description') ?>
+</div>

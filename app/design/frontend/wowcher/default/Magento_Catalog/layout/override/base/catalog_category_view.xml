@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<!--
+  ~ Copyright (c) On Tap Networks Limited.
+  -->
+<page layout="2columns-left" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceContainer name="columns.top">
+            <container name="category.view.container" htmlTag="div" htmlClass="category-view" after="-">
+                <block class="Magento\Catalog\Block\Category\View" name="category.image" template="Magento_Catalog::category/image.phtml">
+                    <arguments>
+                        <argument name="image" xsi:type="object">Magento\Catalog\ViewModel\Category\Image</argument>
+                        <argument name="output" xsi:type="object">Magento\Catalog\ViewModel\Category\Output</argument>
+                    </arguments>
+                </block>
+                <block class="Magento\Catalog\Block\Category\View" name="category.description" template="Magento_Catalog::category/description.phtml"/>
+                <block class="Magento\Catalog\Block\Category\View" name="category.cms" template="Magento_Catalog::category/cms.phtml"/>
+            </container>
+        </referenceContainer>
+        <referenceContainer name="content">
+        </referenceContainer>
+        <referenceBlock name="page.main.title">
+            <arguments>
+                <argument name="id" xsi:type="string">page-title-heading</argument>
+                <argument name="add_base_attribute_aria" xsi:type="string">page-title-heading toolbar-amount</argument>
+            </arguments>
+            <block class="Magento\Catalog\Block\Category\Rss\Link" name="rss.link" template="Magento_Catalog::category/rss.phtml"/>
+        </referenceBlock>
+    </body>
+</page>

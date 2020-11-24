@@ -1,0 +1,10 @@
+<?php
+/** @var \Magento\Catalog\Block\Product\View\Description $block */
+/** @var \Magento\Framework\Escaper $escaper */
+?>
+<h2 class="deal-details-wide-heading"><?= __('Full Details') ?></h2>
+<div class="deal-rich-text">
+    <div class="deal-rich-text">
+        <?= $block->getProduct()->getDescription() ?>
+    </div>
+</div>

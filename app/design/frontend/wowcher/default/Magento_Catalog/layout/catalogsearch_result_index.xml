@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<!--
+  ~ Copyright (c) On Tap Networks Limited.
+  -->
+<page layout="1column" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <attribute name="class" value="static-product-page"/>
+        <block class="OnTap\ContextProvider\Block\CategoryResolver" name="context-aware.category.resolver">
+            <arguments>
+                <argument name="resolver_factory" xsi:type="object">OnTap\ContextProvider\Model\VirtualCategoryResolverFactory</argument>
+            </arguments>
+        </block>
+        <referenceBlock name="search_result_list" class="OnTap\Deal\Block\DealListSearchResults" template="Magento_Catalog::search_results_list.phtml">
+            <arguments>
+                <argument name="total_bought" xsi:type="object">OnTap\Deal\ViewModel\SocialCue\TotalBought</argument>
+                <argument name="business_image" xsi:type="object">OnTap\Deal\ViewModel\SocialCue\BusinessImage</argument>
+                <argument name="save_up_to" xsi:type="object">OnTap\Deal\ViewModel\SocialCue\SaveUpTo</argument>
+            </arguments>
+        </referenceBlock>
+        <referenceBlock name="breadcrumbs" remove="true"/>
+        <referenceBlock name="page.main.title" remove="true" />
+
+    </body>
+</page>
