@@ -180,6 +180,7 @@ class Product extends AbstractHelper
     {
         $productInfo                = [];
         $productInfo['productID']   = $product->getEntityId();
+        $productInfo['dealId']   = $product->getSku();
         $productInfo['productName'] = $product->getName();
         $productInfo['sku']         = $product->getSku();
         $productInfo['description'] = strip_tags($product->getData('description'));

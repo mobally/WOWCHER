@@ -10,4 +10,5 @@ class Tracking
     const GCLID = 'gclid';
     const MSCLKID = 'msclkid';
     const ITO = 'ito';
+    const LocalTime = 'local_time';
 }

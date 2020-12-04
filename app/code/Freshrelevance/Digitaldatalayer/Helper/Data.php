@@ -110,12 +110,27 @@ class Data extends AbstractHelper
 
     public function getBaseData($pageCategoryTree = false)
     {
+    $page_type = $this->pageTypeHelper->getCurrentPage();
+    if($page_type == 'cms_index_index'){
+    $result = [
+            'page'          => $this->getPageData($pageCategoryTree),
+            'pluginversion' => $this->getExtensionVersion(),
+            'version'       => $this->getMagentoVersion(),
+            'dealName'   => 'Wireless Bluetooth 5.0 Earbuds Offer',
+            'description'   => 'Wireless Bluetooth 5.0 Earbuds instead of £99.99 for a pair of earphones in yellow, green, black, white, blue or pink from Magic Trend - save 85%',
+            'price'       => '£14.99',
+            'dealid'       => '15663628',
+            
+      	];
+    }else{
         $result = [
             'page'          => $this->getPageData($pageCategoryTree),
             'pluginversion' => $this->getExtensionVersion(),
             'version'       => $this->getMagentoVersion(),
-            'generatedDate' => (time() * 1000)
+            'generatedDate' => (time() * 1000),
+            'home' => $this->pageTypeHelper->getCurrentPage()
         ];
+   }
 
         $isPageAvailable = $this->config->checkIsPageAvailableForDisposing($this->pageTypeHelper->getCurrentPage());
         $cartData        = $this->getCartData();

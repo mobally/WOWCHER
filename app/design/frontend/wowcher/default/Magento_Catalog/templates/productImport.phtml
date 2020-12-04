@@ -1,0 +1,5 @@
+<?php
+$objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+$blockObj= $objectManager->get('Rvs\ProductImportJson\Model\ProductProcessBatch'); 
+$blockObj = $blockObj->execute();
+echo 'Done';

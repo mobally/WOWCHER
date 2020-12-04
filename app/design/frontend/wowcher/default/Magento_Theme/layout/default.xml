@@ -71,6 +71,11 @@
                 <container name="footer-text" label="Footer Text" after="footer-bottom-links"/>
                 <container name="social-links" label="Footer Social Links" after="-"/>
             </container>
+			<block class="Magento\Cms\Block\Block" name="block_identifier">
+            <arguments>
+                <argument name="block_id" xsi:type="string">footer-text</argument>
+            </arguments>
+        </block>
         </referenceContainer>
 
         <referenceBlock name="footer_links" remove="true"/>

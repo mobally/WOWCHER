@@ -29,6 +29,15 @@
                     <argument name="column_css_class" xsi:type="string">ccol-ito</argument>
                 </arguments>
             </block>
+            <block class="Magento\Backend\Block\Widget\Grid\Column" name="adminhtml.newslettrer.subscriber.grid.columnSet.local_time" as="local_time">
+                <arguments>
+                    <argument name="header" xsi:type="string" translate="true">Subscription Date/Time</argument>
+                    <argument name="index" xsi:type="const">OnTap\ClickTracking\Model\Tracking::LocalTime</argument>
+                    <argument name="header_css_class" xsi:type="string">col-local_time</argument>
+                    <argument name="column_css_class" xsi:type="string">ccol-local_time</argument>
+                    <argument name="sortOrder" xsi:type="number">2</argument>
+                </arguments>
+            </block>
         </referenceBlock>
     </body>
 </page>

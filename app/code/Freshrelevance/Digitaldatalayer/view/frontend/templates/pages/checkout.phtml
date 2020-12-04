@@ -1,14 +1,43 @@
 <?php
-/** @var \Freshrelevance\Digitaldatalayer\Block\DdlProduct $block */
+$objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+$urlInterface = \Magento\Framework\App\ObjectManager::getInstance()->get('Magento\Framework\UrlInterface');
+$currency = $objectManager->get('Magento\Directory\Model\Currency');
+$page_url = $urlInterface->getCurrentUrl();
+$cart = $objectManager->get('\Magento\Checkout\Model\Cart'); 
+$itemsCollection = $cart->getQuote()->getItemsCollection();
+$itemsVisible = $cart->getQuote()->getAllVisibleItems();
+$items = $cart->getQuote()->getAllItems();
+$subTotal = $cart->getQuote()->getSubtotal();
+$grandTotal = $cart->getQuote()->getGrandTotal();
+$sku = "";
+$dealprice = "";
+foreach($items as $item) {
+       $sku .= $item->getSku().',';
+       $dealprice .= $currency->format($item->getPrice(), ['display'=>\Zend_Currency::NO_SYMBOL], false).',';
+       
+}
+  $pro_sku = rtrim($sku, ',');
+  $dealprice = rtrim($dealprice, ',');
 ?>
 <?php if ($block->moduleEnabled()): ?>
     <script type="text/javascript">
         (function () {
-            window.dod = (<?= $block->getTransactionalData(); ?>);
-        })();
+            window.dod = ({
+    "page": {
+        "pageInfo": {
+            "pageName": "Checkout",
+            "destinationURL": "<?php echo $page_url; ?>"
+            },
+        "category": { "pageType": "Checkout" }
+    },
+    "paymentMethod": "Card",
+    "dealId": "<?php echo $pro_sku; ?>",
+    "dealPrice": "<?php echo $dealprice; ?>",
+    "products":"<?php echo $pro_sku; ?>",
+    "subtotal": <?php echo $subTotal; ?>,
+    "orderValue": <?php echo $grandTotal; ?>,
+});
+})();
     </script>
 <?php endif; ?>
-<!-- You have successfully installed the W3C Digital Data Layer Extension by Fresh Relevance.
-With Fresh Relevance, you can create effortless personalization, live email content and cart and browse abandonment emails.
-If you want to know more about us, then check us out at http://www.freshrelevance.com
-If you need help with the extension, go to http://www.freshrelevance.com/contact -->
+
