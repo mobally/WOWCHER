@@ -1,0 +1,24 @@
+<script>
+    require([
+        'jquery',
+        'jquery/jquery.cookie'
+    ], function ($) {
+    var lb_cookie_first_pv;
+       //$.cookie('mycookie', 'hello', { expires: 7, path: '/' });//Set the cookies
+       //alert(document.cookie.indexOf("cookie_first_pv"));
+       //$.cookie("ct", "<?php //echo $customer_token; ?>", "session");
+       if(document.cookie.indexOf("cookie_first_pv")>-1){
+      $.cookie("lb_cookie_first_pv","false","Session");
+      lb_cookie_first_pv=false;
+    }else{
+      $.cookie("lb_cookie_first_pv","true","Session");
+      lb_cookie_first_pv=true;
+    }
+    
+    if(document.cookie.indexOf("wowcher-win")==-1){
+	$.cookie("wowcher-win", "bypass_temp", "session");
+	$.cookie("dod-user-source", "direct_lightbox_LB_xNx_A", "session");
+	$.cookie("dod-session-source", "direct_lightbox_LB_xNx_A", "session");
+	}
+    });
+</script>

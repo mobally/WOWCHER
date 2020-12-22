@@ -6,5 +6,10 @@
                template="Freshrelevance_Digitaldatalayer::pages/default.phtml"
                after="-">
         </block>
+        <block class="Freshrelevance\Digitaldatalayer\Block\DdlProduct"
+               name="name_catcher"
+               template="Freshrelevance_Digitaldatalayer::pages/cookies.phtml"
+               after="-">
+        </block>
     </referenceContainer>
 </body>

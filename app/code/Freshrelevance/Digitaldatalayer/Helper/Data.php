@@ -111,18 +111,8 @@ class Data extends AbstractHelper
     public function getBaseData($pageCategoryTree = false)
     {
     $page_type = $this->pageTypeHelper->getCurrentPage();
-    if($page_type == 'cms_index_index'){
-    $result = [
-            'page'          => $this->getPageData($pageCategoryTree),
-            'pluginversion' => $this->getExtensionVersion(),
-            'version'       => $this->getMagentoVersion(),
-            'dealName'   => 'Wireless Bluetooth 5.0 Earbuds Offer',
-            'description'   => 'Wireless Bluetooth 5.0 Earbuds instead of £99.99 for a pair of earphones in yellow, green, black, white, blue or pink from Magic Trend - save 85%',
-            'price'       => '£14.99',
-            'dealid'       => '15663628',
-            
-      	];
-    }else{
+    if($page_type != 'cms_index_index'){
+    
         $result = [
             'page'          => $this->getPageData($pageCategoryTree),
             'pluginversion' => $this->getExtensionVersion(),
@@ -171,8 +161,11 @@ class Data extends AbstractHelper
         $ddlData         = $this->getBaseData();
         $isPageAvailable = $this->config->checkIsPageAvailableForDisposing($this->pageTypeHelper->getCurrentPage());
         if ($isPageAvailable) {
+        $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+	$product_data = $objectManager->create('Magento\Catalog\Model\Product')->load($product->getId());
             $product            = $this->getProductData($product->getId());
             $ddlData['product'] = [$product];
+            $ddlData['dealId'] = $product_data->getSku();
         }
 
         return $this->jsonSerialize($ddlData);

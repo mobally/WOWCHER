@@ -30,12 +30,24 @@ class TotalRemaining implements SocialCueInterface
      * @param Grouped $grouped
      * @param StockRegistryInterface $stockRegistry
      */
+     
+	     /**
+	 * @var \Magento\Framework\HTTP\Client\Curl
+	 */
+    protected $_curl;
+
+protected $_storeManager;
+
     public function __construct(
         Grouped $grouped,
-        StockRegistryInterface $stockRegistry
+        StockRegistryInterface $stockRegistry,
+        \Magento\Framework\HTTP\Client\Curl $curl,
+        \Magento\Store\Model\StoreManagerInterface $storeManager
     ) {
         $this->grouped = $grouped;
         $this->stockRegistry = $stockRegistry;
+        $this->_curl = $curl;
+    	$this->_storeManager = $storeManager; 
     }
 
     /**
@@ -91,5 +103,41 @@ class TotalRemaining implements SocialCueInterface
     public function getStockItem($productId)
     {
         return $this->stockRegistry->getStockItem($productId)->getQty();
+    }
+    
+    public function getsocialCuedeal($sku){
+    try{
+        $url = "https://public-api.wowcher.co.uk/v1/socialcue/deal/$sku";
+        //if the method is get
+        $this->_curl->get($url);
+        //response will contain the output in form of JSON string
+        $response = $this->_curl->getBody();
+       $result = json_decode($response);
+       $current_hour = date("G");
+       //print_r($result);
+       $lastHour = $result->lastHour;
+       $lastSixHours = $result->lastSixHours;
+       $lastTwelveHours = $result->lastTwelveHours;
+       $lastTwentyFourHours = $result->lastTwentyFourHours;
+       $lastPurchasedTime = $result->lastPurchasedTime;
+       if($current_hour < 6 && $lastTwentyFourHours > 1)
+       {
+          return "$lastTwentyFourHours others bought this deal in the last 24 hours!";
+       }else if($current_hour < 12 && $lastSixHours > 1){
+        return "$lastSixHours others have already bought this morning!";
+       }else if($current_hour < 8 && $lastTwelveHours > 1){
+        return "$lastTwelveHours others have already bought this deal today!";
+       }else if($lastTwentyFourHours > 1){
+        return "$lastTwentyFourHours others bought this deal in the last 24 hours!";
+       }
+    }
+    catch (\Exception $e) {
+    $code = $this->_storeManager->getStore()->getCode();
+    $result = "store code ".$code.' '.$e;
+    $writer = new \Zend\Log\Writer\Stream(BP . '/var/log/socialcue.log');
+	$logger = new \Zend\Log\Logger();
+	$logger->addWriter($writer);
+	$logger->info($result);
+    }
     }
 }

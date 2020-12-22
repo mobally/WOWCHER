@@ -23,6 +23,15 @@ namespace PHPCuong\CustomerRedirecting\Observer;
 
 class CustomerLogin implements \Magento\Framework\Event\ObserverInterface
 {
+/**
+     * @var \Magento\Framework\Stdlib\CookieManagerInterface CookieManagerInterface
+     */
+    private $cookieManager;
+ 
+    /**
+     * @var \Magento\Framework\Stdlib\Cookie\CookieMetadataFactory CookieMetadataFactory
+     */
+    private $cookieMetadataFactory;
     /**
      * Core store config
      *
@@ -41,7 +50,8 @@ class CustomerLogin implements \Magento\Framework\Event\ObserverInterface
      * @var \Magento\Framework\App\ResponseFactory
      */
     protected $responseFactory;
-
+	protected $_request;
+	protected $encryptor;
     /**
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Zend\Validator\Uri $uri
@@ -50,11 +60,19 @@ class CustomerLogin implements \Magento\Framework\Event\ObserverInterface
     public function __construct(
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Zend\Validator\Uri $uri,
-        \Magento\Framework\App\ResponseFactory $responseFactory
+        \Magento\Framework\App\ResponseFactory $responseFactory,
+        \Magento\Framework\Stdlib\CookieManagerInterface $cookieManager,
+        \Magento\Framework\Stdlib\Cookie\CookieMetadataFactory $cookieMetadataFactory,
+        \Magento\Framework\App\RequestInterface $request,
+        \Magento\Framework\Encryption\EncryptorInterface $encryptor
     ) {
         $this->scopeConfig = $scopeConfig;
         $this->uri = $uri;
         $this->responseFactory = $responseFactory;
+        $this->cookieManager = $cookieManager;
+        $this->cookieMetadataFactory = $cookieMetadataFactory;
+        $this->_request = $request;
+        $this->encryptor = $encryptor;
     }
 
     /**
@@ -65,6 +83,9 @@ class CustomerLogin implements \Magento\Framework\Event\ObserverInterface
      */
     public function execute(\Magento\Framework\Event\Observer $observer)
     {
+    $customer = $observer->getEvent()->getCustomer();
+    $customer_id = $customer->getId();
+    $encrypt =  $this->encryptor->encrypt($customer_id);
         $redirectDashboard = $this->scopeConfig->isSetFlag(
             'customer/startup/redirect_dashboard',
             \Magento\Store\Model\ScopeInterface::SCOPE_WEBSITES
@@ -81,8 +102,17 @@ class CustomerLogin implements \Magento\Framework\Event\ObserverInterface
                 $resultRedirect = $this->responseFactory->create();
                 // Redirect to the custom page.
                 $resultRedirect->setRedirect($customPage)->sendResponse('200');
+                $publicCookieMetadata = $this->cookieMetadataFactory->createPublicCookieMetadata();
+        $publicCookieMetadata->setDurationOneYear();
+        $publicCookieMetadata->setPath('/');
+        $publicCookieMetadata->setHttpOnly(false);
+ 
+        $this->cookieManager->setPublicCookie('wowcher-win','registered_user',$publicCookieMetadata);
+        $this->cookieManager->setPublicCookie('dod_logged_in','standardUser',$publicCookieMetadata);
+        $this->cookieManager->setPublicCookie('ct',$encrypt,$publicCookieMetadata);
                 exit();
             }
+            
         }
     }
 }

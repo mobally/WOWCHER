@@ -1,0 +1,35 @@
+<?php
+/*
+ * Copyright (c) On Tap Networks Limited.
+ */
+/** @var Magento\Framework\Escaper $escaper */
+/** @var Magento\Framework\View\Element\Template $block */
+?>
+<div id="cart-items">
+    <div class="main-countdown-wrapper empty">
+        <div class="basket-top-order-module-timer">
+            <img src="<?= $escaper->escapeUrl($block->getViewFileUrl('images/watch.png')) ?>"
+                 alt="<?= $escaper->escapeHtml(__('Watch')) ?>"
+                 width="20"
+                 height="18"/>
+            <span><?= $escaper->escapeHtml(__('Time remaining:')) ?></span>
+            <div id="cart-countdown" class="content" data-mage-init='{"OnTap_Timer/js/cart-countdown": {}}'></div>
+        </div>
+        <div class="message">
+            <span>
+                <img src="<?= $escaper->escapeUrl($block->getViewFileUrl('images/tick.png')) ?>"
+                     alt="<?= $escaper->escapeHtml(__('tick')) ?>"
+                     width="11"
+                     height="8"/>
+                <?= $escaper->escapeHtml(__('14 day no quibble refund')) ?>
+            </span>
+            <span>
+                <img src="<?= $escaper->escapeUrl($block->getViewFileUrl('images/tick.png')) ?>"
+                     alt="<?= $escaper->escapeHtml(__('tick')) ?>"
+                     width="11"
+                     height="8"/>
+                <?= $escaper->escapeHtml(__('Over 2 million deals delivered each year')) ?>
+            </span>
+        </div>
+    </div>
+</div>

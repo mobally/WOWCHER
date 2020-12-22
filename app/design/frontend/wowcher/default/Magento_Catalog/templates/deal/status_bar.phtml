@@ -2,6 +2,9 @@
 /** @var \Magento\Catalog\Block\Product\View $block */
 /** @var \Magento\Framework\Escaper $escaper */
 $product = $block->getProduct();
+$associatedProducts = $product->getTypeInstance()->getAssociatedProducts($product);
+$child_count = count($associatedProducts);
+//echo $product->getTypeId();
 /** @var \OnTap\Deal\ViewModel\SocialCue\TotalBought $totalBoughtCue */
 $totalBoughtCue = $block->getTotalBought();
 /** @var \OnTap\Deal\ViewModel\SocialCue\SaveUpTo $saveUpToCue */
@@ -31,10 +34,30 @@ $saveUpToCue = $block->getSaveUpTo();
     <div class="deal-status-bar-item deal-status-bar-item-countdown">
         <div class="deal-status-bar__countdown"></div>
     </div>
-
+<?php if($child_count > 1){?>
     <div class="deal-status-bar-item deal-status-bar-item-buttons">
         <a class="secondary tocart" href="#product_addtocart_form">
             <span><?= __('Buy!') ?></span>
         </a>
     </div>
+    <?php }else{ ?>
+    <div class="deal-status-bar-item deal-status-bar-item-buttons" id="buydirect">
+        <a class="secondary tocart" href="javascript:void(0)">
+            <span><?= __('Buy!') ?></span>
+        </a>
+    </div>
+    <script>
+require(['jquery'],function($){
+     $(document).ready(function(){
+     	$('#buydirect').click(function(){
+        $('#product-addtocart-button').click();
+        //$('#buydirect').hide();
+    });
+     });
+       });
+</script>
+
+    <?php } ?>
 </div>
+
+

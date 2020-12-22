@@ -484,6 +484,7 @@ class Data extends Config
     public function getCordialVariables()
     {
         $newCordialVars = [];
+        $cordialVars = '';
         if ($this->registry->registry(\Cordial\Sync\Helper\Config::CORDIAL_VARS)) {
             $cordialVars = $this->registry->registry(\Cordial\Sync\Helper\Config::CORDIAL_VARS);
         }

@@ -9,6 +9,8 @@ $product = $block->getProduct();
 /** @var \OnTap\Deal\ViewModel\SocialCue\TotalRemaining $totalRemainingCue */
 $totalRemainingCue = $block->getTotalRemaining();
 $stockMessage = $totalRemainingCue->getMessage($product);
+$sku = $product->getSku();
+$socialCuemsg = $totalRemainingCue->getsocialCuedeal($sku);
 ?>
 
 <?php if ($totalRemainingCue->canShow($product) && $stockMessage): ?>
@@ -18,9 +20,18 @@ $stockMessage = $totalRemainingCue->getMessage($product);
              width="16"
              height="16"/>
         <?= $escaper->escapeHtml($stockMessage) ?>
+        
     </p>
-<?php endif; ?>
-
+    
+    <?php endif; ?>
+    <?php if ($socialCuemsg): ?>
+<p class="cue-message cue-message--bought" style="color: #01b901 !important;">
+    <img src="<?= $escaper->escapeUrl($block->getViewFileUrl('images/greenicon.png')) ?>"
+             alt="<?= $escaper->escapeHtml('cue-message-icon') ?>"
+             width="16"
+             height="16"/>
+    <?= $escaper->escapeHtml($socialCuemsg) ?></p>
+ <?php endif; ?>
 <div class="deal-details-narrow-title">
     <?= $block->getProduct()->getData('short_description') ?>
 </div>

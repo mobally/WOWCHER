@@ -10,6 +10,8 @@ use Magento\Framework\Event\ObserverInterface;
 use Magento\Newsletter\Model\Subscriber;
 use OnTap\ClickTracking\Model\Session;
 use OnTap\ClickTracking\Model\Tracking;
+use Magento\Framework\Stdlib\Cookie\CookieMetadataFactory;
+use Magento\Framework\Stdlib\CookieManagerInterface;
 use Mageplaza\GeoIP\Helper\Address as HelperData;
 
 class SubscriberSave implements ObserverInterface
@@ -19,16 +21,29 @@ class SubscriberSave implements ObserverInterface
      */
     protected Session $session;
 
+     /**
+     * @var \Magento\Framework\Stdlib\Cookie\CookieMetadataFactory
+     */
+    protected $cookieMetadataFactory;
+
+    /**
+     * @var $scopeConfigInterface
+     */
+    private $scopeConfigInterface;
     /**
      * SubscriberSave constructor.
      * @param Session $session
      */
     public function __construct(
         Session $session,
-        HelperData $helperData
+        HelperData $helperData,
+        CookieManagerInterface $cookieManager,
+        CookieMetadataFactory $cookieMetadataFactory
     ) {
         $this->session = $session;
         $this->_helperData = $helperData;
+        $this->cookieManager = $cookieManager;
+        $this->cookieMetadataFactory = $cookieMetadataFactory;
     }
 
     /**
@@ -36,20 +51,27 @@ class SubscriberSave implements ObserverInterface
      */
     public function execute(Observer $observer)
     {
-        if ($this->session->isSessionExists()) {
-            /** @var Subscriber $subscriber */
+    $publicCookieMetadata = $this->cookieMetadataFactory->createPublicCookieMetadata();
+        $publicCookieMetadata->setDurationOneYear();
+        $publicCookieMetadata->setPath('/');
+        $publicCookieMetadata->setHttpOnly(false);
+ 
+        $this->cookieManager->setPublicCookie('wowcher-win','subscribed',$publicCookieMetadata);
+    
+            $gclids = $this->cookieManager->getCookie('gclidnew');
+            $msclkid = $this->cookieManager->getCookie('msclkidnew');
+            $ito = $this->cookieManager->getCookie('itonew');           
             $subscriber = $observer->getData('subscriber');
-            $subscriber->setData(Tracking::GCLID, $this->session->getTrackingValue(Tracking::GCLID));
-            $subscriber->setData(Tracking::MSCLKID, $this->session->getTrackingValue(Tracking::MSCLKID));
-            $subscriber->setData(Tracking::ITO, $this->session->getTrackingValue(Tracking::ITO));
-            
-        }
+         
+            $subscriber->setData(Tracking::GCLID, $gclids);
+            $subscriber->setData(Tracking::MSCLKID, $msclkid);
+            $subscriber->setData(Tracking::ITO, $ito);
         
 	$cust_info = $this->_helperData->getGeoIpData();
 	$time_zone = $cust_info['timezone'];
 
 	date_default_timezone_set($time_zone);
-	 $timecurrent = date('d/m/Y, H:i:s');
+	 $timecurrent = date('Y-m-d, H:i:s');
         $subscriber->setLocalTime($timecurrent);
     }
 }

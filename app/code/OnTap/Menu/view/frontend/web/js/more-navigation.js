@@ -15,7 +15,7 @@ define([
 
         $vlinks.children().outerWidth(function(i, w) {
             totalSpace += w;
-            numOfItems += 1;
+            numOfItems += 0;
             breakWidths.push(totalSpace);
         });
 
@@ -26,7 +26,6 @@ define([
                 availableSpace = $vlinks.width();
                 numOfVisibleItems = $vlinks.children().length;
                 requiredSpace = breakWidths[numOfVisibleItems - 1];
-
                 if (requiredSpace > availableSpace) {
                     $vlinks.children('li:nth-last-child(2)').prependTo($hlinks);
                     numOfVisibleItems -= 1;

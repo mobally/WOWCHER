@@ -48,9 +48,9 @@ class Index implements HttpGetActionInterface
      */
     public function execute()
     {
-        $this->session->setTrackingValue(Tracking::GCLID, $this->request->getParam(Tracking::GCLID));
-        $this->session->setTrackingValue(Tracking::MSCLKID, $this->request->getParam(Tracking::MSCLKID));
-        $this->session->setTrackingValue(Tracking::ITO, $this->request->getParam(Tracking::ITO));
+       // $this->session->setTrackingValue(Tracking::GCLID, $this->request->getParam(Tracking::GCLID));
+      //  $this->session->setTrackingValue(Tracking::MSCLKID, $this->request->getParam(Tracking::MSCLKID));
+     //   $this->session->setTrackingValue(Tracking::ITO, $this->request->getParam(Tracking::ITO));
 
         $page = $this->rawPageFactory->create();
         $page->setHttpResponseCode(200);

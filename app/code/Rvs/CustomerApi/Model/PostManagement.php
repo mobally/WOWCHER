@@ -6,45 +6,43 @@ class PostManagement implements PostManagementInterface
     /**
      * {@inheritdoc}
      */
-    public function customGetMethod()
+     protected $subscriberCollection;
+     
+     public function __construct(
+    \Magento\Newsletter\Model\ResourceModel\Subscriber\CollectionFactory $subscriberCollection
+) {
+    $this->subscriberCollection = $subscriberCollection;
+}
+     
+    public function customGetMethod($pagesize,$currentpage)
     {
     
-	$objectManager = \Magento\Framework\App\ObjectManager::getInstance();
-	$customerFactory = $objectManager->create('Magento\Customer\Model\CustomerFactory')->create();
-	$customerCollection = $customerFactory->getCollection()
-		->addAttributeToSelect("*")
-		->load();
-
-	if ($customerCollection && count($customerCollection) > 0) {
+    $subscriberCollection = $this->subscriberCollection->create();
+    $subscriberCollection->setPageSize($pagesize);
+    $subscriberCollection->setCurPage($currentpage);
+    if ($subscriberCollection && count($subscriberCollection) > 0) {
 	$response = array();
         try{
-        foreach ($customerCollection AS $customer) {
+        foreach ($subscriberCollection AS $subscriber) {
             $response[] = [
-                    'email' => $customer->getEmail(),
-                    'gclid' => $customer->getGclid(),
-                    'msclkid' => $customer->getMsclkid()
+            	     'customer_id' => $subscriber->getSubscriberId(),
+                    'email' => $subscriber->getSubscriberEmail(),
+                    'gclid' => $subscriber->getGclid(),
+                    'ito' => $subscriber->getIto(),
+                    'store_id' => $subscriber->getStoreId(),
+                    'created_date' => $subscriber->getLocalTime(),
+                    'updated_date' => $subscriber->getChangeStatusAt(),
+                    
             ];
         }
         }catch(\Exception $e) {
             $response=['error' => $e->getMessage()];
         }
-}
+   }
         return json_encode($response);
     }
     /**
      * {@inheritdoc}
      */
-    public function customPostMethod($storeid,$name,$city)
-    {
-        try{
-            $response = [
-                'storeid' => $storeid,
-                'name' =>$name,
-                'city'=>$city
-            ];
-        }catch(\Exception $e) {
-            $response=['error' => $e->getMessage()];
-        }
-        return json_encode($response);
-    }
+    
 }

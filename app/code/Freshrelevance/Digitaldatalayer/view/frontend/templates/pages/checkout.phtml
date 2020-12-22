@@ -1,6 +1,7 @@
 <?php
 $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
 $urlInterface = \Magento\Framework\App\ObjectManager::getInstance()->get('Magento\Framework\UrlInterface');
+
 $currency = $objectManager->get('Magento\Directory\Model\Currency');
 $page_url = $urlInterface->getCurrentUrl();
 $cart = $objectManager->get('\Magento\Checkout\Model\Cart'); 
@@ -9,15 +10,29 @@ $itemsVisible = $cart->getQuote()->getAllVisibleItems();
 $items = $cart->getQuote()->getAllItems();
 $subTotal = $cart->getQuote()->getSubtotal();
 $grandTotal = $cart->getQuote()->getGrandTotal();
+$helper = $this->helper('\Magento\Checkout\Helper\Cart');
+$item_count = $helper->getItemsCount();
 $sku = "";
+$pro_sku = "";
 $dealprice = "";
+$product_output = array();
+$deal_id = "";
 foreach($items as $item) {
-       $sku .= $item->getSku().',';
+$pro_id = $item->getProductId();
+       $sku = $item->getSku();
+       $pro_sku .= $item->getSku().',';
        $dealprice .= $currency->format($item->getPrice(), ['display'=>\Zend_Currency::NO_SYMBOL], false).',';
-       
+	   $itemqty = $item->getQty();
+	   $item_price = $item->getPrice() * $item->getQty();
+       $product_output[] = ';'.$sku.';'.$itemqty.';'.$item_price;
+       $product = $objectManager->get('Magento\Catalog\Model\Product')->load($pro_id);
+      $deal_id .= $product->getDealId().',';
+     
 }
-  $pro_sku = rtrim($sku, ',');
+  $pro_sku = rtrim($pro_sku, ',');
   $dealprice = rtrim($dealprice, ',');
+  $product_output_format = implode(",",$product_output);
+  $deal_id = rtrim($deal_id, ',');
 ?>
 <?php if ($block->moduleEnabled()): ?>
     <script type="text/javascript">
@@ -31,11 +46,12 @@ foreach($items as $item) {
         "category": { "pageType": "Checkout" }
     },
     "paymentMethod": "Card",
-    "dealId": "<?php echo $pro_sku; ?>",
+   "dealId": "<?php echo $deal_id; ?>",
     "dealPrice": "<?php echo $dealprice; ?>",
-    "products":"<?php echo $pro_sku; ?>",
+    "products":"<?php echo $product_output_format; ?>",
     "subtotal": <?php echo $subTotal; ?>,
     "orderValue": <?php echo $grandTotal; ?>,
+    "numProducts": <?php echo $item_count; ?>,
 });
 })();
     </script>

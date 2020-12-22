@@ -24,4 +24,7 @@
     <event name="customer_login">
         <observer name="phpcuong_customer_redirecting_after_logging_in" instance="PHPCuong\CustomerRedirecting\Observer\CustomerLogin" />
     </event>
+    <event name="customer_register_success">
+        <observer name="persistent" instance="PHPCuong\CustomerRedirecting\Observer\Customercookie" />
+    </event>
 </config>
