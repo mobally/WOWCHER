@@ -6,7 +6,7 @@ use \Magento\Framework\View\Element\UiComponent\ContextInterface;
 use \Magento\Framework\View\Element\UiComponentFactory;
 use \Magento\Ui\Component\Listing\Columns\Column;
 use \Magento\Framework\Api\SearchCriteriaBuilder;
-use \Codextblog\Ordercolumn\Model\CustomFactory;
+/*use \Codextblog\Ordercolumn\Model\CustomFactory;
  
 class Gclid extends Column
 {
@@ -49,4 +49,4 @@ class Gclid extends Column
         }
         return $dataSource;
     }
-}
+}*/
