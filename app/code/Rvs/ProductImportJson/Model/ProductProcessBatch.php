@@ -24,6 +24,7 @@ class ProductProcessBatch
 	protected $scopeConfig;
 	protected $storeRepository;
 	protected $productModel;
+	protected $productAction;
 
    public function __construct(
        //StockRegistryInterface $stockRegistry,
@@ -40,6 +41,7 @@ class ProductProcessBatch
 	   \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
 	   \Magento\Store\Api\StoreRepositoryInterface $storeRepository,
 	   \Magento\Catalog\Model\Product $productModel,
+	   \Magento\Catalog\Model\Product\Action $productAction,
 	   array $data = []
    ){      
         $this->_fileDriver = $fileDriver;
@@ -55,6 +57,7 @@ class ProductProcessBatch
 	   	$this->scopeConfig = $scopeConfig;
 		$this->storeRepository= $storeRepository;
 		$this->productModel = $productModel;
+		$this->productAction = $productAction;
    } 
 	
 	public function getMidasSystemInfo($code)
@@ -90,7 +93,7 @@ class ProductProcessBatch
 			}
 		}
 		
-		$file_path_list = array_slice($file_path, 0, 20, true);
+		$file_path_list = array_slice($file_path, 0, 100, true);
 		if($file_path_list){
 			return $file_path_list;    
 		}
@@ -149,7 +152,7 @@ class ProductProcessBatch
 					$storecodeSplit = explode(")",$splitfilename[1]);
 					$storecodeMain = $storecodeSplit[0];
 					if($storecodeMain == 'fr'){
-						$storecode = 'be_FR';
+						$storecode = 'be_fr';
 					}else{
 						$storecode = $storecodeMain;
 					}
@@ -206,6 +209,7 @@ class ProductProcessBatch
 		
 		$productSku = $this->productFactory->create()->getIdBySku($skuMain);
 		$product = $this->productFactory->create()->load($productSku);
+		$productId =  $product->getIdBySku($skuMain);
 		$product->addAttributeUpdate('name', $name, $storeId);
 		$product->addAttributeUpdate('description', $description, $storeId);
 		$product->addAttributeUpdate('short_description', $short_description, $storeId);
@@ -219,7 +223,10 @@ class ProductProcessBatch
 		$product->addAttributeUpdate('business_id', $business_id, $storeId);
 		$product->addAttributeUpdate('business_image_alt', $business_image_alt, $storeId);
 		$product->addAttributeUpdate('business_image_url', $business_image_url, $storeId);		
-		$product->addAttributeUpdate('web_address', $web_address, $storeId);
+		$product->addAttributeUpdate('web_address', $web_address, $storeId);		
+		$this->productAction->updateWebsites(array($productId),array($storeId),'add');
+		$this->productAction->updateAttributes(array($productId), array('translation_status'=>14), $storeId);
+
     }
     public function NewproductCreate($stock_data_val,$sku,$storeID)
     {

@@ -10,6 +10,8 @@ use Magento\Framework\Event\Observer;
 use Magento\Framework\Event\ObserverInterface;
 use OnTap\ClickTracking\Model\Session;
 use OnTap\ClickTracking\Model\Tracking;
+use Magento\Framework\Stdlib\Cookie\CookieMetadataFactory;
+use Magento\Framework\Stdlib\CookieManagerInterface;
 
 class CustomerRegistered implements ObserverInterface
 {
@@ -23,6 +25,11 @@ class CustomerRegistered implements ObserverInterface
      */
     protected Session $session;
 
+      /**
+     * @var \Magento\Framework\Stdlib\Cookie\CookieMetadataFactory
+     */
+    protected $cookieMetadataFactory;
+
     /**
      * CustomerRegistered constructor.
      * @param CustomerRepositoryInterface $customerRepository
@@ -30,10 +37,14 @@ class CustomerRegistered implements ObserverInterface
      */
     public function __construct(
         CustomerRepositoryInterface $customerRepository,
-        Session $session
+        Session $session,        
+        CookieManagerInterface $cookieManager,
+        CookieMetadataFactory $cookieMetadataFactory
     ) {
         $this->customerRepository = $customerRepository;
         $this->session = $session;
+        $this->cookieManager = $cookieManager;
+        $this->cookieMetadataFactory = $cookieMetadataFactory;
     }
 
     /**
@@ -42,11 +53,15 @@ class CustomerRegistered implements ObserverInterface
     public function execute(Observer $observer)
     {
         /** @var CustomerInterface $customer */
+         /** @var Subscriber $subscriber */
+        $gclids = $this->cookieManager->getCookie('gclidnew');
+            $msclkid = $this->cookieManager->getCookie('msclkidnew');
+            $ito = $this->cookieManager->getCookie('itonew'); 
         $customer = $observer->getData('customer');
 
-        $customer->setCustomAttribute(Tracking::GCLID, $this->session->getTrackingValue(Tracking::GCLID));
-        $customer->setCustomAttribute(Tracking::MSCLKID, $this->session->getTrackingValue(Tracking::MSCLKID));
-        $customer->setCustomAttribute(Tracking::ITO, $this->session->getTrackingValue(Tracking::ITO));
+        $customer->setCustomAttribute(Tracking::GCLID, $gclids);
+        $customer->setCustomAttribute(Tracking::MSCLKID, $msclkid);
+        $customer->setCustomAttribute(Tracking::ITO, $ito);
         $this->customerRepository->save($customer);
     }
 }

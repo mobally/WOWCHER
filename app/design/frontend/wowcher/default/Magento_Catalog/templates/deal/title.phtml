@@ -1,8 +1,34 @@
 <?php
 /** @var \OnTap\ContextProvider\Block\ProductAwareTemplate $block */
 /** @var \Magento\Framework\Escaper $escaper */
+$helper = $this->helper('Freshrelevance\Digitaldatalayer\Helper\PageType');
+$values = $helper->getCurrentPage();
+$name = $escaper->escapeHtml($block->getProduct()->getName());
+$desc = $block->getProduct()->getData('short_description');
+//echo $price = $block->getProduct()->getData('price');
+$sku = $block->getProduct()->getSku();
 ?>
 <div class="deal-header">
     <h1><?= $escaper->escapeHtml($block->getProduct()->getName()) ?></h1>
     <h3><?= $block->getProduct()->getData('short_description') ?></h3>
 </div>
+<?php if ($values == 'cms_index_index' || $values == 'catalog_category_view'){ ?>
+    <script type="text/javascript">
+        (function () {
+            window.dod = ({
+  "page": {
+    "pageInfo": {
+      "pageName": "<?php echo $values ?>",
+      "destinationURL": "<?php echo $block->getBaseUrl(); ?>",
+      },
+    "category": {
+      "pageType": "<?php echo $values ?>"
+    }
+  },
+  "dealName": "<?php echo $name; ?>",
+  "description": "<?php echo $desc; ?>",
+  "dealId": "<?php echo $sku; ?>"
+});
+        })();
+    </script>
+<?php } ?>

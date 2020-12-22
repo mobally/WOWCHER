@@ -10,6 +10,8 @@ use Magento\Framework\Event\ObserverInterface;
 use Magento\Sales\Model\Order;
 use OnTap\ClickTracking\Model\Session;
 use OnTap\ClickTracking\Model\Tracking;
+use Magento\Framework\Stdlib\Cookie\CookieMetadataFactory;
+use Magento\Framework\Stdlib\CookieManagerInterface;
 
 class QuoteSubmit implements ObserverInterface
 {
@@ -22,9 +24,20 @@ class QuoteSubmit implements ObserverInterface
      * QuoteSubmitSuccess constructor.
      * @param Session $session
      */
-    public function __construct(Session $session)
-    {
+     /**
+     * @var \Magento\Framework\Stdlib\Cookie\CookieMetadataFactory
+     */
+    protected $cookieMetadataFactory;
+
+    public function __construct(
+        Session $session,
+        CookieManagerInterface $cookieManager,
+        CookieMetadataFactory $cookieMetadataFactory
+    ){
         $this->session = $session;
+        $this->cookieManager = $cookieManager;
+        $this->cookieMetadataFactory = $cookieMetadataFactory;
+
     }
 
     /**
@@ -32,12 +45,15 @@ class QuoteSubmit implements ObserverInterface
      */
     public function execute(Observer $observer)
     {
-        if ($this->session->isSessionExists()) {
+       // if ($this->session->isSessionExists()) {
             /** @var Order $order */
             $order = $observer->getData('order');
-            $order->setData(Tracking::GCLID, $this->session->getTrackingValue(Tracking::GCLID));
-            $order->setData(Tracking::MSCLKID, $this->session->getTrackingValue(Tracking::MSCLKID));
-            $order->setData(Tracking::ITO, $this->session->getTrackingValue(Tracking::ITO));
-        }
+            $gclids = $this->cookieManager->getCookie('gclidnew');
+            $msclkid = $this->cookieManager->getCookie('msclkidnew');
+            $ito = $this->cookieManager->getCookie('itonew'); 
+            $order->setData(Tracking::GCLID, $gclids);
+            $order->setData(Tracking::MSCLKID, $msclkid);
+            $order->setData(Tracking::ITO, $ito);
+       // }
     }
 }

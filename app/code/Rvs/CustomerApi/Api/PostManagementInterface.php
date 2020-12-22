@@ -7,7 +7,7 @@ interface PostManagementInterface {
      * @param string $name
      * @return string
      */
-    public function customGetMethod();
+    public function customGetMethod($pagesize,$currentpage);
     /**
      * GET for Post api
      * @param string $storeid
@@ -15,5 +15,5 @@ interface PostManagementInterface {
      * @param string $city
      * @return string
      */
-    public function customPostMethod($storeid,$name,$city);
+    
 }

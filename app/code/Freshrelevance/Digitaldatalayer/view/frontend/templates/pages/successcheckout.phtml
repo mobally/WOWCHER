@@ -2,23 +2,41 @@
 $objectManager =  \Magento\Framework\App\ObjectManager::getInstance();
 $orderDatamodel = $objectManager->get('Magento\Sales\Model\Order')->getCollection()->getLastItem();
 $urlInterface = \Magento\Framework\App\ObjectManager::getInstance()->get('Magento\Framework\UrlInterface');
+$currency = $objectManager->get('Magento\Directory\Model\Currency');
 $page_url = $urlInterface->getCurrentUrl();
 $orderId   =   $orderDatamodel->getId();
 $order = $objectManager->create('\Magento\Sales\Model\Order')->load($orderId);
-$orderItems = $order->getAllItems();
+$orderItems = $order->getAllVisibleItems();
 $payment = $order->getPayment();
 $method = $payment->getMethodInstance();
 $methodTitle = $method->getCode();
 $ship_method = $order->getShippingMethod();
 $ord_id = $order->getIncrementId();
-//exit;
 $grand_total = $order->getGrandTotal();
+$helper = $this->helper('\Magento\Checkout\Helper\Cart');
+$item_count = $helper->getItemsCount();
 $sku = "";
-foreach ($orderItems as $item) {
-   $product_name=   $item->getName();
-   $sku .= $item->getSku().',';
+$pro_sku = "";
+$dealprice = "";
+$product_output = array();
+$deal_id = "";
+foreach($orderItems as $item) {
+//var_dump($item->getData());
+$pro_id = $item->getProductId();
+       $sku = $item->getSku();
+       $pro_sku .= $item->getSku().',';
+       $itemqty = round($item->getQtyOrdered());
+       $dealprice .= $currency->format($item->getPrice(), ['display'=>\Zend_Currency::NO_SYMBOL], false).',';
+          
+	$item_price = $item->getPrice() * $itemqty;
+       $product_output[] = ';'.$sku.';'.$itemqty.';'.$item_price;
+       $product = $objectManager->get('Magento\Catalog\Model\Product')->load($pro_id);
+      $deal_id .= $product->getDealId().',';
 }
-$pro_sku = rtrim($sku, ',');
+  $pro_sku = rtrim($pro_sku, ',');
+  $dealprice = rtrim($dealprice, ',');
+  $product_output_format = implode(",",$product_output);
+  $deal_id = rtrim($deal_id, ',');
 ?>
 <script type="text/javascript">
         (function () {
@@ -33,10 +51,12 @@ $pro_sku = rtrim($sku, ',');
     "cart": { "price": { "basePrice": <?php echo $grand_total; ?>} },
     "user": { "profile": [{ "profileInfo": { "language": "en_GB", "returningStatus": "true" } }] },
     "paymentMethod": "Card",
-    "dealId": "<?php echo $pro_sku; ?>",
+    "dealId": "<?php echo $deal_id; ?>",
     "orderValue": <?php echo $grand_total; ?>,
     "orderid": "<?php echo $ord_id; ?>",
     "shippingmethod": "<?php echo $ship_method; ?>",
+    "products":"<?php echo $product_output_format; ?>",
+    "numProducts": <?php echo $item_count; ?>,
 });
 })();
     </script>

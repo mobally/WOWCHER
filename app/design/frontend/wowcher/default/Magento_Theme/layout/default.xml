@@ -66,16 +66,30 @@
         <referenceBlock name="checkout.cart.coupon" remove="true"/>
 
         <referenceContainer name="footer">
+			<container name="footer.main" htmlTag="div" htmlClass="footerMain">				
+				<block class="Magento\Cms\Block\Block" name="footer.main.links">
+                    <arguments>
+                        <argument name="block_id" xsi:type="string">footer-links</argument>
+                    </arguments>
+                </block>
+			</container>
             <container name="footer-bottom" htmlTag="div" htmlClass="footer-bottom" label="Footer Bottom" after="-">
-                <container name="footer-bottom-links" label="Footer Bottom Links" after="copyright"/>
-                <container name="footer-text" label="Footer Text" after="footer-bottom-links"/>
-                <container name="social-links" label="Footer Social Links" after="-"/>
-            </container>
-			<block class="Magento\Cms\Block\Block" name="block_identifier">
-            <arguments>
-                <argument name="block_id" xsi:type="string">footer-text</argument>
-            </arguments>
-        </block>
+				<block class="Magento\Cms\Block\Block" name="footer.bottom.links">
+                    <arguments>
+                        <argument name="block_id" xsi:type="string">footer-bottom-links</argument>
+                    </arguments>
+                </block>
+				<block class="Magento\Cms\Block\Block" name="footer.text">
+                    <arguments>
+                        <argument name="block_id" xsi:type="string">footer-text</argument>
+                    </arguments>
+                </block>
+				<block class="Magento\Cms\Block\Block" name="footer.social.links">
+                    <arguments>
+                        <argument name="block_id" xsi:type="string">social-links</argument>
+                    </arguments>
+                </block>
+            </container>			
         </referenceContainer>
 
         <referenceBlock name="footer_links" remove="true"/>

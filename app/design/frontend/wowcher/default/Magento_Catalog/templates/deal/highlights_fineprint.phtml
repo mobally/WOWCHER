@@ -6,6 +6,7 @@ $serializer = $block->getSerializer();
 <div class="deal-details-columns">
     <?php
         $highlights = $block->getProduct()->getData('highlights');
+		if($highlights!=''){
         $data = $serializer->unserialize($highlights);
     ?>
     <?php if ($data !== false && is_array($data)): ?>
@@ -18,10 +19,12 @@ $serializer = $block->getSerializer();
             </ul>
         </div>
     <?php endif; ?>
+		<?php } ?>
 </div>
 <div class="deal-details-columns">
     <?php
         $fineprint = $block->getProduct()->getData('terms');
+		if($fineprint!=''){
         $data = $serializer->unserialize($fineprint);
     ?>
     <?php if ($data !== false && is_array($data)): ?>
@@ -34,4 +37,5 @@ $serializer = $block->getSerializer();
             </ul>
         </div>
     <?php endif; ?>
+		<?php } ?>
 </div>

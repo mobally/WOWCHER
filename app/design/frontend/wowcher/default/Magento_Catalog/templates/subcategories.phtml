@@ -6,8 +6,8 @@ $currentCategory = $block->getCurrentCategory();
 $parentCategory = $currentCategory->getParentCategory();
 ?>
 <?php
-$showList = array_slice($categories, 0, 7);
-$hiddenList = ((int)count($categories) !== 7) ? array_slice($categories, 7, count($categories)) : null;
+$showList = array_slice($categories, 0, 5);
+$hiddenList = ((int)count($categories) !== 5) ? array_slice($categories, 5, count($categories)) : null;
 ?>
 
 <?php if (!empty($categories)): ?>
