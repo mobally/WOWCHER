@@ -72,3 +72,4 @@ atlassian*
 /node_modules
 /dev
 .DS_Store
+/productimport
