@@ -122,13 +122,17 @@ protected $_storeManager;
        $lastPurchasedTime = $result->lastPurchasedTime;
        if($current_hour < 6 && $lastTwentyFourHours > 1)
        {
-          return "$lastTwentyFourHours others bought this deal in the last 24 hours!";
+         $hrtext = __("others bought this deal in the last 24 hours!");
+          return "$lastTwentyFourHours $hrtext";
        }else if($current_hour < 12 && $lastSixHours > 1){
-        return "$lastSixHours others have already bought this morning!";
+        $hrtext = __("others have already bought this morning!");
+        return "$lastSixHours $hrtext";
        }else if($current_hour < 8 && $lastTwelveHours > 1){
-        return "$lastTwelveHours others have already bought this deal today!";
+         $hrtext = __("others have already bought this deal today!");
+        return "$lastTwelveHours $hrtext";
        }else if($lastTwentyFourHours > 1){
-        return "$lastTwentyFourHours others bought this deal in the last 24 hours!";
+        $hrtext = __("others bought this deal in the last 24 hours!");
+        return "$lastTwentyFourHours $hrtext";
        }
     }
     catch (\Exception $e) {
