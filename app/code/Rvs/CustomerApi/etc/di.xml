@@ -1,4 +1,7 @@
 <?xml version="1.0"?>
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
     <preference for="Rvs\CustomerApi\Api\PostManagementInterface" type="Rvs\CustomerApi\Model\PostManagement"/>
+    <type name="Magento\Catalog\Api\ProductRepositoryInterface">
+        <plugin name="add_custom_field_product_api" type="Rvs\CustomerApi\Plugin\ProductCustAttr"/>
+    </type>
 </config>
