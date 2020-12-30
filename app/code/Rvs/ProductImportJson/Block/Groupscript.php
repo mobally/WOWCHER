@@ -28,7 +28,8 @@ echo count($collection).'<br />';
       foreach ($collection as $groupproduct)
         {
         echo $group_sku1 = $groupproduct->getSku().'<br />';
-        $group_sku = $groupproduct->getSku();
+        //$group_sku = $groupproduct->getSku();
+        $group_sku = $groupproduct->getWareHouseDeal();
         $gpro_id = $groupproduct->getId();
         $associatedProducts = $groupproduct->getTypeInstance()->getAssociatedProducts($groupproduct);
         echo count($associatedProducts).'<br />';
@@ -39,8 +40,10 @@ echo count($collection).'<br />';
 		$productRepository=$objectManager->get('\Magento\Catalog\Api\ProductRepositoryInterface'); 
 		$product = $productRepository->getById($pro_id);
 
-		$product->setDealId($group_sku);
-		$product->getResource()->saveAttribute($product, 'deal_id');
+		//$product->setDealId($group_sku);
+		$product->setWareHouseDeal($group_sku);
+		//$product->getResource()->saveAttribute($product, 'deal_id');
+		$product->getResource()->saveAttribute($product, 'ware_house_deal');
         }
         }
         return $collection;

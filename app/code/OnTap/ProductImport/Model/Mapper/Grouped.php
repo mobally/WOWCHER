@@ -109,6 +109,9 @@ class Grouped extends Product
                 return floatval($v) * 100000;
             }],
             'product_websites' => ['scheduledLocations', [$this, 'getWebsites']],
+            'ware_house_deal'=>['display', function ($v, $data) {
+                return $v['warehouseDeal'] ? "yes" : "no";
+            }],
         ];
     }
 

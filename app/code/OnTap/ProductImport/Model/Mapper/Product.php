@@ -70,6 +70,8 @@ class Product
             'price_text',
             'deal_position',
             'product_postage_price',
+            'duty_hscode',
+            'ware_house_deal',
         ];
     }
 
@@ -97,6 +99,7 @@ class Product
                 return floatval($v['orderWeight']) * 100000;
             }],
             'product_postage_price' => 'postagePrice',
+            'duty_hscode'=>'dutyHsCode',
         ];
     }
 
