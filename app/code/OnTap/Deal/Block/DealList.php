@@ -168,8 +168,10 @@ class DealList extends ListProduct
      */
     public function getLimitedProductCollection()
     {
+        $loadProducts = $this->getLoadedProductCollection();
+        $loadProducts->getSelect()->orderRand();
         return array_slice(
-            array_values($this->getLoadedProductCollection()->getItems()),
+            array_values($loadProducts->getItems()),
             $this->getData('offset'),
             $this->getData('limit')
         );
