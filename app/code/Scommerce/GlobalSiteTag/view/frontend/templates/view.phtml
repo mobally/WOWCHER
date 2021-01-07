@@ -1,0 +1,370 @@
+<?php
+/**
+ * @var $this \Scommerce\GlobalSiteTag\Block\View
+ */
+
+$helper = $this->getHelper();
+
+if (!$helper->isEnabled()) return;
+
+$product = $this->getProduct();
+
+$category = $this->getCurrentCategory();
+
+if ($category) {
+    $categoryName = $category->getName();
+} else {
+    $categoryName = $helper->getProductCategoryName($product);
+}
+
+$productJSON = [
+    "id" => $this->escapeHtmlAttr($product->getSku()),
+    "name" => $this->escapeHtmlAttr($product->getName()),
+    "brand" => $this->escapeHtmlAttr($helper->getBrand($product)),
+    "category" => $this->escapeHtmlAttr($categoryName),
+    "price" => $helper->getProductPrice($product)
+];
+
+$productJSON = json_encode($productJSON);
+
+$relatedProductIds = $product->getRelatedProductIds();
+$sourceRelatedProducts = '';
+$sourceRelatedProductUrls = '';
+if (count($relatedProductIds)) {
+    $relatedProducts = $this->getProducts($relatedProductIds);
+
+    $relatedProductUrls = array();
+    $relatedProductItems = array();
+    $loop = 1;
+
+    foreach ($relatedProducts as $relatedProduct) {
+        $relatedProductUrls[] = $relatedProduct->getProductUrl();
+
+        $relatedProductItems[] = array(
+            'id' => $this->escapeHtmlAttr($relatedProduct->getSku()),
+            'name' => $this->escapeHtmlAttr($relatedProduct->getName()),
+            'category' => $this->escapeHtmlAttr($helper->getProductCategoryName($relatedProduct)),
+            'current_category' => $this->getCurrentCategory() ? $this->getCurrentCategory()->getName() : $this->escapeHtmlAttr($helper->getProductCategoryName($relatedProduct)),
+            'brand' => $this->escapeHtmlAttr($helper->getBrand($relatedProduct)),
+            'price' => $helper->getProductPrice($relatedProduct),
+            'list' => $this->getRelatedListName(),
+            'position' => $loop,
+            'qty' => $helper->getProductQty($relatedProduct)
+        );
+
+        $loop++;
+    }
+
+    $sourceRelatedProducts = json_encode($relatedProductItems);
+    $sourceRelatedProductUrls = json_encode($relatedProductUrls);
+}
+
+$upsellProductIds = $product->getUpSellProductIds();
+$sourceUpsellProducts = '';
+$sourceUpsellProductUrls = '';
+
+if (count($upsellProductIds)) {
+    $upsellProducts = $this->getProducts($upsellProductIds);
+
+    $upsellProductUrls = array();
+    $upsellProductItems = array();
+    $loop = 1;
+
+    foreach ($upsellProducts as $upsellProduct) {
+        $upsellProductUrls[] = $upsellProduct->getProductUrl();
+
+        $upsellProductItems[] = array(
+            'id' => $this->escapeHtmlAttr($upsellProduct->getSku()),
+            'name' => $this->escapeHtmlAttr($upsellProduct->getName()),
+            'category' => $this->escapeHtmlAttr($helper->getProductCategoryName($upsellProduct)),
+            'current_category' => $this->getCurrentCategory() ? $this->getCurrentCategory()->getName() : $this->escapeHtmlAttr($helper->getProductCategoryName($upsellProduct)),
+            'brand' => $this->escapeHtmlAttr($helper->getBrand($upsellProduct)),
+            'price' => $helper->getProductPrice($upsellProduct),
+            'list' => $this->getUpsellListName(),
+            'position' => $loop,
+            'qty' => $helper->getProductQty($upsellProduct)
+        );
+
+        $loop++;
+    }
+
+    $sourceUpsellProducts = json_encode($upsellProductItems);
+    $sourceUpsellProductUrls = json_encode($upsellProductUrls);
+}
+?>
+<?php if (count($relatedProductIds)) { ?>
+    <script type='text/javascript'>
+		//<![CDATA[
+
+		require(['jquery','Scommerce_GlobalSiteTag/js/list', 'mage/cookies'], function ($, scList) {
+
+            var scListData = [];
+
+			var sourceRelatedProducts = <?php echo $sourceRelatedProducts ?>;
+
+			$.each(sourceRelatedProducts, function(i, product){
+				var productListData = {
+					id: product.id,
+					list: product.list,
+					position: product.position,
+					category: product.current_category
+				};
+				//$.mage.cookies.set('productListData-'+product.id, JSON.stringify(productListData), {lifetime: -1});
+                scListData.push(productListData);
+			});
+
+			scList.mergeProductLists(scListData);
+
+			gtag('event', 'view_item_list', {
+                <?php if ($helper->isEnhancedEcommerceEnabled()): ?>
+                    "items": [
+                        <?php foreach ($relatedProductItems as $relatedProduct):?>
+                        {
+                            "id": "<?php echo $relatedProduct['id']?>",
+                            "name": "<?php echo $relatedProduct['name']?>",
+                            "list": "<?php echo $relatedProduct['list']?>",
+                            "brand": "<?php echo $relatedProduct['brand']?>",
+                            "category": "<?php echo $relatedProduct['category']?>",
+                            "list_position": <?php echo $relatedProduct['position']?>,
+                            <?php if (isset($relatedProduct['qty'])): ?>
+                            "quantity": <?php echo $relatedProduct['qty']?>,
+                            <?php endif; ?>
+                            "price": <?php echo $relatedProduct['price']?>
+                        },
+                        <?php endforeach;?>
+                    ],
+                <?php endif; ?>
+				<?php if ($helper->isDynamicRemarketingEnabled()): ?>
+                    <?php if ($helper->isOtherSiteEnabled()):?>
+                        "dynx_itemid": [
+                            <?php foreach ($relatedProductItems as $relatedProduct):?>
+                            "<?php echo $relatedProduct['id']?>",
+                            <?php endforeach;?>
+                        ],
+                        'dynx_pagetype': '<?php echo $helper->getPageType(); ?>'
+                    <?php else: ?>
+                        "ecomm_prodid": [
+                            <?php foreach ($relatedProductItems as $relatedProduct):?>
+                            "<?php echo $relatedProduct['id']?>",
+                            <?php endforeach;?>
+                        ],
+                        'ecomm_pagetype': '<?php echo $helper->getPageType(); ?>'
+                    <?php endif; ?>
+                <?php endif; ?>
+			});
+		});
+		//]]>
+    </script>
+<?php } ?>
+<?php if (count($upsellProductIds)) { ?>
+
+    <script type='text/javascript'>
+		//<![CDATA[
+
+		require(['jquery', 'Scommerce_GlobalSiteTag/js/list', 'mage/cookies'], function ($, scList) {
+
+		    var tmpList = [];
+			var sourceUpsellProducts = <?php echo $sourceUpsellProducts ?>;
+
+			$.each(sourceUpsellProducts, function(i, product){
+				var productListData = {
+					id: product.id,
+					list: product.list,
+					position: product.position,
+					category: product.current_category
+				};
+				//$.mage.cookies.set('productListData-'+product.id, JSON.stringify(productListData), {lifetime: -1});
+                tmpList.push(productListData);
+			});
+
+			scList.mergeProductLists(tmpList);
+
+			gtag('event', 'view_item_list', {
+				<?php if ($helper->isEnhancedEcommerceEnabled()): ?>
+                    "items": [
+                        <?php foreach ($upsellProductItems as $upsellProductItem):?>
+                        {
+                            "id": "<?php echo $upsellProductItem['id']?>",
+                            "name": "<?php echo $upsellProductItem['name']?>",
+                            "list": "<?php echo $upsellProductItem['list']?>",
+                            "brand": "<?php echo $upsellProductItem['brand']?>",
+                            "category": "<?php echo $upsellProductItem['category']?>",
+                            "list_position": <?php echo $upsellProductItem['position']?>,
+                            <?php if (isset($upsellProductItem['qty'])): ?>
+                            "quantity": <?php echo $upsellProductItem['qty']?>,
+                            <?php endif; ?>
+                            "price": <?php echo $upsellProductItem['price']?>
+                        },
+                        <?php endforeach;?>
+                    ],
+                <?php endif ?>
+                <?php if ($helper->isDynamicRemarketingEnabled()): ?>
+                    <?php if ($helper->isOtherSiteEnabled()):?>
+                        "dynx_itemid": [
+                            <?php foreach ($upsellProductItems as $upsellProductItem):?>
+                            "<?php echo $upsellProductItem['id']?>",
+                            <?php endforeach;?>
+                        ],
+                        "dynx_pagetype": '<?php echo $helper->getPageType(); ?>'
+                    <?php else: ?>
+                        "ecomm_prodid": [
+                            <?php foreach ($upsellProductItems as $upsellProductItem):?>
+                                "<?php echo $upsellProductItem['id']?>",
+                            <?php endforeach;?>
+                        ],
+                        "ecomm_pagetype": '<?php echo $helper->getPageType(); ?>'
+                    <?php endif; ?>
+                <?php endif ?>
+			});
+		});
+		//]]>
+    </script>
+<?php } ?>
+    <script type='text/javascript'>
+		require(['jquery', 'mage/cookies'], function ($) {
+
+			var product = JSON.parse('<?php echo $productJSON; ?>');
+
+			var itemData = {
+				"id": product.id,
+				"name": product.name,
+				"brand": product.brand,
+				"category": product.category,
+				//"variant": "Black",
+				"price": product.price
+			};
+
+			var productListData = $.mage.cookies.get('productListData-' + product.id);
+
+			if (productListData !== null) {
+				productListData = JSON.parse(productListData);
+				itemData["list_name"] = productListData['list'];
+				itemData["list_position"] = productListData['position'];
+			}
+
+			gtag('event', 'view_item', {
+                <?php if ($helper->isEnhancedEcommerceEnabled()): ?>
+				    "items": [itemData],
+                <?php endif; ?>
+                <?php if ($helper->isDynamicRemarketingEnabled()): ?>
+                    <?php if ($helper->isOtherSiteEnabled()): ?>
+                        "dynx_itemid": product.id,
+                        "dynx_totalvalue": product.price,
+                        'dynx_pagetype': '<?php echo $helper->getPageType(); ?>'
+                    <?php else: ?>
+                        "ecomm_prodid": product.id,
+                        "ecomm_totalvalue": product.price,
+                        "ecomm_pagetype": '<?php echo $helper->getPageType(); ?>'
+                    <?php endif; ?>
+                <?php endif; ?>
+			});
+		});
+    </script>
+<?php if (count($relatedProductIds) || count($upsellProductIds)) { ?>
+    <script type='text/javascript'>
+		//<![CDATA[
+		var sourceRelatedProductUrls = '';
+		var sourceUpsellProductUrls = '';
+        <?php if (strlen($sourceUpsellProductUrls)):?>
+		sourceUpsellProductUrls = <?php echo $sourceUpsellProductUrls ?>;
+        <?php endif;?>
+        <?php if (strlen($sourceRelatedProductUrls)):?>
+		sourceRelatedProductUrls = <?php echo $sourceRelatedProductUrls ?>;
+        <?php endif;?>
+
+		require(['jquery', 'mage/cookies'], function ($) {
+			$(document).on('click', 'a:not([href$="\\.jpg"])', function (e) {
+				var product, index;
+				var href = $(this).attr('href');
+
+				if (sourceRelatedProductUrls === undefined) {
+					index = -1;
+				}
+				else {
+					index = sourceRelatedProductUrls.indexOf(href);
+				}
+
+				if (index !== -1) {
+					product = sourceRelatedProducts[index];
+
+					gtag('event', 'select_content', {
+                        <?php if ($helper->isEnhancedEcommerceEnabled()): ?>
+						"content_type": "product",
+						"items": [
+							{
+								"id": product.id,
+								"name": product.name,
+								"list": product.list,
+								"brand": product.brand,
+								"category": product.category,
+								"quantity": product.qty,
+								"price": product.price
+							}
+						],
+                        <?php endif; ?>
+                        <?php if ($helper->isDynamicRemarketingEnabled()): ?>
+                            <?php if ($helper->isOtherSiteEnabled()): ?>
+                                "dynx_itemid": product.id,
+                                "dynx_totalvalue": product.price,
+                                "dynx_pagetype": '<?php echo $helper->getPageType(); ?>'
+                            <?php else: ?>
+                                "ecomm_prodid": product.id,
+                                "ecomm_totalvalue": product.price,
+                                "ecomm_pagetype": '<?php echo $helper->getPageType(); ?>'
+                            <?php endif; ?>
+						<?php endif; ?>
+						"eventCallback": function () {
+							if (!(e.ctrlKey || e.which === 2)) {
+								document.location = href;
+							}
+						}
+					});
+				}
+				if (sourceUpsellProductUrls === undefined) {
+					index = -1;
+				}
+				else {
+					index = sourceUpsellProductUrls.indexOf(href);
+				}
+
+				if (index !== -1) {
+					product = sourceUpsellProducts[index];
+
+					gtag('event', 'select_content', {
+                        <?php if ($helper->isEnhancedEcommerceEnabled()): ?>
+                            "content_type": "product",
+                            "items": [
+                                {
+                                    "id": product.id,
+                                    "name": product.name,
+                                    "list": product.list,
+                                    "brand": product.brand,
+                                    "category": product.category,
+                                    "quantity": product.qty,
+                                    "price": product.price
+                                }
+                            ],
+                        <?php endif; ?>
+                        <?php if ($helper->isDynamicRemarketingEnabled()): ?>
+                            <?php if ($helper->isOtherSiteEnabled()): ?>
+                                "dynx_itemid": product.id,
+                                "dynx_totalvalue": product.price,
+                                "dynx_pagetype": '<?php echo $helper->getPageType(); ?>'
+                            <?php else: ?>
+                                "ecomm_prodid": product.id,
+                                "ecomm_totalvalue": product.price,
+                                "ecomm_pagetype": '<?php echo $helper->getPageType(); ?>'
+                            <?php endif; ?>
+						<?php endif; ?>
+						"eventCallback": function () {
+							if (!(e.ctrlKey || e.which === 2)) {
+								document.location = href;
+							}
+						}
+					});
+				}
+			});
+		});
+		//]]>
+    </script>
+<?php } ?>

@@ -1,0 +1,159 @@
+<?php
+/**
+ *
+ * @var $this Scommerce\GlobalSiteTag\Block\ListProduct
+ */
+?>
+
+<?php
+$helper = $this->getHelper();
+
+if (!$helper->isEnabled()) return;
+
+$productCollection = $this->getProductCollection();
+
+$category = $this->getLayer()->getCurrentCategory();
+
+$categoryName = '';
+$impressionList = '';
+$ecommPagetype = 'other';
+
+if ($category) {
+    $categoryName = $category->getName();
+}
+$mode = $this->getMode();
+$productUrls = array();
+$products = array();
+
+if ($mode == 'category') {
+    $impressionList = 'Category' . ' - ' . $categoryName;
+    $ecommPagetype = 'category';
+} elseif ($mode == 'search') {
+    $impressionList = 'Search Results';
+    $ecommPagetype = 'searchresults';
+}
+$impressionList = $this->escapeJsQuote($impressionList);
+
+$loop = 1;
+
+foreach ($productCollection as $product) {
+    $productUrls[] = $product->getProductUrl();
+
+    $products[] = array(
+        'id' => $this->escapeJsQuote($product->getSku()),
+        'name' => $this->escapeJsQuote($product->getName()),
+        'qty' => $helper->getProductQty($product),
+        'category' => ($mode == 'search' ? $this->escapeJsQuote($helper->getProductCategoryName($product)) : $this->escapeJsQuote($categoryName)),
+        'brand' => $this->escapeJsQuote($helper->getBrand($product)),
+        'list' => $impressionList,
+        'price' => $helper->getProductPrice($product),
+        'position' => $loop
+    );
+    $loop++;
+}
+
+$sourceProducts = json_encode($products);
+$sourceProductUrls = json_encode($productUrls);
+?>
+
+<script type='text/javascript'>
+	require(['jquery', 'Scommerce_GlobalSiteTag/js/list', 'mage/cookies' ], function ($, scList) {
+
+		$(window).load(function () {
+		    var scListData = [];
+            <?php foreach ($products as $product):?>
+            var productListData = {
+                id: '<?php echo $product["id"]?>',
+                list: '<?= $impressionList?>',
+                position: '<?= $product['position']?>',
+                category: '<?= $mode == 'category' ? $this->escapeJsQuote($this->getCurrentCategory()->getName()) : $this->escapeJsQuote($product['category']) ?>'
+            };
+            scListData.push(productListData);
+            <?php endforeach;?>
+
+            scList.mergeProductLists(scListData);
+
+			gtag('event', 'view_item_list', {
+                <?php if ($helper->isEnhancedEcommerceEnabled()): ?>
+                    "items": [
+                        <?php foreach ($products as $product):?>
+                        {
+                            "id": "<?php echo $product['id']?>",
+                            "name": "<?php echo $product['name']?>",
+                            "list": "<?php echo $product['list']?>",
+                            "brand": "<?php echo $product['brand']?>",
+                            "category": "<?php echo $product['category']?>",
+                            "list_position": <?php echo $product['position']?>,
+                            <?php if ($product['qty']): ?>
+                            "quantity": <?php echo $product['qty']?>,
+                            <?php endif; ?>
+                            "price": <?php echo $product['price']?>
+                        },
+                        <?php endforeach;?>
+                    ],
+                <?php endif; ?>
+                <?php if ($helper->isDynamicRemarketingEnabled()): ?>
+                    <?php if ($helper->isOtherSiteEnabled()):?>
+                        "dynx_pagetype": "<?php echo $ecommPagetype; ?>",
+                        "dynx_itemid": [
+                            <?php foreach ($products as $product):?>
+                            "<?php echo $product['id'] ?>",
+                            <?php endforeach;?>
+                        ]
+                    <?php else: ?>
+                        "ecomm_pagetype": "<?php echo $ecommPagetype; ?>",
+                        "ecomm_prodid": [
+                            <?php foreach ($products as $product):?>
+                            "<?php echo $product['id'] ?>",
+                            <?php endforeach;?>
+                        ],
+                    <?php endif; ?>
+                <?php endif; ?>
+			});
+
+			var sourceProducts = <?php echo $sourceProducts ?>;
+			var sourceProductUrls = <?php echo $sourceProductUrls ?>;
+			$('a').on('click', function (e) {
+				var product;
+				var href = $(this).attr('href');
+				var index = sourceProductUrls.indexOf(href);
+				if (index !== -1) {
+					product = sourceProducts[index];
+					gtag('event', 'select_content', {
+                        <?php if ($helper->isEnhancedEcommerceEnabled()): ?>
+                            "content_type": "product",
+                            "items": [
+                                {
+                                    "id": product.id,
+                                    "name": product.name,
+                                    "list": product.list,
+                                    "brand": product.brand,
+                                    "category": product.category,
+                                    "quantity": product.qty,
+                                    "price": product.price,
+                                    "list_position": product.position
+                                }
+                            ],
+                        <?php endif; ?>
+                        <?php if ($helper->isDynamicRemarketingEnabled()): ?>
+                            <?php if ($helper->isOtherSiteEnabled()):?>
+                                "dynx_itemid": product.id,
+                                "dynx_totalvalue": product.price,
+                                "dynx_pagetype": '<?php echo $ecommPagetype; ?>',
+                            <?php else: ?>
+                                "ecomm_prodid": product.id,
+                                "ecomm_totalvalue": product.price,
+                                "ecomm_pagetype": '<?php echo $ecommPagetype; ?>',
+                            <?php endif; ?>
+						<?php endif; ?>
+						"eventCallback": function () {
+							if (!(e.ctrlKey || e.which === 2)) {
+								document.location = href;
+							}
+						}
+					});
+				}
+			});
+		});
+	});
+</script>

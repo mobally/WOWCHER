@@ -1,0 +1,59 @@
+<?php
+/**
+ * @var \Scommerce\GlobalSiteTag\Block\Adminhtml\Gtag $block
+ */
+
+$helper = $block->getHelper();
+$ids = $helper->getAccountsId();
+
+?>
+
+<!-- Scommerce Mage Start Global Site Tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=<?= $helper->getMainAccount() ?>"></script>
+
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments)};
+    gtag('js', new Date());
+
+<?php foreach ($ids as $id): ?>
+    <?php
+    $options = [];
+    $useOptions = false;
+
+    if ($helper->getOptimizeId() && $helper->isOptimizeEnabled()) {
+        $options['optimize_id'] = $helper->getOptimizeId();
+        $useOptions = true;
+    }
+
+    if ($helper->isLinkerEnable() && $helper->getDomainsToLink() && $id['use_linker'] == '1') {
+        foreach ($helper->getDomainsToLink() as $domain) {
+            $options['linker']['domains'][] = $domain;
+            $useOptions = true;
+        }
+    }
+
+    if ($helper->isLinkerEnable() && $helper->isDecorateFormsEnable() && $id['use_linker'] == '1') {
+        $options['linker']['decorate_forms'] = true;
+        $useOptions = true;
+    }
+
+    $options = json_encode($options);
+    ?>
+
+    gtag('config', '<?= $id['account_id'] ?>', <?php if ($useOptions) echo $options; ?>);
+<?php endforeach; ?>
+
+</script>
+
+<?php if ($block->hasRefundData() && $helper->isEnhancedEcommerceEnabled()): ?>
+    <script>
+        gtag('event', 'refund', <?= \json_encode($block->getRefundData()) ?>);
+    </script>
+<?php endif ?>
+
+<?php if ($block->hasOrderData() && $helper->isEnhancedEcommerceEnabled() && $helper->backendTrackingEnabled()): ?>
+    <script>
+        gtag('event', 'purchase', <?= \json_encode($block->getOrderData()) ?>);
+    </script>
+<?php endif ?>

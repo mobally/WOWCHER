@@ -1,0 +1,74 @@
+<?php
+/**
+ * @var $this Scommerce\GlobalSiteTag\Block\Promotion
+ */
+
+$helper = $this->getHelper();
+
+?>
+
+<?php if ($this->isPromotionTrackingEnabled() && $helper->isEnabled()): ?>
+
+    <script type='text/javascript'>
+		require(['jquery'], function ($) {
+			/**
+			 * Parsing DOM element and creating object to send
+			 * @param promo
+			 * @returns Object
+			 */
+			function parsePromo(promo) {
+				var tempArray = {};
+				$.each(promo.data(), function (index, value) {
+					if (index.startsWith("trackPromo")) {
+						tempArray[index.replace("trackPromo", "").toLowerCase()] = value;
+					}
+				});
+				return tempArray;
+			}
+
+			$(window).load(function () {
+				var promotions = [],
+					promoElement = $('[data-track-promo-name]');
+
+				if (promoElement.length > 0) {
+					promoElement.each(function (index, element) {
+						promotions.push(parsePromo($(this)));
+					});
+				}
+
+				if (promoElement.length > 0 && promotions !== []) {
+					gtag('event', 'view_promotion', {
+                        <?php if ($helper->isEnhancedEcommerceEnabled()): ?>
+						"promotions": promotions,
+                        <?php endif; ?>
+                        <?php if ($helper->isDynamicRemarketingEnabled()): ?>
+                        <?php if ($helper->isOtherSiteEnabled()):?>
+						"dynx_pagetype": '<?php echo $helper->getPageType(); ?>'
+                        <?php else: ?>
+						"ecomm_pagetype": '<?php echo $helper->getPageType(); ?>',
+                        <?php endif; ?>
+                        <?php endif; ?>
+					});
+				}
+			});
+
+			$('a[data-track-promo-name]').on('click', function (e) {
+				gtag('event', 'select_content', {
+                    <?php if ($helper->isEnhancedEcommerceEnabled()): ?>
+					"promotions": promotions,
+                    <?php endif; ?>
+                    <?php if ($helper->isDynamicRemarketingEnabled()): ?>
+                    <?php if ($helper->isOtherSiteEnabled()):?>
+					"dynx_pagetype": '<?php echo $helper->getPageType(); ?>'
+                    <?php else: ?>
+					"ecomm_pagetype": '<?php echo $helper->getPageType(); ?>',
+                    <?php endif; ?>
+                    <?php endif; ?>
+				});
+				var promotions = [];
+				promotions.push(parsePromo($(this)));
+			});
+		});
+    </script>
+
+<?php endif; ?>

@@ -1,0 +1,64 @@
+<?php
+/**
+ * @var \Scommerce\GlobalSiteTag\Block\Checkout\Onepage $block
+ */
+$cartData = $block->getCartData();
+?>
+
+<script>
+	require(['jquery', 'Magento_Checkout/js/model/quote', 'domReady'], function (jQuery, quote, domReady) {
+		domReady(function () {
+			var old_shipping = '';
+			var old_payment = '';
+
+			var totals = quote.getTotals();
+//			var googleCategory = quote.getItems()['google_category'];
+			var data = <?= \json_encode($cartData) ?>;
+
+			data['value'] = totals()['grand_total'];
+			data['currency'] = totals()['base_currency_code'];
+			data['coupon'] = totals()['coupon_code'];
+
+			if (quote.shippingMethod() === null && quote.paymentMethod() === null) {
+				gtag('event', 'begin_checkout', data);
+			}
+
+			jQuery('input:radio, button, submit').live('click', function (e) {
+				//shipping
+				if (quote.shippingMethod() !== null) {
+					var shipping = quote.shippingMethod().carrier_code;
+					if (shipping !== undefined && old_shipping !== shipping) {
+						old_shipping = shipping;
+						data['checkout_step'] = 1;
+						data['checkout_option'] = 'Billing & Shipping Method';
+
+						gtag('event', 'set_checkout_option', {
+							"checkout_step": data['checkout_step'],
+							"checkout_option": data['checkout_option'],
+							"value": shipping
+						});
+						gtag('event', 'checkout_progress', data);
+					}
+				}
+
+				//payment
+				if (quote.paymentMethod() !== null) {
+					var payment = quote.paymentMethod().method;
+					if (payment !== undefined && old_payment !== payment) {
+						old_payment = payment;
+						data['checkout_step'] = 2;
+						data['checkout_option'] = 'Payment Method';
+
+						gtag('event', 'set_checkout_option', {
+							"checkout_step": data['checkout_step'],
+							"checkout_option": data['checkout_option'],
+							"value": payment
+						});
+						gtag('event', 'checkout_progress', data);
+					}
+				}
+			});
+
+		});
+	});
+</script>

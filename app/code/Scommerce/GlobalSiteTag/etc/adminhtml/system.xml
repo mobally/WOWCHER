@@ -1,0 +1,173 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../Config/etc/system_file.xsd">
+    <system>
+        <tab id="scommerce" translate="label" sortOrder="400">
+            <label>Scommerce Configuration</label>
+        </tab>
+        <section id="globalsitetag" translate="label" type="text" sortOrder="100" showInDefault="1" showInWebsite="1" showInStore="1">
+            <label>Global Site Tag (gtag.js)</label>
+            <tab>scommerce</tab>
+            <resource>Scommerce_GlobalSiteTag::config_globalsitetag</resource>
+			<group id="general" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+				<label>General</label>
+				<field id="active" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+					<label>Enabled</label>
+					<source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+				</field>
+				<field id="license_key" translate="label" type="text" sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>License Key</label>
+                    <depends>
+                        <field id="*/*/active">1</field>
+                    </depends>
+                </field>
+                <field id="accounts_id" translate="label" sortOrder="4" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Accounts Id</label>
+                    <comment>
+                        <![CDATA[
+                            Connected services which will receive tracking information <br>
+                            <b>Account Id</b> - ID of the linked account <br>
+                            <b>Main account</b> - This account will be used to connect gtag.js script <br> &lt;script async src="https://www.googletagmanager.com/gtag/js?id=XXXXX"&gt;&lt;/script&gt; <br>
+                            <b>Use Linker</b> - If "Yes" then this account will be linked to domains from "Domains to link" field
+                        ]]>
+                    </comment>
+                    <frontend_model>Scommerce\GlobalSiteTag\Block\Adminhtml\Form\Field\AccountId</frontend_model>
+                    <backend_model>Scommerce\GlobalSiteTag\Config\Backend\AccountId</backend_model>
+                    <depends>
+                        <field id="*/*/active">1</field>
+                    </depends>
+                </field>
+                <field id="enable_optimize" translate="label" type="select" sortOrder="5" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Enable Optimize</label>
+                    <comment>
+                        <![CDATA[
+                            Enable Google Optimize Service <br>
+                            More information about service <a target="_blank" href="https://optimize.google.com/">here</a>
+                        ]]>
+                    </comment>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <depends>
+                        <field id="*/*/active">1</field>
+                    </depends>
+                </field>
+                <field id="optimize_id" translate="label" type="text" sortOrder="6" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Optimize Container Id</label>
+                    <comment>You can add your Google Optimize ID here</comment>
+                    <depends>
+                        <field id="*/*/active">1</field>
+                        <field id="*/*/enable_optimize">1</field>
+                    </depends>
+                </field>
+                <field id="enable_linker" translate="label" type="select" sortOrder="7" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Enable Linker</label>
+                    <comment>
+                        <![CDATA[
+                            Enable track users across domains <br>
+                            More information about this <a target="_blank" href="https://developers.google.com/analytics/devguides/collection/gtagjs/cross-domain?hl=en">here</a>
+                        ]]>
+                    </comment>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <depends>
+                        <field id="*/*/active">1</field>
+                    </depends>
+                </field>
+                <field id="domains_to_link" translate="label" type="text" sortOrder="8" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Domains to link</label>
+                    <comment>Example destination.com, dest3.com or /^example\.(com|de|nl)$/</comment>
+                    <depends>
+                        <field id="*/*/active">1</field>
+                        <field id="*/*/enable_linker">1</field>
+                    </depends>
+                </field>
+                <field id="decorate_forms" translate="label" type="select" sortOrder="9" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Decorate Forms</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>If you have forms on site pointing to the destination domain, set this property of the linker parameter to Yes.</comment>
+                    <depends>
+                        <field id="*/*/active">1</field>
+                        <field id="*/*/enable_linker">1</field>
+                    </depends>
+                </field>
+                <field id="enhanced_ecommerce_enabled" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Enable Enhanced Ecommerce</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>Please make sure this feature is enabled in Google Analytics first before enabling in Magento.</comment>
+                    <depends>
+                        <field id="*/*/active">1</field>
+                    </depends>
+                </field>
+                <field id="promotion_tracking" translate="label" type="select" sortOrder="11" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Promotion Tracking</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment><![CDATA[<b>Example of usage:</b> &lt;a href="#" data-track-promo-id="PROMOID" data-track-promo-name="PROMONAME" data-track-promo-creative="PROMOCREATIVE" data-track-promo-position="PROMOPOSITION" &gt;Content&lt;/a&gt;]]></comment>
+                    <depends>
+                        <field id="*/*/active">1</field>
+                    </depends>
+                </field>
+                <field id="brand_dropdown" translate="label" type="select" sortOrder="12" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Brand Attribute</label>
+                    <source_model>Scommerce\GlobalSiteTag\Model\Source\Brand</source_model>
+                    <depends>
+                        <field id="*/*/enhanced_ecommerce_enabled">1</field>
+                        <field id="*/*/active">1</field>
+                    </depends>
+                    <comment>Please select brand attribute if you have one otherwise put your brand name in the below input box.</comment>
+                </field>
+                <field id="brand_text" translate="label" type="text" sortOrder="13" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Brand Name</label>
+                    <comment>Set here brand name if there is no brand name with the product</comment>
+                    <depends>
+                        <field id="*/*/enhanced_ecommerce_enabled">1</field>
+                        <field id="*/*/active">1</field>
+                    </depends>
+                </field>
+                <field id="base" translate="label" type="select" sortOrder="14" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Base</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>Set 'Yes' if you want to send base order data and 'No' to send store order data to Google. Set this 'No' only when you have multicurrency and you want to send different currency data to Google.</comment>
+                    <depends>
+                        <field id="*/*/active">1</field>
+                    </depends>
+                </field>
+                <field id="enable_dynamic" translate="label" type="select" sortOrder="15" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Enable dynamic remarketing tags</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>This will enable and install remarketing tag to different pages</comment>
+                    <depends>
+                        <field id="*/*/active">1</field>
+                    </depends>
+                </field>
+                <field id="enable_other_sites" translate="label" type="select" sortOrder="16" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Enable tracking for other sites</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment><![CDATA[This will enable other site variables (https://developers.google.com/adwords-remarketing-tag/parameters#other) instead of retail site variables]]></comment>
+                    <depends>
+                        <field id="*/*/active">1</field>
+                        <field id="*/*/enable_dynamic">1</field>
+                    </depends>
+                </field>
+			</group>
+            <group id="backend_tracking" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="0" showInStore="0">
+                <label>Backend Tracking Configuration</label>
+                <field id="active" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Enabled Backend Tracking</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>Set "Yes" to track orders created in admin</comment>
+                </field>
+                <field id="source" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Backend Campaign Source</label>
+                    <comment>Campaign Source for Backend orders</comment>
+                    <depends>
+                        <field id="*/*/active">1</field>
+                    </depends>
+                </field>
+                <field id="medium" translate="label" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Campaign Medium</label>
+                    <comment>Campaign Medium for Backend orders</comment>
+                    <depends>
+                        <field id="*/*/active">1</field>
+                    </depends>
+                </field>
+            </group>
+		</section>
+    </system>
+</config>

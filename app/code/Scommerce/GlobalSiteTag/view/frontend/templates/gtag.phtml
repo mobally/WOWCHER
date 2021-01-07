@@ -1,0 +1,51 @@
+<?php
+
+/** @var \Scommerce\GlobalSiteTag\Helper\Data $helper */
+$helper = $this->getHelper();
+$ids = $helper->getAccountsId();
+
+if (!$helper->isEnabled()) return;
+?>
+
+<script>
+	window.isEnhancedEcommerceEnabled = '<?php /* @escapeNotVerified */ echo $helper->isEnhancedEcommerceEnabled(); ?>';
+	window.isDynamicRemarketingEnabled = '<?php /* @escapeNotVerified */ echo $helper->isDynamicRemarketingEnabled(); ?>';
+	window.isOtherSiteEnabled = '<?php /* @escapeNotVerified */ echo $helper->isOtherSiteEnabled(); ?>';
+</script>
+
+<!-- Scommerce Mage Start Global Site Tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=<?= $helper->getMainAccount() ?>"></script>
+
+<script>
+	window.dataLayer = window.dataLayer || [];
+	function gtag(){dataLayer.push(arguments)};
+	gtag('js', new Date());
+
+<?php foreach ($ids as $id): ?>
+    <?php
+        $options = [];
+        $useOptions = false;
+
+        if ($helper->getOptimizeId() && $helper->isOptimizeEnabled()) {
+            $options['optimize_id'] = $helper->getOptimizeId();
+            $useOptions = true;
+        }
+
+        if ($helper->isLinkerEnable() && $helper->getDomainsToLink() && $id['use_linker'] == '1') {
+            foreach ($helper->getDomainsToLink() as $domain) {
+                $options['linker']['domains'][] = $domain;
+                $useOptions = true;
+            }
+        }
+
+        if ($helper->isLinkerEnable() && $helper->isDecorateFormsEnable() && $id['use_linker'] == '1') {
+            $options['linker']['decorate_forms'] = true;
+            $useOptions = true;
+        }
+
+        $options = json_encode($options);
+    ?>
+
+    gtag('config', '<?= $id['account_id'] ?>', <?php if ($useOptions) echo $options; ?>);
+<?php endforeach; ?>
+</script>

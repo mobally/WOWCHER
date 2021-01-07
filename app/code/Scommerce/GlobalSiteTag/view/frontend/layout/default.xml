@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © 2018 Scommerce Mage. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+	<body>
+		<referenceContainer name="after.body.start">
+            <block class="Scommerce\GlobalSiteTag\Block\Gtag" name="global_site_tag" as="global_site_tag" template="Scommerce_GlobalSiteTag::gtag.phtml" before="-"/>
+        </referenceContainer>
+        <referenceContainer name="before.body.end">
+            <block class="Scommerce\GlobalSiteTag\Block\Promotion" name="scommerce.gtag.promotion" as="scommerce_gtag_promotion" template="Scommerce_GlobalSiteTag::promotion.phtml" before="-"/>
+        </referenceContainer>
+        <referenceBlock name="head.additional">
+            <block class="Scommerce\GlobalSiteTag\Block\Gtag" name="global_site_tag_head" template="Scommerce_GlobalSiteTag::head.phtml"/>
+        </referenceBlock>
+    </body>
+</page>

@@ -1,0 +1,9 @@
+<?php
+/**
+ * @var \Scommerce\GlobalSiteTag\Block\Checkout\Success $block
+ */
+?>
+
+<script>
+    gtag('event', 'purchase', <?= \json_encode($block->getOrderData()) ?>);
+</script>

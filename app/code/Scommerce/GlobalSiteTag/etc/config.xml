@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+	<default>
+		<globalsitetag>
+			<general>
+				<active>1</active>
+				<license_key>[Check your order confirmation email for license key]</license_key>
+				<account_id>UA-123456-7</account_id>
+			</general>
+			<backend_tracking>
+				<active>0</active>
+				<source>phone</source>
+				<medium>admin</medium>
+			</backend_tracking>
+		</globalsitetag>
+	</default>
+</config>

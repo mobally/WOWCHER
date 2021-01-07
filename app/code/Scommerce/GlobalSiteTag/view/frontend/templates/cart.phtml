@@ -1,0 +1,209 @@
+<?php
+/**
+ * @var $this Scommerce\GlobalSiteTag\Block\Cart
+ */
+
+$helper = $this->getHelper();
+
+$crosssellProducts = $this->getItems();
+$sourceCrosssellProducts = '';
+$sourceCrosssellProductUrls = '';
+
+$coreSession = $this->getCoreSession();
+
+if (count($crosssellProducts)) {
+    $crosssellProductUrls = [];
+    $crosssellProductItems = [];
+    $loop = 1;
+
+    foreach ($crosssellProducts as $crosssellProduct) {
+        $crosssellProductUrls[] = $crosssellProduct->getProductUrl();
+
+        $crosssellProductItems[] = array(
+            'id' => $this->escapeHtmlAttr($crosssellProduct->getSku()),
+            'name' => $this->escapeHtmlAttr($crosssellProduct->getName()),
+            'category' => $this->escapeHtmlAttr($helper->getProductCategoryName($crosssellProduct)),
+            'brand' => $this->escapeHtmlAttr($helper->getBrand($crosssellProduct)),
+            'price' => $helper->getProductPrice($crosssellProduct),
+            'list' => $this->getCrosssellListName(),
+            'position' => $loop,
+            'qty' => $helper->getProductQty($crosssellProduct)
+        );
+
+        $loop++;
+    }
+
+    $sourceCrosssellProducts = json_encode($crosssellProductItems);
+    $sourceCrosssellProductUrls = json_encode($crosssellProductUrls);
+}
+?>
+
+<script type='text/javascript'>
+	require(['jquery', 'mage/url', 'Scommerce_GlobalSiteTag/js/list', 'mage/cookies'], function ($, url, scList) {
+
+        <?php if (count($crosssellProducts)): ?>
+            var tmpList = [];
+            var sourceCrosssellProducts = <?php echo $sourceCrosssellProducts ?>;
+            $.each(sourceCrosssellProducts, function (i, product) {
+                var productListData = {
+                    id: product.id,
+                    list: product.list,
+                    position: product.position,
+                    category: product.category
+                };
+                //$.mage.cookies.set('productListData-' + product.id, JSON.stringify(productListData), {lifetime: -1});
+                tmpList.push(productListData);
+            });
+
+            scList.mergeProductLists(tmpList);
+
+            gtag('event', 'view_item_list', {
+                <?php if ($helper->isEnhancedEcommerceEnabled()): ?>
+                "items": [
+                    <?php foreach ($crosssellProductItems as $crosssellProduct):?>
+                    {
+                        "id": "<?php echo $crosssellProduct['id']?>",
+                        "name": "<?php echo $crosssellProduct['name']?>",
+                        "list": "<?php echo $crosssellProduct['list']?>",
+                        "brand": "<?php echo $crosssellProduct['brand']?>",
+                        "category": "<?php echo $crosssellProduct['category']?>",
+                        "list_position": <?php echo $crosssellProduct['position']?>,
+                        <?php if (isset($crosssellProduct['qty'])): ?>
+                        "quantity": <?php echo $crosssellProduct['qty']?>,
+                        <?php endif; ?>
+                        "price": <?php echo $crosssellProduct['price']?>
+                    },
+                    <?php endforeach;?>
+                ],
+                <?php endif; ?>
+                <?php if ($helper->isDynamicRemarketingEnabled()): ?>
+                    <?php if ($helper->isOtherSiteEnabled()):?>
+                        "dynx_itemid": [
+                            <?php foreach ($crosssellProductItems as $crosssellProduct):?>
+                            "<?php echo $crosssellProduct['id'] ?>",
+                            <?php endforeach;?>
+                        ]
+                    <?php else: ?>
+                        "ecomm_prodid": [
+                            <?php foreach ($crosssellProductItems as $crosssellProduct):?>
+                            "<?php echo $crosssellProduct['id'] ?>",
+                            <?php endforeach;?>
+                        ]
+                    <?php endif; ?>
+                <?php endif; ?>
+            });
+        <?php endif; ?>
+
+        <?php if ($coreSession->getProductToBasket()): ?>
+
+            var products = JSON.parse('<?php echo $coreSession->getProductToBasket(); ?>');
+
+            if (products.length) {
+                var product = products[0];
+
+                var itemData = {
+                    "id": product.id,
+                    "name": product.name,
+                    "brand": product.brand,
+                    "category": product.category,
+                    "variant": product.variant,
+                    "quantity": product.qty,
+                    "price": product.price
+                };
+
+                var productListData = $.mage.cookies.get('productListData-' + product.id);
+
+                if (productListData !== null) {
+                    productListData = JSON.parse(productListData);
+                    itemData["list_name"] = productListData['list'];
+                    itemData["list_position"] = productListData['position'];
+                }
+
+                gtag('event', 'add_to_cart', {
+                    <?php if ($helper->isEnhancedEcommerceEnabled()): ?>
+                        "items": [itemData],
+                    <?php endif; ?>
+                    <?php if ($helper->isDynamicRemarketingEnabled()): ?>
+                        <?php if ($helper->isOtherSiteEnabled()):?>
+                            "dynx_itemid": product.id,
+                            "dynx_totalvalue": product.price
+                        <?php else: ?>
+                            "ecomm_prodid": product.id,
+                            "ecomm_totalvalue": product.price
+                        <?php endif; ?>
+                    <?php endif; ?>
+                });
+
+                $.ajax({
+                    url: url.build('/gtag/index/unsaddtocart'),
+                    type: 'get'
+                });
+            }
+
+        <?php endif;?>
+
+	});
+</script>
+
+<script type='text/javascript'>
+	//<![CDATA[
+	var sourceCrosssellProductUrls = '';
+    <?php if (strlen($sourceCrosssellProductUrls)):?>
+	sourceCrosssellProductUrls = <?php echo $sourceCrosssellProductUrls ?>;
+    <?php endif;?>
+
+	require(['jquery', 'mage/cookies'], function ($) {
+
+		$(document).on('click', 'a:not([href$="\\.jpg"])', function (e) {
+			var product, index;
+			var href = $(this).attr('href');
+
+			if (sourceCrosssellProductUrls === undefined) {
+				index = -1;
+			}
+			else {
+				index = sourceCrosssellProductUrls.indexOf(href);
+			}
+
+			if (index !== -1) {
+				product = sourceCrosssellProducts[index];
+
+				gtag('event', 'select_content', {
+                    <?php if ($helper->isEnhancedEcommerceEnabled()): ?>
+                        "content_type": "product",
+                        "items": [
+                            {
+                                "id": product.id,
+                                "name": product.name,
+                                "list": product.list,
+                                "brand": product.brand,
+                                "category": product.category,
+                                "quantity": product.qty,
+                                "price": product.price
+                            }
+                        ],
+                    <?php endif; ?>
+                    <?php if ($helper->isDynamicRemarketingEnabled()): ?>
+                        <?php if ($helper->isOtherSiteEnabled()):?>
+					        "dynx_itemid": product.id,
+                            "dynx_totalvalue": product.price,
+                        <?php else: ?>
+                            "ecomm_prodid": product.id,
+                            "ecomm_totalvalue": product.price,
+                        <?php endif; ?>
+                    <?php endif; ?>
+					"eventCallback": function () {
+						if (!(e.ctrlKey || e.which === 2)) {
+							document.location = href;
+						}
+					}
+				});
+			}
+		});
+	});
+	//]]>
+</script>
+
+
+
+
