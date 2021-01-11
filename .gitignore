@@ -73,3 +73,5 @@ atlassian*
 /dev
 .DS_Store
 /productimport
+/app/code/Scommerce/Core
+/app/code/Scommerce/GoogleTagManagerPro
