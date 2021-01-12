@@ -151,7 +151,8 @@ class Configurable extends ProductAwareTemplate
                 } else {
                     $rowsAndColumns[$rowItem['id']] = [
                         'header' => __(
-                            '%1 - now %2',
+                            //'%1 - now %2',
+                            '%1 - %2',
                             $rowItem['header'],
                             $this->priceHelper->currency($product->getFinalPrice(), true, false),
                         ),
