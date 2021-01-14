@@ -76,7 +76,7 @@ $image = 'left_column_list_image';
 
                         <?php if ($totalBoughtCue->canShow($product)): ?>
                             <div class="deal-status-bar-item deal-status-bar-item-stats">
-                                <div class="deal-status-bar-label"><?php echo __('Bought') ?></div>
+                                <div class="deal-status-bar-label"><?php echo __('Bought') ?>+</div>
                                 <div class="deal-status-bar-value">
                                     <?= $escaper->escapeHtml($totalBoughtCue->getValue($product)); ?>
                                 </div>
