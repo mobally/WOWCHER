@@ -47,6 +47,7 @@
                 <button class="action subscribe primary"
                         title="<?= $escaper->escapeHtmlAttr(__('Sign Up')) ?>"
                         type="submit"
+                        onClick="_satellite.track('newEmail');"
                         aria-label="Subscribe">
                     <span><?= $escaper->escapeHtml(__('Sign Up')) ?></span>
                 </button>
@@ -55,3 +56,4 @@
         </div>
     </div>
 </li>
+
