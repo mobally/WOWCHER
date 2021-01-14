@@ -39,29 +39,14 @@ class Addfeetosalesorder implements ObserverInterface
         $deal_id_lsie = $item->getProduct()->getData('deal_id_lsie');
         $deal_id = $item->getProduct()->getData('deal_id');
         $item_price = $item->getData('base_row_total_incl_tax') * $itemqty;
-            if($duty_rates !=''){
-               $final_duty = $item_price * $duty_rates / 100;    
-                $currency = $objectManager->get('Magento\Directory\Model\Currency');
-                     $sum_duty_rates = $currency->format($final_duty, ['display'=>\Zend_Currency::NO_SYMBOL], false);
-               if($ware_house_deal == 'yes' && $price > 150){            
                $item->setData('dutypaid', "P");
                $item->setData('fee', 0);
                $item->setData('deal_id', $deal_id);
-               }else if($ware_house_deal == 'yes'){
-               $item->setData('dutypaid', "P");
-               $item->setData('fee', 0);
-               $item->setData('deal_id', $deal_id);
-               }else{
-               $item->setData('dutypaid', "P");
-               $item->setData('fee', 0);
-               $item->setData('deal_id', $deal_id);
-               }
                
                $item->save();
             }
+            return $this;
         }
 
-        
-		return $this;
+    	
     }
-}

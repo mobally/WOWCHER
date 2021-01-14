@@ -21,7 +21,7 @@ $image = 'right_column_list_large_image';
     <!-- Product Header section -->
     <div class="deal-header">
         <h1><?= $escaper->escapeHtml($product->getName()) ?></h1>
-        <h3><?= $block->getProduct()->getData('short_description') ?></h3>
+        <h3><?= strip_tags($product->getShortDescription()) ?></h3>
     </div>
 
     <!-- Product Carousel section -->

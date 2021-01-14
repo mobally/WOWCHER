@@ -7,7 +7,7 @@ use Magento\Framework\Event\ManagerInterface;
 
 class ProductProcessBatch
 {
-	const MIDAS_FILE_CODE = "/mnt/nfs/wowcher_repo/productimport/";
+	const MIDAS_FILE_CODE = "/home/wowcher-team/uploads/";
     const DEFAULT_GROUPID = 110;
 
     protected $groupFactory;
