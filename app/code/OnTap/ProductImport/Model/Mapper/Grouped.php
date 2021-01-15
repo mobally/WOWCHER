@@ -112,6 +112,7 @@ class Grouped extends Product
             'ware_house_deal'=>['display', function ($v, $data) {
                 return $v['warehouseDeal'] ? "yes" : "no";
             }],
+            'deal_id' => 'id',
         ];
     }
 
