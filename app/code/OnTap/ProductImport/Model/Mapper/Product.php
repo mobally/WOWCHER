@@ -72,6 +72,7 @@ class Product
             'product_postage_price',
             'duty_hscode',
             'ware_house_deal',
+            'deal_id',
         ];
     }
 
@@ -100,6 +101,7 @@ class Product
             }],
             'product_postage_price' => 'postagePrice',
             'duty_hscode'=>'dutyHsCode',
+            
         ];
     }
 
