@@ -113,6 +113,8 @@ class Grouped extends Product
                 return $v['warehouseDeal'] ? "yes" : "no";
             }],
             'deal_id' => 'id',
+            'expirydate' => 'expiryDate',
+            'closingdate' => 'closingDate',
         ];
     }
 

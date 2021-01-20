@@ -73,6 +73,8 @@ class Product
             'duty_hscode',
             'ware_house_deal',
             'deal_id',
+            'expirydate',
+            'closingdate',
         ];
     }
 
