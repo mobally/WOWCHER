@@ -21,15 +21,12 @@ class Groupscript extends \Magento\Framework\View\Element\Template
         
         $collection = $this->productCollectionFactory->create();
 	$collection->addAttributeToSelect('*');
-	//$collection->addAttributeToSelect(['id','sku']);
 	$collection->addAttributeToFilter('type_id', ['eq' => 'grouped']);
-	//$collection->addAttributeToFilter('status', ['eq' => 1]);
-echo count($collection).'<br />';
+	echo count($collection).'<br />';
       foreach ($collection as $groupproduct)
         {
         echo $group_sku1 = $groupproduct->getSku().'<br />';
-        //$group_sku = $groupproduct->getSku();
-        $group_sku = $groupproduct->getWareHouseDeal();
+       $group_sku = $groupproduct->getSku();
         $gpro_id = $groupproduct->getId();
         $associatedProducts = $groupproduct->getTypeInstance()->getAssociatedProducts($groupproduct);
         echo count($associatedProducts).'<br />';
@@ -40,10 +37,9 @@ echo count($collection).'<br />';
 		$productRepository=$objectManager->get('\Magento\Catalog\Api\ProductRepositoryInterface'); 
 		$product = $productRepository->getById($pro_id);
 
-		//$product->setDealId($group_sku);
-		$product->setWareHouseDeal($group_sku);
-		//$product->getResource()->saveAttribute($product, 'deal_id');
-		$product->getResource()->saveAttribute($product, 'ware_house_deal');
+		$product->setDealId($group_sku);
+		$product->getResource()->saveAttribute($product, 'deal_id');
+		
         }
         }
         return $collection;
