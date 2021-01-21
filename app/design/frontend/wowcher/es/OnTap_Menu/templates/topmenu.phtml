@@ -12,6 +12,11 @@
     <ul id="main-navigation" class='links'
         data-mage-init='{"menu":{"responsive":true, "expanded":true, "position":{"my":"left top","at":"left bottom"}},
         "OnTap_Menu/js/more-navigation": {}}'>
+        <li class="level0 nav-1 category-item first level-top ui-menu-item" role="presentation">
+        <a href="<?php echo $block->getUrl(); ?>" class="level-top ui-corner-all" id="ui-id-15" tabindex="-1" role="menuitem">
+        <span><?php echo __('Shopping'); ?></span>
+        </a>
+        </li>
         <?= /* @noEscape */ $menu ?>
         <li class="more-options">
             <div class="more-title"><?= $escaper->escapeHtml(__('More Options')) ?></div>
