@@ -7,6 +7,7 @@ $name = $escaper->escapeHtml($block->getProduct()->getName());
 $desc = $block->getProduct()->getData('short_description');
 //echo $price = $block->getProduct()->getData('price');
 $sku = $block->getProduct()->getSku();
+$desc = preg_replace('/[^a-zA-Z0-9_ -]/s','',$desc);
 ?>
 <div class="deal-header">
     <h1><?= $escaper->escapeHtml($block->getProduct()->getName()) ?></h1>
