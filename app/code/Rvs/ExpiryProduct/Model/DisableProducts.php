@@ -36,8 +36,8 @@ public function execute()
                                         ->addAttributeToSelect('*')
                                         ->addAttributeToFilter('type_id', array('eq' => 'grouped'));
                        
-       $date_time = $this->_date->date()->format('Y-m-d H:i:s');  
-       $timeStamp = $this->dateTime->gmtTimestamp($date_time);
+       $date_time = $this->_date->date()->format('Y-m-d H:i:s');
+       $timeStamp = $this->dateTime->gmtTimestamp($date_time).'000';
        $productIdsActivate = [];
 	$productIdsDeactivate = [];               
        foreach($groupProductCollection as $val)
@@ -50,6 +50,7 @@ public function execute()
           $productIdsActivate[] = $val->getId();
           
           } else{
+          //echo $val->getId().'else';
           $productIdsDeactivate[] = $val->getId();
           }
        }
@@ -58,6 +59,7 @@ public function execute()
    
 $updateAttributes['status'] = \Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED;
 $updateAttributes['is_expiry'] = 1;
+$updateAttributes['deal_status'] = 12;
 foreach ($storeIds as $storeId) {
     $this->productAction->updateAttributes($productIdsActivate, $updateAttributes, $storeId);
 }
