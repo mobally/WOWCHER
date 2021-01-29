@@ -3,4 +3,7 @@
     <event name="sales_quote_address_collect_totals_after">
         <observer name="changeTaxTotal" instance="Rvs\TaxCalculation\Observer\ChangeTaxTotal"/>
     </event>
+    <event name="sales_quote_item_set_product">
+        <observer name="customprice" instance="Rvs\TaxCalculation\Observer\CustomName" />
+    </event>
 </config>
