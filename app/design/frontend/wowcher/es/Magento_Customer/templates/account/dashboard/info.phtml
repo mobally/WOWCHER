@@ -52,8 +52,18 @@
         <?= $block->getChildHtml('additional_blocks'); ?>
     </div>
 </div>
+<?php
+$objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+$cookieManager = $objectManager->get('Magento\Framework\Stdlib\CookieManagerInterface');
+
+// Get cookie
+$gclidnew = $cookieManager->getCookie('gclidnew');
+if($gclidnew !=''){
+?>
 <!-- Event snippet for Registration conversion page -->
 <script>
-  gtag('event', 'conversion', {'send_to': 'AW-476028529/Nx4gCPCVu_EBEPG8_uIB'});
+   gtag('event', 'conversion', {'send_to': 'AW-476028529/Nx4gCPCVu_EBEPG8_uIB'});
 </script>
-
+<?php 
+}
+?>
