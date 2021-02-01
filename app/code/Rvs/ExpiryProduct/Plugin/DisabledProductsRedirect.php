@@ -93,10 +93,10 @@ private $cookieManager;
 	$this->cookieManager->setPublicCookie('gclidnew',$gclid,$publicCookieMetadata);
 	}
 	if($msclkid){
-	$this->cookieManager->setPublicCookie('msclkidnew',$gclid,$publicCookieMetadata);
+	$this->cookieManager->setPublicCookie('msclkidnew',$msclkid,$publicCookieMetadata);
 	}
 	if($ito){
-	$this->cookieManager->setPublicCookie('itonew',$gclid,$publicCookieMetadata);
+	$this->cookieManager->setPublicCookie('itonew',$ito,$publicCookieMetadata);
 	}
         return $proceed();
     }
