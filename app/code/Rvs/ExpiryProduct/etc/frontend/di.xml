@@ -4,4 +4,7 @@
     <type name="Magento\Catalog\Controller\Product\View">
         <plugin name="rvs_disabled_products_redirect" type="Rvs\ExpiryProduct\Plugin\DisabledProductsRedirect"/>
     </type>
+	 <type name="Magento\Catalog\Model\Product\Url">
+        <plugin name="rvs_disabled_products_url" type="Rvs\ExpiryProduct\Plugin\ProductUrl"/>
+    </type>   
 </config>
