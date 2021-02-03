@@ -28,7 +28,7 @@ protected $path;
    protected function execute(InputInterface $input, OutputInterface $output)
    {
    
-   $this->path->execute(); 
+   $this->path->execute();  
    }
 }
 

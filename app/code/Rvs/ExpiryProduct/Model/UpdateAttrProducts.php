@@ -50,7 +50,6 @@ class UpdateAttrProducts
 	    $this->productAction->updateAttributes([$val->getId()], $updateAttributes, $storeId); 
 	}
        }
-  	
-   }
+  }
 }
 
