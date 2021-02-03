@@ -3,7 +3,7 @@
     <referenceContainer name="after.body.start">
         <block class="Freshrelevance\Digitaldatalayer\Block\DdlProduct"
                name="name_catcher"
-               template="Freshrelevance_Digitaldatalayer::pages/search_view.phtml"
+               template="Freshrelevance_Digitaldatalayer::pages/default.phtml"
                after="-">
         </block>
     </referenceContainer>
