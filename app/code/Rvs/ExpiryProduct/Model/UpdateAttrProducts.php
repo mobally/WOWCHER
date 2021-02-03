@@ -47,7 +47,7 @@ class UpdateAttrProducts
          $expiry_date = substr($val->getClosingdate(), 0, -3);
          $updateAttributes['closing_dates_time'] = date('m/d/Y H:i:s', $expiry_date);
           foreach ($storeIds as $storeId) {
-	    $this->productAction->updateAttributes([$val->getId()], $updateAttributes, $storeId);
+	    $this->productAction->updateAttributes([$val->getId()], $updateAttributes, $storeId); 
 	}
        }
   	
