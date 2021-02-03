@@ -6,5 +6,11 @@
                <item name="disable_exipry_products" xsi:type="object">Rvs\ExpiryProduct\Console\Command\DisableExpiryProducts</item>
            </argument>
        </arguments>
+       <arguments>
+           <argument name="commands" xsi:type="array">
+               <item name="update product attribute" xsi:type="object">Rvs\ExpiryProduct\Console\Command\ProductAttributeUpdate</item>
+           </argument>
+       </arguments>
    </type>
 </config>
+
