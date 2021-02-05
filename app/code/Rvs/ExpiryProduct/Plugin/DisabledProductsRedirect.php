@@ -86,7 +86,7 @@ private $cookieManager;
 	 $msclkid = $this->request->getParam('msclkid');
 	 $ito = $this->request->getParam('ito');
 	 $publicCookieMetadata = $this->cookieMetadataFactory->createPublicCookieMetadata();
-        $publicCookieMetadata->setDurationOneYear();
+         $publicCookieMetadata->setDuration('2592000');
         $publicCookieMetadata->setPath('/');
         $publicCookieMetadata->setHttpOnly(false);
  	if($gclid){
