@@ -10,12 +10,14 @@ class ProductUrl
      * @var \Magento\Store\Model\StoreManagerInterface
      */
     private $storeManager;
-
+	protected $request;
     public function __construct(
-     \Magento\Store\Model\StoreManagerInterface $storeManager       
+     \Magento\Store\Model\StoreManagerInterface $storeManager,
+	\Magento\Framework\App\Request\Http $request	 
     ){
 
         $this->storeManager = $storeManager;
+		$this->request = $request;
     }
     public function beforeGetUrl(
             \Magento\Catalog\Model\Product\Url $subject,
@@ -25,8 +27,10 @@ class ProductUrl
 		$urlInterface = \Magento\Framework\App\ObjectManager::getInstance()->get('Magento\Framework\UrlInterface');
 		$url = $urlInterface->getCurrentUrl();
 		$url_components = parse_url( $url, $component = -1 );	
+		$parmeters = $this->request->getParams();
 		
 		$word = "gclid";
+		if(empty($parmeters['p'])){
 		if(array_key_exists('query', $url_components)){
 			
 			$query = $url_components['query'];
@@ -57,5 +61,6 @@ class ProductUrl
             $product,
             $params
         ];
+		}
     }
 }
