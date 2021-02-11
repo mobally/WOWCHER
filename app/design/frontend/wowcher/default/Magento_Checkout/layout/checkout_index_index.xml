@@ -7,6 +7,13 @@
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
       xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
     <body>
+		<referenceContainer name="header-wrapper">
+			<block class="Magento\Cms\Block\Block" name="secure.checkout.text">
+                <arguments>
+                    <argument name="block_id" xsi:type="string">secure_checkout_text</argument>
+                </arguments>
+            </block>
+		</referenceContainer>
         <referenceBlock name="checkout.root">
             <arguments>
                 <argument name="jsLayout" xsi:type="array">
@@ -57,5 +64,10 @@
                 </argument>
             </arguments>
         </referenceBlock>
+		<referenceBlock name="minicart" remove="true" />
+		<referenceBlock name="header-menu-stores" remove="true" />
+		<referenceBlock name="header.links" remove="true" />
+		<referenceBlock name="header-menu" remove="true" />
+		<referenceBlock name="top.search" remove="true" />
     </body>
 </page>

@@ -319,6 +319,15 @@
 	.minicart-items .product-item {
 		padding: 15px 0;
 	}
+	.secCheckoutText{
+		background: url('../images/secureCheckout.jpg') no-repeat left center;
+		background-size: 20px;
+		float: right;
+		font-size: 16px;
+		line-height: 25px;
+		margin-top: 13px;
+		padding-left: 32px;
+	}
 }
 
 //
@@ -367,6 +376,26 @@
 				}
 			}
 		}
+	}
+	body.checkout-index-index{
+		.slider-navigation{
+			display: none;
+		}
+		.page-header{
+		    min-height: 48px;
+			.logo{
+			    margin: 0;
+				left: 10px;
+				width: 52px;
+			}
+		}
+	}
+	.secCheckoutText{
+		background-size: 17px !important;
+		font-size: 14px !important;
+		margin-top: 6px !important;
+		margin-right: 5px !important;
+		padding-left: 25px !important;
 	}
 }
 
@@ -431,6 +460,10 @@
             margin-top: 30px;
 		}
 	}
+	.secCheckoutText{
+		font-size: 16px;
+		margin-top: 18px;
+	}
 }
 
 .media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__m992) {
@@ -472,6 +505,10 @@
 				}
 			}
 		}
+	}
+	.secCheckoutText{
+		font-size: 16px;
+		margin-top: 13px;
 	}
 }
 
