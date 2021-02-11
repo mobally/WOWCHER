@@ -1,0 +1,34 @@
+{
+    "name": "hs/module-all",
+    "description": "N/A",
+    "require": {
+        "php": "~5.5.0|~5.6.0",
+        "magento/module-store": "100.0.*",
+        "magento/module-backend": "100.0.*",
+        "magento/framework": "100.0.*",
+        "magento/module-cron": "100.0.*",
+        "magento/module-checkout": "100.0.*",
+        "magento/magento-composer-installer": "*"
+    },
+    "type": "magento2-module",
+    "version": "1.0.0",
+    "license": [
+        "proprietary"
+    ],
+    "autoload": {
+        "files": [
+            "registration.php"
+        ],
+        "psr-4": {
+            "HS\\All\\": ""
+        }
+    },
+    "extra": {
+        "map": [
+            [
+                "*",
+                "HS/All"
+            ]
+        ]
+    }
+}

@@ -1,0 +1,40 @@
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+/**
+ * @var $block \Magento\Sales\Block\Order\Totals
+ * @see \Magento\Sales\Block\Order\Totals
+ */
+$order = $block->getOrder();
+$grand_total = $order->getGrandTotal();
+$objectManager = \Magento\Framework\App\ObjectManager::getInstance(); // Instance of Object Manager
+	$priceHelper = $objectManager->create('Magento\Framework\Pricing\Helper\Data'); // Instance of Pricing Helper
+	$grand_total = $priceHelper->currency($grand_total, true, false);
+?>
+<?php foreach ($block->getTotals() as $_code => $_total) :
+ ?>
+
+    <?php if ($_total->getBlockName()) : ?>
+        <?= $block->getChildHtml($_total->getBlockName(), false) ?>
+    <?php else :?>
+    <tr class="<?= $block->escapeHtmlAttr($_code) ?>">
+        <th <?= /* @noEscape */ $block->getLabelProperties() ?> scope="row">
+            <?php if ($_total->getStrong()) : ?>
+                <strong><?= $block->escapeHtml($_total->getLabel()) ?></strong>
+            <?php else : ?>
+                <?= $block->escapeHtml($_total->getLabel()) ?>
+            <?php endif ?>
+            <?php if($_code == 'grand_total'){ echo "<p style='font-size:12px;'>Livraison et droits des douanes inclus</p>"; } ?>
+        </th>
+        <td <?= /* @noEscape */ $block->getValueProperties() ?> data-th="<?= $block->escapeHtmlAttr($_total->getLabel()) ?>">
+                <?php 
+                echo $block->formatValue($_total); ?>
+        </td>
+    </tr>
+    
+    <?php endif; ?>
+<?php endforeach?>
+

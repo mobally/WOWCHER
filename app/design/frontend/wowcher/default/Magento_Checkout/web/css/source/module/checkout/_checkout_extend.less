@@ -81,25 +81,6 @@
 					display: none;
 				}
 			}
-		}
-
-		.minicart-items {
-			.product-item {
-				padding-bottom: 8px;
-			}
-
-			.product-image-container {
-				float: none;
-				width: 100% !important;
-			}
-	
-			.product-item-details {
-				padding: 0;
-
-				.price {
-					.lib-font-size(14);
-				}
-			}
 		}		
 	}
 
@@ -154,7 +135,15 @@
 		.paypal-review-discount {
 			display: none;
 		}
-	}	
+	}
+	.opc-block-shipping-information {
+		padding: 0;
+		.shipping-information-title{
+			border-bottom: 1px solid #d4d4d4;
+			font-size: 18px;
+			margin: 0 0 15px;
+		}
+	}
 }
 
 //
@@ -162,20 +151,10 @@
 //  _____________________________________________
 
 .media-width(@extremum, @break) when (@extremum = 'max') and (@break = @screen__xs) {
-	.opc-progress-bar {
-		.opc-progress-bar-item {
-			width: 120px;
-		}
-	}
+	
 }
 
 .media-width(@extremum, @break) when (@extremum = 'max') and (@break = @screen__m) {
-	.opc-progress-bar {
-		.opc-progress-bar-item {
-			width: 185px;
-		}
-	}
-
 	body {
 		.payment-method-braintree {
 			.field.number {
@@ -222,6 +201,23 @@
 			padding-top: 15px;
 		}
 	}
+	.opc-sidebar.custom-slide{
+		margin-top: 20px;
+		opacity: 1;
+		padding: 0;
+		position: static;
+		visibility: visible;
+		.modal-inner-wrap {
+			background: none;
+			box-shadow: none;
+			-webkit-transform: inherit;
+			-moz-transform: inherit;
+			transform: inherit;
+		}
+	}
+	.opc-block-shipping-information {
+		padding-top: 15px !important;
+	}
 }
 
 .media-width(@extremum, @break) when (@extremum = 'max') and (@break = @screen__l1200) {
@@ -247,6 +243,17 @@
 					width: 0;
 				}
 			}
+		}
+	}
+}
+
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__m) {
+	.opc-sidebar{
+		margin-top: 40px !important;
+	}
+	.opc-block-shipping-information {
+		.shipping-information-title{
+			font-size: 22px;
 		}
 	}
 }

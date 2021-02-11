@@ -39,4 +39,28 @@
 	input::-webkit-input-placeholder {
 		font-style: normal;
 	}
+	.field-group{
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: space-between;
+		.field{
+			width: 49%;
+		}
+	}
+	.form-create-account{
+		.field.choice.newsletter{
+			display: none;
+		}
+		.password-strength-meter{
+			background: #fed6b2;
+		}
+	}	
+	.customer-account-create .fieldset .field{
+		&.street{
+			margin-bottom: 0;
+		}
+		&.region{
+			margin-bottom: 0;
+		}
+	}
 }

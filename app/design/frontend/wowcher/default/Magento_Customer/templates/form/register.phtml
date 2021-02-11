@@ -44,13 +44,13 @@ $formData = $block->getFormData();
                        data-validate="{required:true, 'validate-email':true}">
             </div>
         </div>
-
+		<div class="field-group">
         <?= $block->getLayout()
             ->createBlock(\Magento\Customer\Block\Widget\Name::class)
             ->setObject($formData)
             ->setForceUseCustomerAttributes(true)
             ->toHtml() ?>
-
+		</div>
         <?php if ($block->isNewsletterEnabled()): ?>
             <div class="field choice newsletter">
                 <input type="checkbox"
@@ -59,7 +59,7 @@ $formData = $block->getFormData();
                        value="1"
                        id="is_subscribed"
                        <?php if ($formData->getIsSubscribed()): ?>checked="checked"<?php endif; ?>
-                       class="checkbox">
+                       class="checkbox" checked>
                 <label for="is_subscribed" class="label">
                     <span><?= $escaper->escapeHtml(__('Sign Up for Newsletter')) ?></span>
                 </label>
@@ -151,30 +151,30 @@ $formData = $block->getFormData();
                 <?= $secureRenderer->renderStyleAsTag("display: none;", 'input#region') ?>
             </div>
         </div>
-
-        <div class="field required">
-            <div class="control">
-                <input type="text"
-                       name="city"
-                       placeholder="<?= $block->getAttributeData()->getFrontendLabel('city') ?>"
-                       value="<?= $escaper->escapeHtmlAttr($formData->getCity()) ?>"
-                       title="<?= $block->getAttributeData()->getFrontendLabel('city') ?>"
-                       class="input-text <?= $escaper->escapeHtmlAttr($cityValidationClass) ?>"
-                       id="city">
-            </div>
-        </div>
-
-        <div class="field zip required">
-            <div class="control">
-                <input type="text"
-                       name="postcode"
-                       value="<?= $escaper->escapeHtmlAttr($formData->getPostcode()) ?>"
-                       title="<?= $block->getAttributeData()->getFrontendLabel('postcode') ?>"
-                       placeholder="<?= $block->getAttributeData()->getFrontendLabel('postcode') ?>"
-                       id="zip"
-                       class="input-text validate-zip-international
-                        <?= $escaper->escapeHtmlAttr($postcodeValidationClass) ?>">
-            </div>
+		<div class="field-group">
+			<div class="field required">
+				<div class="control">
+					<input type="text"
+						   name="city"
+						   placeholder="<?= $block->getAttributeData()->getFrontendLabel('city') ?>"
+						   value="<?= $escaper->escapeHtmlAttr($formData->getCity()) ?>"
+						   title="<?= $block->getAttributeData()->getFrontendLabel('city') ?>"
+						   class="input-text <?= $escaper->escapeHtmlAttr($cityValidationClass) ?>"
+						   id="city">
+				</div>
+			</div>
+			<div class="field zip required">
+				<div class="control">
+					<input type="text"
+						   name="postcode"
+						   value="<?= $escaper->escapeHtmlAttr($formData->getPostcode()) ?>"
+						   title="<?= $block->getAttributeData()->getFrontendLabel('postcode') ?>"
+						   placeholder="<?= $block->getAttributeData()->getFrontendLabel('postcode') ?>"
+						   id="zip"
+						   class="input-text validate-zip-international
+							<?= $escaper->escapeHtmlAttr($postcodeValidationClass) ?>">
+				</div>
+			</div>
         </div>
 
         <?php $addressAttributes = $block->getChildBlock('customer_form_address_user_attributes');?>
@@ -187,41 +187,42 @@ $formData = $block->getFormData();
         <input type="hidden" name="default_billing" value="1">
         <input type="hidden" name="default_shipping" value="1">
         <?php endif; ?>
+		<div class="field-group">
+			<div class="field password required">
+				<div class="control">
+					<input type="password" name="password" id="password"
+						   title="<?= $escaper->escapeHtmlAttr(__('Password')) ?>"
+						   class="input-text"
+						   placeholder="<?= $escaper->escapeHtmlAttr(__('Password')) ?>"
+						   data-password-min-length="<?=
+							$escaper->escapeHtmlAttr($block->getMinimumPasswordLength()) ?>"
+						   data-password-min-character-sets="<?=
+							$escaper->escapeHtmlAttr($block->getRequiredCharacterClassesNumber()) ?>"
+						   data-validate="{required:true, 'validate-customer-password':true}"
+						   autocomplete="off">
+					<div id="password-strength-meter-container" data-role="password-strength-meter" aria-live="polite">
+						<div id="password-strength-meter" class="password-strength-meter">
+							<?= $escaper->escapeHtml(__('Password Strength')) ?>:
+							<span id="password-strength-meter-label" data-role="password-strength-meter-label">
+								<?= $escaper->escapeHtml(__('No Password')) ?>
+							</span>
+						</div>
+					</div>
+				</div>
 
-        <div class="field password required">
-            <div class="control">
-                <input type="password" name="password" id="password"
-                       title="<?= $escaper->escapeHtmlAttr(__('Password')) ?>"
-                       class="input-text"
-                       placeholder="<?= $escaper->escapeHtmlAttr(__('Password')) ?>"
-                       data-password-min-length="<?=
-                        $escaper->escapeHtmlAttr($block->getMinimumPasswordLength()) ?>"
-                       data-password-min-character-sets="<?=
-                        $escaper->escapeHtmlAttr($block->getRequiredCharacterClassesNumber()) ?>"
-                       data-validate="{required:true, 'validate-customer-password':true}"
-                       autocomplete="off">
-                <div id="password-strength-meter-container" data-role="password-strength-meter" aria-live="polite">
-                    <div id="password-strength-meter" class="password-strength-meter">
-                        <?= $escaper->escapeHtml(__('Password Strength')) ?>:
-                        <span id="password-strength-meter-label" data-role="password-strength-meter-label">
-                            <?= $escaper->escapeHtml(__('No Password')) ?>
-                        </span>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-        <div class="field confirmation required">
-            <div class="control">
-                <input type="password"
-                       name="password_confirmation"
-                       placeholder="<?= $escaper->escapeHtmlAttr(__('Confirm Password')) ?>"
-                       title="<?= $escaper->escapeHtmlAttr(__('Confirm Password')) ?>"
-                       id="password-confirmation"
-                       class="input-text"
-                       data-validate="{required:true, equalTo:'#password'}"
-                       autocomplete="off">
-            </div>
+			</div>
+			<div class="field confirmation required">
+				<div class="control">
+					<input type="password"
+						   name="password_confirmation"
+						   placeholder="<?= $escaper->escapeHtmlAttr(__('Confirm Password')) ?>"
+						   title="<?= $escaper->escapeHtmlAttr(__('Confirm Password')) ?>"
+						   id="password-confirmation"
+						   class="input-text"
+						   data-validate="{required:true, equalTo:'#password'}"
+						   autocomplete="off">
+				</div>
+			</div>
         </div>
         <?= $block->getChildHtml('form_additional_info') ?>
     </fieldset>
