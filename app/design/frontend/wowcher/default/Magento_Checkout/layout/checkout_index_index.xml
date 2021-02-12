@@ -6,6 +6,9 @@
 -->
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
       xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <head>
+   <link src="Magento_Checkout::js/myjs.js"/>
+ </head>
     <body>
 		<referenceContainer name="header-wrapper">
 			<block class="Magento\Cms\Block\Block" name="secure.checkout.text">
