@@ -45,9 +45,9 @@ private $productRepository;
                     $item_data = $this->loadMyProduct($sku);
                     $merchant_api = $item_data->getMerchantApi();
                     if($merchant_api == 0){
-                    $productArr[] = "<div style='text-align: center;'><img src='https://wowcher-staging.idevelopment.site/pub/media/close.svg' width='15px' /></div>";
+                    $productArr[] = "<div style='text-align: center;'><img src='https://www.wowcher.com/pub/media/close.svg' width='15px' /></div>";
                     }else{
-                    $productArr[] = "<div style='text-align: center;'><img src='https://wowcher-staging.idevelopment.site/pub/media/tick.svg' width='15px' /></div>";
+                    $productArr[] = "<div style='text-align: center;'><img src='https://www.wowcher.com/pub/media/tick.svg' width='15px' /></div>";
                     }
                     
                 }
