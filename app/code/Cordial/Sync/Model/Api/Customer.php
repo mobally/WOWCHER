@@ -136,6 +136,11 @@ class Customer extends Client
      */
     public function create($customer, $update = false)
     {
+    
+    $storeID   = 0;
+    	$objectManager =  \Magento\Framework\App\ObjectManager::getInstance();        
+	$storeManager  = $objectManager->get('\Magento\Store\Model\StoreManagerInterface');
+	$storeID       = $storeManager->getStore()->getStoreId(); 
         //Magento\Customer\Api\CustomerRepositoryInterface
         if (is_numeric($customer)) {
             $customer = $this->customerFactory->create()->load($customer);
@@ -176,9 +181,21 @@ class Customer extends Client
             ],
 
         ];
+                
         if ($subscribeStatus == 'subscribed') {
             $data['forceSubscribe'] = true;
+            if($storeID == 4){
+            $data['Belgium'] = true;
+            }
+            elseif($storeID == 3){
+            $data['Spain'] = true;
+            }
+            elseif($storeID == 2){
+            $data['Poland'] = true;
+            }
+            else{
             $data['promotional'] = true;
+            }
         }
 //var_dump(51815542, $customerId, $subscriber->getStatus(), $customer->getEmail(), $subscribeStatus, debug_backtrace(2), $data);exit;
 
