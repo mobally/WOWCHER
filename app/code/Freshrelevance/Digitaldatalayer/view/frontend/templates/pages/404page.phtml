@@ -1,0 +1,16 @@
+<?php
+$urlInterface = \Magento\Framework\App\ObjectManager::getInstance()->get('Magento\Framework\UrlInterface');
+$page_url = $urlInterface->getCurrentUrl();
+?>
+<script type="text/javascript">
+        (function () {
+            window.dod = ({
+    "page": {
+        "pageInfo": {
+            "pageName": "error pages: 404",
+            }},
+    "pageName": "error pages: 404",
+    "url": "<?php echo $page_url; ?>"
+});
+})();
+    </script>
