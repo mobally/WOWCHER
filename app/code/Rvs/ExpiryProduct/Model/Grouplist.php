@@ -2,13 +2,15 @@
 
 namespace Rvs\ExpiryProduct\Model;
 
-class Grouplist 
+class Grouplist
 {
 	protected $productCollectionFactory;
 	protected $_date;
 	protected $dateTime;
 	private $state;
 	protected $productAction;
+	protected $request;
+	
 	public function __construct(
     \Magento\Catalog\Model\ResourceModel\Product\CollectionFactory $productCollectionFactory,
     \Magento\Framework\Stdlib\DateTime\TimezoneInterface $date,
@@ -17,7 +19,8 @@ class Grouplist
     \Magento\Framework\App\State $state,
     \Magento\Catalog\Api\ProductRepositoryInterface $productRepository,
     \Magento\Catalog\Model\ResourceModel\Product\Action $productAction,
-    \Magento\Store\Model\StoreManagerInterface $storeManager
+    \Magento\Store\Model\StoreManagerInterface $storeManager,
+    \Magento\Framework\App\Request\Http $request
   ) {
     $this->productCollectionFactory = $productCollectionFactory;
     $this->_date =  $date;    
@@ -27,6 +30,7 @@ class Grouplist
     $this->productRepository = $productRepository;
     $this->productAction = $productAction;
     $this->_storeManager = $storeManager;
+    $this->request = $request;
 }
 
 	public function getBottomtList()
@@ -52,7 +56,13 @@ class Grouplist
                                         ->addAttributeToFilter('status',\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED)
                                         ->setPage(2,8);
                                         
-                     return $groupProductCollection;  
+       return $groupProductCollection;  
        }
+       
+       public function getCurrentpath()
+       {
+       return $moduleName = $this->request->getControllerName();
+       }
+       
 
 }

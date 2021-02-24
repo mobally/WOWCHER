@@ -14,8 +14,30 @@ $saveUpToCue = $block->getSaveUpTo();
 
 $type = 'left_column_product_list';
 $image = 'left_column_list_image';
+$objectManager = \Magento\Framework\App\ObjectManager::getInstance(); 
+$blockObj = $objectManager->get('Rvs\ExpiryProduct\Model\Grouplist');
+$current_path = $blockObj->getCurrentpath();
+if($current_path != 'index'){
+$collection = $block->getLeftLimitedProductCollection();
+}else{
+$collection = $blockObj->getLeftList();
+}
 ?>
-<?php foreach ($block->getLeftLimitedProductCollection() as $product): ?>
+<?php //foreach ($block->getLeftLimitedProductCollection() as $product):
+foreach ($collection as $product):
+$cats = $product->getCategoryIds();
+         $firstCategoryId = "";
+                                if(count($cats) ){
+
+                                    if($cats[0]==2){
+                                        $firstCategoryId = $cats[1];
+                                    }
+                                    else{
+                                          $firstCategoryId = $cats[0];
+                                    }
+                                    }
+	$product_url = $product->setCategoryId($firstCategoryId)->getProductUrl();
+ ?>
     <div class="deals-side-container">
         <div class="deals-item deals-side-deal">
             <div class="deal deal-summary">
@@ -26,7 +48,7 @@ $image = 'left_column_list_image';
 
                 <!-- Product Carousel section -->
                 <div class="deal-imagery">
-                    <a href="<?= $escaper->escapeUrl($product->getProductUrl()) ?>" class="product-image">
+                    <a href="<?= $escaper->escapeUrl($product_url) ?>" class="product-image">
                         <?= $block->getImage($product, $image)->toHtml() ?>
                     </a>
 
@@ -95,7 +117,7 @@ $image = 'left_column_list_image';
                         </div>
 
                         <div class="deal-status-bar-item deal-status-bar-item-buttons">
-                            <a class="secondary tocart" href="<?= $escaper->escapeUrl($product->getProductUrl()) ?>">
+                            <a class="secondary tocart" href="<?= $escaper->escapeUrl($product_url) ?>">
                                 <span><?= __('View!') ?></span>
                             </a>
                         </div>
