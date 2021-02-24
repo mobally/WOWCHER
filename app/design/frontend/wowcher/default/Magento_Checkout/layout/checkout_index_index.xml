@@ -67,7 +67,6 @@
                 </argument>
             </arguments>
         </referenceBlock>
-		<referenceBlock name="minicart" remove="true" />
 		<referenceBlock name="header-menu-stores" remove="true" />
 		<referenceBlock name="header.links" remove="true" />
 		<referenceBlock name="header-menu" remove="true" />
