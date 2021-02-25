@@ -15,12 +15,23 @@ $saveUpToCue = $block->getSaveUpTo();
 $image = 'right_column_list_small_image';
 $type = 'right_column_product_list_small';
 $objectManager = \Magento\Framework\App\ObjectManager::getInstance(); 
+$urlInterface = \Magento\Framework\App\ObjectManager::getInstance()->get('Magento\Framework\UrlInterface');
+$current_url = $urlInterface->getCurrentUrl();
 $blockObj = $objectManager->get('Rvs\ExpiryProduct\Model\Grouplist');
 $current_path = $blockObj->getCurrentpath();
-if($current_path != 'index'){
-$collection = $block->getBottomLimitedProductCollection();
-}else{
+
+$current_url = $blockObj->getCurrentUrl();
+$pagination = "";
+if(isset($current_url['p'])){
+
+$pagination = $current_url['p'];
+}
+
+
+if($current_path == 'index' && $pagination == ''){
 $collection = $blockObj->getBottomtList();
+}else{
+$collection = $block->getBottomLimitedProductCollection();
 }
 ?>
 

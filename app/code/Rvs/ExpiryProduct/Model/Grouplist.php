@@ -34,17 +34,14 @@ class Grouplist
 }
 
 	public function getBottomtList()
-   {
-   
+   	{
        $groupProductCollection = $this->productCollectionFactory->create() 
                                         ->addAttributeToSelect('*')
                                         ->addAttributeToFilter('type_id', array('eq' => 'grouped'))
                                         ->addAttributeToFilter('status',\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED)
                                         ->setPage(4,6);
-                                        
-                     return $groupProductCollection;  
-       
-}
+        return $groupProductCollection;  
+       }
 
 
 	public function getLeftList()
@@ -62,6 +59,11 @@ class Grouplist
        public function getCurrentpath()
        {
        return $moduleName = $this->request->getControllerName();
+       }
+       
+       public function getCurrentUrl()
+       {
+       return $parmeters = $this->request->getParams();
        }
        
 
