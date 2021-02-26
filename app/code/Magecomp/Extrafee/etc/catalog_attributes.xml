@@ -6,5 +6,6 @@
         <attribute name="duty_hscode"/>
         <attribute name="ware_house_deal"/>
         <attribute name="deal_id_lsie"/>
+        <attribute name="country_of_manufacture"/>
     </group>
 </config>

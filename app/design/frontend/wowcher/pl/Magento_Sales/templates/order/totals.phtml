@@ -9,10 +9,8 @@
  * @see \Magento\Sales\Block\Order\Totals
  */
 $order = $block->getOrder();
-$grand_total = $order->getGrandTotal();
-$objectManager = \Magento\Framework\App\ObjectManager::getInstance(); // Instance of Object Manager
-	$priceHelper = $objectManager->create('Magento\Framework\Pricing\Helper\Data'); // Instance of Pricing Helper
-	$grand_total = $priceHelper->currency($grand_total, true, false);
+$fee = $order->getFee();
+	
 ?>
 <?php foreach ($block->getTotals() as $_code => $_total) :
  ?>
@@ -21,6 +19,9 @@ $objectManager = \Magento\Framework\App\ObjectManager::getInstance(); // Instanc
         <?= $block->getChildHtml($_total->getBlockName(), false) ?>
     <?php else :?>
     <tr class="<?= $block->escapeHtmlAttr($_code) ?>">
+    <?php 
+    
+        if($_code == 'fee' && $fee == 0){ }else{?>
         <th <?= /* @noEscape */ $block->getLabelProperties() ?> scope="row">
             <?php if ($_total->getStrong()) : ?>
                 <strong><?= $block->escapeHtml($_total->getLabel()) ?></strong>
@@ -32,10 +33,12 @@ $objectManager = \Magento\Framework\App\ObjectManager::getInstance(); // Instanc
         <td <?= /* @noEscape */ $block->getValueProperties() ?> data-th="<?= $block->escapeHtmlAttr($_total->getLabel()) ?>">
                 <?php 
                 echo $block->formatValue($_total); ?>
-            
         </td>
+        <?php } ?>
     </tr>
     
     <?php endif; ?>
 <?php endforeach?>
+
+
 

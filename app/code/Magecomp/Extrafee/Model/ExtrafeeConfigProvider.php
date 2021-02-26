@@ -53,11 +53,10 @@ class ExtrafeeConfigProvider implements ConfigProviderInterface
         $ExtrafeeConfig['fee_label'] = $this->dataHelper->getFeeLabel();
         $quote = $this->checkoutSession->getQuote();
         $subtotal = $quote->getSubtotal();
-        if($subtotal > 150){
-	
+ 
         $items = $quote->getItems();
 	$sum_duty_rates = 0;
-	foreach($items as $item) {
+/*	foreach($items as $item) {
 	$pro_id = $item->getProductId();
 	$objectManager = \Magento\Framework\App\ObjectManager::getInstance();
 	$product = $objectManager->get('Magento\Catalog\Model\Product')->load($pro_id);
@@ -66,12 +65,62 @@ class ExtrafeeConfigProvider implements ConfigProviderInterface
 	   $item_price = $item->getPriceInclTax() * $item->getQty();
 	   $final_duty = $item_price * $duty_rates / 100;
 	   $sum_duty_rates += $final_duty;
-	}
-}else{
-$sum_duty_rates = 0;
-}
+	}*/
+	
+	$item_price_tax = 0;
+        $merchant_email = array();
+        $row_total_price_incl_tax_same_merchant = 0;
+        $row_total_price_same_merchant = 0;
+        foreach ($items as $item)
+        {
+            if ($item->getProduct()
+                ->getData('merchant_email') != '')
+            {
+                $merchant_email[] = $item->getProduct()
+                    ->getData('merchant_email');
+            }
+        }
+        $i = 1;
+        foreach ($items as $item)
+        {
+            $row_total_price = $item->getRowTotal();
+            $row_total_price_incl_tax = $item->getRowTotalInclTax();
+            $merchant_email_loop = $merchant_email;
+            $duty_rates = $item->getProduct()->getData('duty_rates');
+            $ware_house_deal = $item->getProduct()->getData('ware_house_deal');
+            //exit;
+            $merchantEmailc = "";
+            if ($item->getProduct()
+                ->getData('merchant_email') != '')
+            {
+                $currentmerchant_email = $item->getProduct()
+                    ->getData('merchant_email');
+                $merchant_emailcount = array_count_values($merchant_email_loop);
+                $merchantEmailc = $merchant_emailcount[$currentmerchant_email];
+            }
+
+            if ($merchantEmailc > 1)
+            {
+                $row_total_price_incl_tax_same_merchant += $row_total_price_incl_tax;
+                $row_total_price_same_merchant += $row_total_price;
+                if ($merchantEmailc == $i && $row_total_price_incl_tax_same_merchant > 150 && $ware_house_deal == 'yes')
+                {
+                    $sum_duty_rates += $row_total_price_incl_tax_same_merchant * $duty_rates / 100;
+                }
+
+            }
+            else
+            {
+                if ($row_total_price_incl_tax > 150 && $ware_house_deal == 'yes')
+                {
+                    $sum_duty_rates += $row_total_price_incl_tax * $duty_rates / 100;
+                }
+            }
+            $i++;
+        }
+
         
-        $ExtrafeeConfig['custom_fee_amount'] = 0;
+        $ExtrafeeConfig['custom_fee_amount'] = $sum_duty_rates;
         if ($this->taxHelper->isTaxEnabled() && $this->taxHelper->displayInclTax()) {
             $address = $this->_getAddressFromQuote($quote);
             $ExtrafeeConfig['custom_fee_amount'] = $this->dataHelper->getExtrafee() + $address->getFeeTax();
@@ -99,3 +148,4 @@ $sum_duty_rates = 0;
         return $quote->isVirtual() ? $quote->getBillingAddress() : $quote->getShippingAddress();
     }
 }
+

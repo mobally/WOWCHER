@@ -38,15 +38,18 @@ class Addfeetosalesorder implements ObserverInterface
         $ware_house_deal = $item->getProduct()->getData('ware_house_deal');
         $deal_id_lsie = $item->getProduct()->getData('deal_id_lsie');
         $deal_id = $item->getProduct()->getData('deal_id');
+        $duty_hscode = $item->getProduct()->getData('duty_hscode');
+        $country_of_manufacture = $item->getProduct()->getData('country_of_manufacture');
         $item_price = $item->getData('base_row_total_incl_tax') * $itemqty;
                $item->setData('dutypaid', "P");
                $item->setData('fee', 0);
                $item->setData('deal_id', $deal_id);
-               
+               $item->setData('ware_house_deal', $ware_house_deal);
+               $item->setData('duty_hscode', $duty_hscode);
+               $item->setData('country_of_manufacture', $country_of_manufacture);
                $item->save();
             }
             return $this;
         }
 
-    	
     }

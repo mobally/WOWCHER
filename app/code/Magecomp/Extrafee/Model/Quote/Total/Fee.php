@@ -53,20 +53,70 @@ class Fee extends \Magento\Quote\Model\Quote\Address\Total\AbstractTotal
 	$objectManager = \Magento\Framework\App\ObjectManager::getInstance();
 	$sum_duty_rates = 0;
 	$subtotal = $total->getTotalAmount('subtotal');
-	if($subtotal > 150){
 	if($quote->getItems()){
 	$items = $quote->getItems();
 	$sum_duty_rates = 0;
-	foreach($items as $item) {
+	/*foreach($items as $item) {
 	$pro_id = $item->getProductId();
 	$duty_rates = $item->getProduct()->getDutyRates();
 	$itemqty = $item->getQty();
 	   $item_price = $item->getPrice() * $item->getQty();
 	   $final_duty = $item_price * $duty_rates / 100;
 	   $sum_duty_rates += $final_duty;
-	}
-}}else{
-$sum_duty_rates = 0;
+	}*/
+	
+	$item_price_tax = 0;
+        $merchant_email = array();
+        $row_total_price_incl_tax_same_merchant = 0;
+        $row_total_price_same_merchant = 0;
+        foreach ($items as $item)
+        {
+            if ($item->getProduct()
+                ->getData('merchant_email') != '')
+            {
+                $merchant_email[] = $item->getProduct()
+                    ->getData('merchant_email');
+            }
+        }
+        $i = 1;
+        foreach ($items as $item)
+        {
+            $row_total_price = $item->getRowTotal();
+            $row_total_price_incl_tax = $item->getRowTotalInclTax();
+            $merchant_email_loop = $merchant_email;
+            $duty_rates = $item->getProduct()->getData('duty_rates');
+            $ware_house_deal = $item->getProduct()->getData('ware_house_deal');
+            $merchantEmailc = "";
+            if ($item->getProduct()
+                ->getData('merchant_email') != '')
+            {
+                $currentmerchant_email = $item->getProduct()
+                    ->getData('merchant_email');
+                $merchant_emailcount = array_count_values($merchant_email_loop);
+                $merchantEmailc = $merchant_emailcount[$currentmerchant_email];
+            }
+
+            if ($merchantEmailc > 1)
+            {
+                $row_total_price_incl_tax_same_merchant += $row_total_price_incl_tax;
+                $row_total_price_same_merchant += $row_total_price;
+                if ($merchantEmailc == $i && $row_total_price_incl_tax_same_merchant > 150 && $ware_house_deal == 'yes')
+                {
+                    $sum_duty_rates += $row_total_price_same_merchant * $duty_rates / 100;
+                }
+
+            }
+            else
+            {
+                if ($row_total_price_incl_tax > 150 && $ware_house_deal == 'yes')
+                {
+                    $sum_duty_rates += $row_total_price * $duty_rates / 100;
+                }
+            }
+            $i++;
+        }
+	
+	
 }
         $enabled = $this->helperData->isModuleEnabled();
         $minimumOrderAmount = $this->helperData->getMinimumOrderAmount();
@@ -76,7 +126,7 @@ $sum_duty_rates = 0;
             //Try to test with sample value
             $currency = $objectManager->get('Magento\Directory\Model\Currency');
 	$sum_duty_rates = $currency->format($sum_duty_rates, ['display'=>\Zend_Currency::NO_SYMBOL], false);
-            $fee = 0;
+            $fee = $sum_duty_rates;
            // $total->setTotalAmount('fee', $fee);
           //  $total->setBaseTotalAmount('fee', $fee);
             $total->setFee($fee);
@@ -292,3 +342,4 @@ $sum_duty_rates = 0;
         $address->setAppliedTaxes($previouslyAppliedTaxes);
     }
 }
+

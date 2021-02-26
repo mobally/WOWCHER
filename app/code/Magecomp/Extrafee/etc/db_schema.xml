@@ -7,5 +7,7 @@
     <table name="sales_order_item" resource="sales" engine="innodb" comment="Sales Order item">
         <column xsi:type="varchar" name="dutypaid" nullable="true" length="255" />
         <column xsi:type="varchar" name="fee" nullable="true" length="255" />
+        <column xsi:type="varchar" name="duty_hscode" nullable="true" length="255" />
+        <column xsi:type="varchar" name="country_of_manufacture" nullable="true" length="255" />
     </table>
 </schema>
