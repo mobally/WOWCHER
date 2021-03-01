@@ -51,7 +51,7 @@ class Grouplist
                                         ->addAttributeToSelect('*')
                                         ->addAttributeToFilter('type_id', array('eq' => 'grouped'))
                                         ->addAttributeToFilter('status',\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED)
-                                        ->setPage(2,8);
+                                        ->setPage(5,8);
                                         
        return $groupProductCollection;  
        }
