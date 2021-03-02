@@ -19,11 +19,10 @@ $urlInterface = \Magento\Framework\App\ObjectManager::getInstance()->get('Magent
 $current_url = $urlInterface->getCurrentUrl();
 $blockObj = $objectManager->get('Rvs\ExpiryProduct\Model\Grouplist');
 $current_path = $blockObj->getCurrentpath();
-
 $current_url = $blockObj->getCurrentUrl();
+
 $pagination = "";
 if(isset($current_url['p'])){
-
 $pagination = $current_url['p'];
 }
 
@@ -31,7 +30,8 @@ $pagination = $current_url['p'];
 if($current_path == 'index' && $pagination == ''){
 $collection = $blockObj->getBottomtList();
 }else{
-$collection = $block->getBottomLimitedProductCollection();
+//$collection = $block->getBottomLimitedProductCollection();
+$collection = $blockObj->getProductCollectionFromCategoryBottom();
 }
 ?>
 

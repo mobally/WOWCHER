@@ -18,7 +18,8 @@ $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
 $blockObj = $objectManager->get('Rvs\ExpiryProduct\Model\Grouplist');
 $current_path = $blockObj->getCurrentpath();
 if($current_path != 'index'){
-$collection = $block->getLeftLimitedProductCollection();
+//$collection = $block->getLeftLimitedProductCollection();
+$collection = $blockObj->getProductCollectionFromCategoryLeft();
 }else{
 $collection = $blockObj->getLeftList();
 }

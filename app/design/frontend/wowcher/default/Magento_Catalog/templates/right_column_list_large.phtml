@@ -14,9 +14,19 @@ $saveUpToCue = $block->getSaveUpTo();
 
 $type = 'right_column_product_list_large';
 $image = 'right_column_list_large_image';
+
+$objectManager = \Magento\Framework\App\ObjectManager::getInstance(); 
+$blockObj = $objectManager->get('Rvs\ExpiryProduct\Model\Grouplist');
+$current_path = $blockObj->getCurrentpath();
+if($current_path == 'index'){
+$collection = $block->getLimitedProductCollection();
+}else{
+$collection = $blockObj->getProductCollectionFromCategoryRight();
+}
+
 ?>
 
-<?php foreach ($block->getLimitedProductCollection() as $product): ?>
+<?php foreach ($collection as $product): ?>
 <div class="deals-item deals-secondary-deal">
     <!-- Product Header section -->
     <div class="deal-header">
