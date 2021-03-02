@@ -19,20 +19,26 @@ $urlInterface = \Magento\Framework\App\ObjectManager::getInstance()->get('Magent
 $current_url = $urlInterface->getCurrentUrl();
 $blockObj = $objectManager->get('Rvs\ExpiryProduct\Model\Grouplist');
 $current_path = $blockObj->getCurrentpath();
-$current_url = $blockObj->getCurrentUrl();
 
+$current_url = $blockObj->getCurrentUrl();
 $pagination = "";
 if(isset($current_url['p'])){
+
 $pagination = $current_url['p'];
 }
 
 
 if($current_path == 'index' && $pagination == ''){
 $collection = $blockObj->getBottomtList();
+}elseif($current_path == 'index' && $pagination != ''){
+$collection = $block->getBottomLimitedProductCollection();
+}elseif($current_path != 'index' && $pagination != ''){
+$collection = $block->getBottomLimitedProductCollection();
 }else{
-//$collection = $block->getBottomLimitedProductCollection();
 $collection = $blockObj->getProductCollectionFromCategoryBottom();
 }
+$collection_count = count($collection);
+
 ?>
 
 <?php //foreach ($block->getBottomLimitedProductCollection() as $product):
@@ -125,5 +131,10 @@ $cats = $product->getCategoryIds();
 <?php endforeach; ?>
 
 <div class="pagination-bottom">
-    <?= $block->getPagerHtml() ?>
+    <?php
+    if($collection_count > 5){
+     echo $block->getPagerHtml();
+     }
+      ?>
 </div>
+
