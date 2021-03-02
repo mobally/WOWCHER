@@ -132,7 +132,7 @@ $cats = $product->getCategoryIds();
 
 <div class="pagination-bottom">
     <?php
-    if($collection_count > 5){
+    if($current_path == 'index'){
      echo $block->getPagerHtml();
      }
       ?>
