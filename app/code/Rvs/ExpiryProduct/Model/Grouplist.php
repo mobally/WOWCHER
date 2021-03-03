@@ -71,6 +71,15 @@ class Grouplist
        }
        
        
+       public function getProductId()
+       {
+       $current_product = $this->_registry->registry('current_product');
+        if($current_product){
+       return array($current_product->getEntityId());
+       }
+       }
+       
+       
        public function getProductCollectionFromFourRow() {
          $categoryId = $this->getCurrentcat();
          $not_in_array = $this->getProductCollectionFromThreeRow();
@@ -105,9 +114,11 @@ class Grouplist
        public function getProductCollectionFromCategoryRight() {
          $categoryId = $this->getCurrentcat();
 	 $category = $this->categoryFactory->create()->load($categoryId);
+	 $not_in_array = $this->getProductId();
 	 $collection = $category->getProductCollection()->addAttributeToSelect('*')
 	 ->addAttributeToFilter('type_id', array('eq' => 'grouped'))
-         ->addAttributeToFilter('status',\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED)->setPageSize(3);
+         ->addAttributeToFilter('status',\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED)->setPageSize(3)
+         ->addAttributeToFilter('entity_id', array('nin' => $not_in_array));
          return $collection;
  	}
        
@@ -115,7 +126,9 @@ class Grouplist
        /* Category left page collection */
        public function getProductCollectionFromCategoryLeft() {
          $categoryId = $this->getCurrentcat();
-         $not_in_array = $this->getProductCollectionFromThreeRow();
+         $not_in_array_left = $this->getProductCollectionFromThreeRow();
+         $not_in_array_parent = $this->getProductId();
+         $not_in_array = array_merge($not_in_array_left, $not_in_array_parent);
 	 $category = $this->categoryFactory->create()->load($categoryId);
 	 $collection = $category->getProductCollection()->addAttributeToSelect('*')
 	 ->addAttributeToFilter('type_id', array('eq' => 'grouped'))
@@ -129,7 +142,8 @@ class Grouplist
          $categoryId = $this->getCurrentcat();
          $not_in_array_left = $this->getProductCollectionFromFourRow();
          $not_in_array_right = $this->getProductCollectionFromThreeRow();
-         $not_in_array = array_merge($not_in_array_left, $not_in_array_right);
+         $not_in_array_parent = $this->getProductId();
+         $not_in_array = array_merge($not_in_array_left, $not_in_array_right,$not_in_array_parent);
          $category = $this->categoryFactory->create()->load($categoryId);
 	 $collection = $category->getProductCollection()->addAttributeToSelect('*')
 	 ->addAttributeToFilter('type_id', array('eq' => 'grouped'))
