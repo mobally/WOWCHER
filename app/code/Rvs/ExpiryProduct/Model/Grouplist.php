@@ -115,7 +115,9 @@ class Grouplist
        public function getProductCollectionFromCategoryRight() {
          $categoryId = $this->getCurrentcat();
 	 $category = $this->categoryFactory->create()->load($categoryId);
-	 $not_in_array = $this->getProductId();
+	 $not_in_array_left = $this->getProductCollectionFromFourRow();
+	 $not_in_array_parent = $this->getProductId();
+	 $not_in_array = array_merge($not_in_array_left,$not_in_array_parent);
 	 $collection = $category->getProductCollection()->addAttributeToSelect('*')
 	 ->addAttributeToFilter('type_id', array('eq' => 'grouped'))
          ->addAttributeToFilter('status',\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED)->setPageSize(3)
