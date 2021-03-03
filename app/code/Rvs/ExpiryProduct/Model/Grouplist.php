@@ -74,12 +74,11 @@ class Grouplist
        public function getProductId()
        {
        $current_product = $this->_registry->registry('current_product');
-        if($current_product){
+       if($current_product){
        return array($current_product->getEntityId());
        }
        }
-       
-       
+              
        public function getProductCollectionFromFourRow() {
          $categoryId = $this->getCurrentcat();
          $not_in_array = $this->getProductCollectionFromThreeRow();
