@@ -76,6 +76,8 @@ class Grouplist
        $current_product = $this->_registry->registry('current_product');
        if($current_product){
        return array($current_product->getEntityId());
+       }else{
+       return array(0);
        }
        }
               
@@ -125,9 +127,10 @@ class Grouplist
        /* Category left page collection */
        public function getProductCollectionFromCategoryLeft() {
          $categoryId = $this->getCurrentcat();
-         $not_in_array_left = $this->getProductCollectionFromThreeRow();
+         $not_in_array = $this->getProductCollectionFromThreeRow();
          $not_in_array_parent = $this->getProductId();
-         $not_in_array = array_merge($not_in_array_left, $not_in_array_parent);
+         //$not_in_array = array_merge($not_in_array_left, $not_in_array_parent);
+         
 	 $category = $this->categoryFactory->create()->load($categoryId);
 	 $collection = $category->getProductCollection()->addAttributeToSelect('*')
 	 ->addAttributeToFilter('type_id', array('eq' => 'grouped'))
