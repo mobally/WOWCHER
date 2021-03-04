@@ -146,7 +146,8 @@ class Grouplist
          $not_in_array_left = $this->getProductCollectionFromFourRow();
          $not_in_array_right = $this->getProductCollectionFromThreeRow();
          $not_in_array_parent = $this->getProductId();
-         $not_in_array = array_merge($not_in_array_left, $not_in_array_right,$not_in_array_parent);
+         $custom_array = array(2202,2354,2161);
+         $not_in_array = array_merge($not_in_array_left, $not_in_array_right,$not_in_array_parent,$custom_array);
          $category = $this->categoryFactory->create()->load($categoryId);
 	 $collection = $category->getProductCollection()->addAttributeToSelect('*')
 	 ->addAttributeToFilter('type_id', array('eq' => 'grouped'))
