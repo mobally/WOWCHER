@@ -1,0 +1,22 @@
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+<body>
+    <referenceBlock name="order_items">
+        <arguments>
+            <argument name="columns" xsi:type="array">
+                <item name="custom_item_column" xsi:type="string" translate="true">Deal Id</item>
+            </argument>
+        </arguments>
+        <referenceBlock name="default_order_items_renderer">
+            <arguments>
+                <argument name="columns" xsi:type="array">
+                    <item name="custom_item_column" xsi:type="string" translate="true">col-custom_item_column</item>
+                </argument>
+            </arguments>
+        </referenceBlock>
+
+        <block class="Magento\Sales\Block\Adminhtml\Items\Column\DefaultColumn"
+               name="column_custom_item_column"
+               template="HP_OrderGrid::custom_item_column.phtml" group="column" />
+    </referenceBlock>
+</body>
+</page>

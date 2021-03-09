@@ -1,0 +1,18 @@
+<span>
+<?php
+$sku = $block->getItem()->getData('sku');
+$objectManager = \Magento\Framework\App\ObjectManager::getInstance(); 
+$productRepository = $objectManager->get('\Magento\Catalog\Model\ProductRepository');
+$storeManager = $objectManager->get('\Magento\Store\Model\StoreManagerInterface');
+
+$productObj = $productRepository->get($sku);
+$deal_id = $productObj->getDealId();
+$pro_id = $productObj->getId();
+$parentId = $objectManager->create('Magento\GroupedProduct\Model\Product\Type\Grouped')->getParentIdsByChild($pro_id);
+$parent_id = "";
+if(isset($parentId[0])){
+$parent_id = $parentId[0];
+}
+$base_url =  $storeManager->getStore()->getBaseUrl(\Magento\Framework\UrlInterface::URL_TYPE_WEB).'admin/catalog/product/edit/id/'.$parent_id;
+echo "<a href='$base_url' target='blank'>$deal_id</a>";
+?></span>
