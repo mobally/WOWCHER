@@ -17,7 +17,7 @@
                 <item name="bodyTmpl" xsi:type="string">ui/grid/cells/html</item>
                     <item name="visible" xsi:type="boolean">true</item>
 			<item name="sortOrder" xsi:type="number">5</item>
-                    <item name="label" xsi:type="string" translate="true">Product SKU</item>
+                    <item name="label" xsi:type="string" translate="true">Product ID</item>
                 </item>
             </argument>
         </column>
