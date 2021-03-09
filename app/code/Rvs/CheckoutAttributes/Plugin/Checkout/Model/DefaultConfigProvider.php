@@ -16,6 +16,8 @@ class DefaultConfigProvider
     {
         $items = $result['totalsData']['items'];
 
+
+
         /* for($i = 0; $i < count($items); $i++) {
             $productId = $result['quoteItemData'][$i]['product']['entity_id'];
             $product = $this->_product->getById($productId);
@@ -54,6 +56,8 @@ class DefaultConfigProvider
 				}			
 
         }
+
+        //var_dump($result);exit;
 
         return $result;
     }

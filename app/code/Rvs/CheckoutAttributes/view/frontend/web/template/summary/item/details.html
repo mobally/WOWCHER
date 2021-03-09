@@ -9,21 +9,30 @@
         <div class="product-item-name-block">
             <strong class="product-item-name" data-bind="text: $parent.name"></strong>
             <!-- ko if: (getLeadTime($parent))-->
-				<div class="lead-time">
-					<span class="label"><strong><!-- ko i18n: 'Estimated delivery time: ' --><!-- /ko --></strong></span>
-					<span class="product-item-lead-time" data-bind="text: getLeadTime($parent)"></span>
-				</div>                
+                <div class="lead-time">
+                    <span class="label"><strong><!-- ko i18n: 'Estimated delivery time: ' --><!-- /ko --></strong></span>
+                    <span class="product-item-lead-time" data-bind="text: getLeadTime($parent)"></span>
+                </div>                
             <!-- /ko -->
-			<!-- ko if: (getItemDue($parent))-->
-				<div class="due-date">
-					<span class="label"><strong><!-- ko i18n: 'Due Date: ' --><!-- /ko --></strong></span>
-					<span class="product-item-due-date" data-bind="text: getItemDue($parent)"></span>
-				</div>                 
+            <!-- ko if: (getItemDue($parent))-->
+                <div class="due-date">
+                    <span class="label"><strong><!-- ko i18n: 'Due Date: ' --><!-- /ko --></strong></span>
+                    <span class="product-item-due-date" data-bind="text: getItemDue($parent)"></span>
+                </div>                 
             <!-- /ko -->
-        <div class="details-qty">
-            <span class="label"><!-- ko i18n: 'Qty' --><!-- /ko --></span>
-            <span class="value" data-bind="text: $parent.qty"></span>
-        </div>
+             <div class="details-qty">
+                <span class="label"><!-- ko i18n: 'Qty' --><!-- /ko --></span>
+                <span data-bind="if: (getConfigDefault() > 0 && getCustomQtyUpdate() > 0)">
+                    <button class="qty-increase" data-bind="click: function() { getDataPost($parent.item_id, $parent.qty) }"> + </button>
+                </span>
+                <span class="value" data-bind="text: $parent.qty"></span>
+                <span data-bind="if: (getConfigDefault() > 0 && getCustomQtyUpdate() > 0)">
+                    <button class="qty-decrease" data-bind="click: function() { getDataPostDecrease($parent.item_id, $parent.qty) }"> - </button>
+                </span>
+                <span data-bind="if: (getConfigDefault() > 0 && getCustomQtyUpdate() > 0)">
+                    <button class="action delete" data-bind="click: function() { deleteItem($parent.item_id) }"></button>
+                </span>
+            </div>
     </div>
     <!-- ko foreach: getRegion('after_details') -->
     <!-- ko template: getTemplate() --><!-- /ko -->
