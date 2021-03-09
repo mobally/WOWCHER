@@ -1,0 +1,87 @@
+<!--
+/**
+ * FME Extensions
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the fmeextensions.com license that is
+ * available through the world-wide-web at this URL:
+ * https://www.fmeextensions.com/LICENSE.txt
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade this extension to newer
+ * version in the future.
+ *
+ * @category  FME
+ * @package   FME_ExtendedMiniCart
+ * @copyright Copyright (c) 2019 FME (http://fmeextensions.com/)
+ * @license   https://fmeextensions.com/LICENSE.txt
+ */ 
+-->
+
+<!-- ko if: getTotalCartItems() > 0 -->
+
+<div class="component-wrapper" data-bind="if: getTotalCartItems() > 0">
+    <!---custom code for total---->
+    <!-- ko if: getCustomSummary() > 0 -->
+    <hr>
+    <div class="total-items" data-bind="if: getCustomSummary() > 0">
+        <span class="loader"></span>
+        <table>
+            <tbody>
+                <tr>
+                    <td>Subtotal</td>
+                    <td class="mini-amount"><span class="price" data-bind="html: getCartTotal()"></span></td>
+                </tr>
+                <tr>
+                    <td class="summary-shipping">Shipping &amp; Handling</td>
+                    <td class="mini-amount"><span class="price" data-bind="html: getAmmount()"></span></td>
+                </tr>
+                <tr>
+                    <td>Tax</td>
+                    <td class="mini-amount"><span class="price" data-bind="html: getAmmount()"></span></td>
+                </tr>
+                <tr>
+                    <td>Grand Total</td>
+                    <td class="mini-amount"><span class="price" data-bind="html: getCartTotal()"></span></td>
+                </tr>
+            </tbody>
+        </table> 
+    </div>
+    <!-----custom code for total end---->
+    <!-- /ko-->
+    <!-- ko if: getCustomReleated() > 0 -->
+    <!-----custom code for recommended products---->
+    <div id="minicart-related" class="minicart-items-wrapper minicart-related" data-bind="if: getCustomReleated() > 0">
+        <strong id="block-related-heading" role="heading">WE RECOMMEND ALSO </strong>
+        <ol id="mini-cart" class="minicart-items" data-bind="foreach: { data: getCartItems(), as: 'item' }" style="list-style-type: none;">
+            <li class="item product product-item" style="list-style-type: none; text-decoration: none; margin: 0px; padding:0px;" data-bind="if: item.relateditemsdata">
+                <br><div class="product">
+                    <a class="product-item-photo" style="float: left;">
+                    <span class="product-image-container" style="width: 75px;">
+                        <span  class="product-image-wrapper" style="height: 88px;">
+                            <img data-bind="attr: {src: item.relateditemsdata.related_image}" class="product-image-photo"  style="width: 75px; height: 88px;">
+                        </span>
+                    </span>
+                    </a>
+                    <div class="product-item-details" style="float: left;">
+                        <strong class="product-item-name">
+                            <a data-bind="attr: {href: item.relateditemsdata.relatedpermalink}, html:item.relateditemsdata.relatedtitle"></a>
+                        </strong> 
+                        <div class="product options">
+                            <div data-bind="html:item.relateditemsdata.related_sku"></div>
+                            <div class="productprice">
+                            <div data-bind="html:item.relateditemsdata.relatedraw_price"></div> 
+                            </div> 
+                        </div>
+                        <a data-bind="attr: {href: item.relateditemsdata.relatedpermalink},html: 'View'"></a>
+                    </div>
+                </div>
+            </li>
+        </ol>     
+    </div>
+    <!-- /ko-->
+    <!-----custom code for recommended products end---->
+</div>
+<!-- /ko-->
