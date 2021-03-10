@@ -103,7 +103,12 @@ class Product
             }],
             'product_postage_price' => 'postagePrice',
             'duty_hscode'=>'dutyHsCode',
-            
+            'deal_id' => ['deal', function ($v, $data) {
+                return $v['id'];
+            }],
+            'business_id' => ['deal', function ($v, $data) {
+                return $v['business']['id'];
+            }],
         ];
     }
 
