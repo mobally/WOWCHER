@@ -31,5 +31,15 @@
                 </item>
             </argument>
         </column>
+       <column name="products_deal_id" class="HP\OrderGrid\Ui\Component\Listing\Column\Dealid">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                <item name="bodyTmpl" xsi:type="string">ui/grid/cells/html</item>
+                    <item name="visible" xsi:type="boolean">true</item>
+			<item name="sortOrder" xsi:type="number">5</item>
+                    <item name="label" xsi:type="string" translate="true">Deal ID</item>
+                </item>
+            </argument>
+        </column>
     </columns>
 </listing>
