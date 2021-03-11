@@ -11,7 +11,7 @@
                 </item>
             </argument>
         </column>
-        <column name="products_sku" class="HP\OrderGrid\Ui\Component\Listing\Column\Productsku">
+        <column name="sku" class="HP\OrderGrid\Ui\Component\Listing\Column\Productsku">
             <argument name="data" xsi:type="array">
                 <item name="config" xsi:type="array">
                 <item name="bodyTmpl" xsi:type="string">ui/grid/cells/html</item>

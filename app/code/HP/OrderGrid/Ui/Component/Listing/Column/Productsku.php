@@ -37,7 +37,7 @@ class Productsku extends Column
                     $productArr[] = $item->getSku();
                     
                 }
-                $items['products_sku'] = implode(' - ', $productArr);
+                $items['sku'] = implode(' - ', $productArr);
                 unset($productArr);
             }
         }
