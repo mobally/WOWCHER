@@ -3,4 +3,7 @@
     <event name="controller_action_catalog_product_save_entity_after">
         <observer name="catalog_product_save_after" instance="Rvs\ExpiryProduct\Observer\Productsaveafter" />
     </event>
+    <event name="catalog_product_save_before">
+        <observer name="rvs_catalog_product_save_before" instance="Rvs\ExpiryProduct\Observer\Productsavebefore" />
+    </event>
 </config>
