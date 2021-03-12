@@ -21,7 +21,7 @@
                 </item>
             </argument>
         </column>
-        <column name="products_business_id" class="HP\OrderGrid\Ui\Component\Listing\Column\Businessid">
+        <!--<column name="products_business_id" class="HP\OrderGrid\Ui\Component\Listing\Column\Businessid">
             <argument name="data" xsi:type="array">
                 <item name="config" xsi:type="array">
                 <item name="bodyTmpl" xsi:type="string">ui/grid/cells/html</item>
@@ -30,7 +30,7 @@
                     <item name="label" xsi:type="string" translate="true">Business ID</item>
                 </item>
             </argument>
-        </column>
+        </column>-->
        <column name="products_deal_id" class="HP\OrderGrid\Ui\Component\Listing\Column\Dealid">
             <argument name="data" xsi:type="array">
                 <item name="config" xsi:type="array">
