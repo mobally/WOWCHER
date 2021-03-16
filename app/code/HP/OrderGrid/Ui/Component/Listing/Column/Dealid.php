@@ -50,7 +50,7 @@ class Dealid extends Column
                     $parent_item_data = $this->loadMyProduct($deal_id);
                     $parent_id = $parent_item_data->getId();
 			if($parent_id){
-			$productArr[] = "<a href='https://wowcher-staging.idevelopment.site/admin/catalog/product/edit/id/$parent_id' target='blank'>$deal_id</a>";
+			$productArr[] = "<a href='https://www.wowcher.com/admin/catalog/product/edit/id/$parent_id' target='blank'>$deal_id</a>";
 			}
                 }
                 $items['products_deal_id'] = implode(' - ', $productArr);
