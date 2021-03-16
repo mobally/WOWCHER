@@ -21,7 +21,13 @@
                        data-validate="{required:true, 'validate-email':true}"
                        id="customer-email" />
                 <!-- ko template: 'ui/form/element/helper/tooltip' --><!-- /ko -->
-                <span class="note" data-bind="fadeVisible: isPasswordVisible() == false"><!-- ko i18n: 'Puedes crear una cuenta despues de finalizar tu pedido'--><!-- /ko --></span>
+                <div class="note" data-bind="fadeVisible: isPasswordVisible() == false">
+                <div class="register-disclaimer">
+<h3>Descargo de responsabilidad</h3>
+<p>Al crear una cuenta, acepta recibir correos electrónicos diarios con ofertas locales de servicios, compras y viajes de Wowcher. Puede cambiar sus preferencias y darse de baja en cualquier momento haciendo clic en la opción de darse de baja en el correo electrónico mismo o en el centro de preferencias de correo electrónico. Nuestro correo electrónico de bienvenida incluye un enlace para cancelar inmediatamente cualquier correo electrónico de marketing. Vea nuestra Política de Privacidad y Cookies <a href="https://secure.wowcher.co.uk/page/privacypolicy" target="_blank" rel="noopener" data-qa="privacyAndCookiesPolicy">aquí.</a></p>
+<p>Puede confirmar su dirección de entrega una vez que realice su pedido</p>
+</div>
+                </div>
             </div>
         </div>
 
