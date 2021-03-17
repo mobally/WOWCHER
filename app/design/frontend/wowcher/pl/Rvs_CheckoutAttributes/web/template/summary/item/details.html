@@ -23,12 +23,13 @@
              <div class="details-qty">
                 <span class="label"><!-- ko i18n: 'Qty' --><!-- /ko --></span>
                 <span data-bind="if: (getConfigDefault() > 0 && getCustomQtyUpdate() > 0)">
-                    <button class="qty-increase" data-bind="click: function() { getDataPost($parent.item_id, $parent.qty) }"> + </button>
-                </span>
-                <span class="value" data-bind="text: $parent.qty"></span>
-                <span data-bind="if: (getConfigDefault() > 0 && getCustomQtyUpdate() > 0)">
                     <button class="qty-decrease" data-bind="click: function() { getDataPostDecrease($parent.item_id, $parent.qty) }"> - </button>
                 </span>
+                                <span class="value" data-bind="text: $parent.qty"></span>
+                <span data-bind="if: (getConfigDefault() > 0 && getCustomQtyUpdate() > 0)">
+                    <button class="qty-increase" data-bind="click: function() { getDataPost($parent.item_id, $parent.qty) }"> + </button>
+                </span>
+                
                 <span data-bind="if: (getConfigDefault() > 0 && getCustomQtyUpdate() > 0)">
                     <button class="action delete" data-bind="click: function() { deleteItem($parent.item_id) }"></button>
                 </span>

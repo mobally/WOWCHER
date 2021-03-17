@@ -174,7 +174,7 @@ class Importer
         }
 
         $this->logger->debug(sprintf('Validation complete. Importing...'));
-        $this->importModel->importSource();
+        //$this->importModel->importSource();
     }
 
     /**
@@ -263,6 +263,6 @@ class Importer
 
 
         $this->logger->debug(sprintf('Validation complete. Importing...'));
-        $this->importModel->importSource();
+        //$this->importModel->importSource();
     }
 }
