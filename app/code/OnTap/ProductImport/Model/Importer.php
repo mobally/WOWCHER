@@ -72,7 +72,8 @@ class Importer
         ArraySourceFactory $arraySourceFactory,
         ProductResource $productResource,
         CollectionFactory $collectionFactory,
-        LoggerInterface $logger
+        LoggerInterface $logger,
+        \Rvs\ExpiryProduct\Model\Grouplist $Grouplist
     ) {
         $this->feedDownloader = $feedDownloader;
         $this->mapper = $mapper;
@@ -81,6 +82,7 @@ class Importer
         $this->productResource = $productResource;
         $this->collectionFactory = $collectionFactory;
         $this->logger = $logger;
+        $this->grouplist = $Grouplist;
     }
 
     /**
@@ -180,6 +182,10 @@ class Importer
     /**
      * @throws \Magento\Framework\Exception\LocalizedException
      */
+     
+     
+     
+     
     public function importAll(): void
     {
         $data = $this->feedDownloader->fetchData(
@@ -191,9 +197,20 @@ class Importer
             throw new \Exception('API returned empty response');
         }
 
+
+	//$data = '[{"id":16047407},{"id":15411422},{"id":15778376},{"id":16047435},{"id":16179034}]';
+
+
         $serializer = new \Magento\Framework\Serialize\Serializer\Json();
         $data = $serializer->unserialize($data);
-
+	$result = array();
+	foreach ($data as $deal) {
+	$result[] = $deal['id'];
+	}
+	$magento_array = $this->grouplist->getGroupList();
+	$data = array_diff($result,$magento_array);
+echo count($data);
+exit;
         if (empty($data)) {
             throw new \Exception('No deals returned from the API');
         }
@@ -212,11 +229,11 @@ class Importer
         ]));
 
         $newData = [];
-        foreach ($data as $deal) {
+       foreach ($data as $deal) {
             $url = sprintf(
                 //'https://deal-eu09.devwowcher.co.uk/europe/deal/%s',
                 'https://public-api.wowcher.co.uk/europe/deal/%s',
-                $deal['id']
+                $deal
             );
 
             $this->logger->debug(sprintf('Fetching data from: %s', $url));

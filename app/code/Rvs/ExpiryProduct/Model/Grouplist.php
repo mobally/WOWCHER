@@ -38,6 +38,22 @@ class Grouplist
     $this->categoryFactory = $CategoryFactory;
 }
 
+
+	public function getGroupList()
+   	{
+       $groupProductCollection = $this->productCollectionFactory->create() 
+                                        ->addAttributeToSelect('*')
+                                        ->addAttributeToFilter('type_id', array('eq' => 'grouped'));
+                                        
+                                        
+        $result = array();
+         foreach($groupProductCollection as $val){
+         //return $collection;
+         $result[] = $val->getSku();
+         }
+         return $result;  
+       }
+
 	public function getBottomtList()
    	{
        $groupProductCollection = $this->productCollectionFactory->create() 
