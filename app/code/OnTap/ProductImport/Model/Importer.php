@@ -209,8 +209,8 @@ class Importer
 	}
 	$magento_array = $this->grouplist->getGroupList();
 	$data = array_diff($result,$magento_array);
-echo count($data);
-exit;
+//echo count($data);
+//exit;
         if (empty($data)) {
             throw new \Exception('No deals returned from the API');
         }
@@ -280,6 +280,6 @@ exit;
 
 
         $this->logger->debug(sprintf('Validation complete. Importing...'));
-        //$this->importModel->importSource();
+        $this->importModel->importSource();
     }
 }
