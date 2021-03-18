@@ -209,7 +209,10 @@ class Importer
 	}
 	$magento_array = $this->grouplist->getGroupList();
 	$data = array_diff($result,$magento_array);
-//echo count($data);
+$count_deals = count($data);
+if($count_deals > 0){
+echo $count_deals.' New deals start to import';
+}
 //exit;
         if (empty($data)) {
             throw new \Exception('No deals returned from the API');
