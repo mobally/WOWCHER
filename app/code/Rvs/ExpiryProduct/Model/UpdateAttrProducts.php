@@ -84,7 +84,7 @@ class UpdateAttrProducts
         $collection->getSelect()->reset(\Zend_Db_Select::COLUMNS)->columns(['business_email']);
         $data = $collection->getData();
         foreach($data as $value){
-        $updateAttributes['new_merchant_email'] = $value['business_email'];
+        $updateAttributes['merchant_email'] = $value['business_email'];
         foreach ($storeIds as $storeId) {
 	    $this->productAction->updateAttributes([$val->getId()], $updateAttributes, $storeId); 
 	}
