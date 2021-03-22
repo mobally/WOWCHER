@@ -275,13 +275,13 @@
 				}
 
 				.column-2 {
-					border-right: 1px solid @theme-grey7;
 					border-left: 1px solid @theme-grey7;
 					padding: 0 15px;
 					width: 22%;
 				}
 
 				.column-3 {
+					border-left: 1px solid @theme-grey7;
 					width: 68%;
 					padding-left: 4%;
 					position: relative;
@@ -294,6 +294,7 @@
 						position: absolute;
 						left: 6%;
 						right: 0;
+						top: 0;
 						margin: 0 auto;
 					}
 				}
@@ -473,8 +474,128 @@
 				line-height: 1.4;
 				margin: 0 55px 5px 0;
 			}
-		}
+		}		
 	}
+	.navigation{
+		.widget-product-grid{
+			display: flex;
+			flex-wrap: wrap;
+			.product-item{
+				border: 2px solid transparent;
+				margin-bottom: 20px !important;
+				margin-right: 4% !important;
+				width: 48%;
+				&:nth-child(2n){
+					margin-right: 0 !important;
+				}
+				&:hover{
+					border: 2px solid #eb008c;
+				}
+			}
+			.product-image-container-856{
+				width: 240px !important;
+				& > .product-image-wrapper{
+					padding-bottom: 125% !important;
+				}
+			}
+			.product-item-inner{
+				display: none;
+			}
+			.product-item-info{
+				overflow: hidden;
+				position: relative;
+				& > .product-item-photo{
+				    margin: 0 !important;
+					text-align: center;
+				}
+			}
+			.product-item-details{
+				background: linear-gradient(180deg, rgba(125, 185, 232, 0.001) 0, rgba(0, 0, 0, 0) 20%, rgba(0, 0, 0, 0.7));
+				padding: 80px 10px 12px;
+				position: absolute;
+				left: 0;
+				bottom: 0;
+				width: 100%;
+				z-index: 1;
+			}
+			.product-item-name{
+				padding-right: 65px;
+				a{
+					color: #ffffff !important;
+					font-size: 1.4rem !important;
+					font-weight: 700 !important;
+				}
+			}
+			.product-item{
+				.price-box{
+					margin: 0;
+					.price-label{
+						color: #ffffff;
+						display: none;
+					}
+					.price{
+						color: #ffffff;
+						font-size: 1.6rem;
+					}
+				}
+				.minimal-price{
+					.price-container{
+						display: inline-block;
+					}					
+				}
+			}
+			.savepricebox{
+				display: flex;
+				align-items: center;
+				color: #ffffff;
+				font-size: 13px;
+				font-weight: bold;
+				.saveprice{
+					position: relative;
+					&:before{
+						position: absolute;
+						content: "";
+						left: 0;
+						top: 50%;
+						right: 0;
+						width: 120%;
+						margin-left: -10%;
+						border-top: 1px solid;
+						-webkit-transform: rotate(-11deg);
+						-ms-transform: rotate(-11deg);
+						transform: rotate(-11deg);
+					}
+				}
+			}
+			.you-save-statement{
+				margin-right: 20px;
+			}
+			.menuPriceSection{
+				background: url('../images/splat.svg') no-repeat;
+				background-size: auto 200%;
+				width: 85px;
+				height: 70px;
+				padding: 28px 0 0 23px;
+				position: absolute;
+				right: 0;
+				bottom: 0;
+				text-align: center;
+				& > span{
+					color: #ffffff;
+					font-size: 1.3rem;
+					font-weight: 700;
+					text-transform: uppercase;
+				}
+			}
+			.menuPriceDrop{
+				position: absolute;
+				right: 0;
+				top: 12%;
+				max-width: 45%;
+				width: 100%;
+			}
+		}
+	}	
 }
 
 .ie11 {
