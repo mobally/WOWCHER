@@ -73,6 +73,7 @@ atlassian*
 /dev
 .DS_Store
 /productimport
+/dealproducts_errors
 /app/code/Scommerce/Core
 /app/code/Scommerce/GoogleTagManagerPro
 /app/code/Bss/PreSelectShippingPayment
