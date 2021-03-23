@@ -82,8 +82,8 @@ class Menu extends Topmenu
     {
         $html = '';
         $dealTextPrefix = __('All');
-        $dealTextSuffix = __('Deals');
-
+        //$dealTextSuffix = __('Deals');
+$dealTextSuffix = "";
         if ((!$child->hasChildren())) {
             return $html;
         }
