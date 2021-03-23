@@ -65,6 +65,8 @@ class Configurable extends ProductAwareTemplate
      */
     protected function getDataFromSerialisedField(string $field): array
     {
+    
+    try {
         if (isset($this->serialized[$field])) {
             return $this->serialized[$field];
         }
@@ -82,6 +84,20 @@ class Configurable extends ProductAwareTemplate
 
         $this->serialized[$field] = $this->serializer->unserialize($value);
         return $this->serialized[$field];
+    } catch (\Exception $e) {
+       $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+    $product = $objectManager->get('Magento\Framework\Registry')->registry('current_product');//get current product
+    $pro_sku = $product->getSku();
+    $date_time = date("d-m-y");
+    
+    $writer = new \Zend\Log\Writer\Stream(BP . '/dealproducts_errors/'.$pro_sku.' '.$date_time.'.log');
+	$logger = new \Zend\Log\Logger();
+	$logger->addWriter($writer);
+	$logger->info("Error found in $pro_sku product");
+	    }
+
+    
+        
     }
 
     /**
@@ -89,6 +105,9 @@ class Configurable extends ProductAwareTemplate
      */
     public function getRowLabel(): string
     {
+    
+    
+    
         $row = $this->getDataFromSerialisedField(self::ATTRIBUTE_PRODUCT_ROW);
         if (isset($row['header'])) {
             return $row['header'];
