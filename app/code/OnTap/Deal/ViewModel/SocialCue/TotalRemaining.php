@@ -131,12 +131,23 @@ protected $_storeManager;
        $lastSixHours = $result->lastSixHours;
        $lastTwelveHours = $result->lastTwelveHours;
        $lastTwentyFourHours = $result->lastTwentyFourHours;
-       //$lastTwentyFourHours = 6;
+       //$lastTwentyFourHours = 2;
        $lastPurchasedTime = $result->lastPurchasedTime;
        if($current_hour < 6 && $lastTwentyFourHours > 1)
        {
-         $hrtext = __("others bought this deal in the last 24 hours!");
-          return "$lastTwentyFourHours $hrtext";
+         if($lastTwentyFourHours == 1 && $code == 'pl'){
+        $hrtext = __("inna osoba kupiła tę ofertę w ciągu ostatnich 24 godzin!");
+        }
+        else if($lastTwentyFourHours > 1 && $lastTwentyFourHours <= 5 && $code == 'pl'){
+        $hrtext = __("inne osoby kupiły tę ofertę w ciągu ostatnich 24 godzin!");
+        }
+        else if($lastTwentyFourHours > 5 && $code == 'pl'){
+        $hrtext = __("innych osób kupiło tę ofertę w ciągu ostatnich 24 godzin!");
+        }
+        else{
+        $hrtext = __("others bought this deal in the last 24 hours!");
+        }
+           return "$lastTwentyFourHours $hrtext";
        }else if($current_hour < 12 && $lastSixHours > 1){
         $hrtext = __("others have already bought this morning!");
         return "$lastSixHours $hrtext";
@@ -149,10 +160,10 @@ protected $_storeManager;
        if($lastTwentyFourHours == 1 && $code == 'pl'){
         $hrtext = __("inna osoba kupiła tę ofertę w ciągu ostatnich 24 godzin!");
         }
-        if($lastTwentyFourHours > 1 && $lastTwentyFourHours <= 5 && $code == 'pl'){
+        else if($lastTwentyFourHours > 1 && $lastTwentyFourHours <= 5 && $code == 'pl'){
         $hrtext = __("inne osoby kupiły tę ofertę w ciągu ostatnich 24 godzin!");
         }
-        if($lastTwentyFourHours > 5 && $code == 'pl'){
+        else if($lastTwentyFourHours > 5 && $code == 'pl'){
         $hrtext = __("innych osób kupiło tę ofertę w ciągu ostatnich 24 godzin!");
         }
         else{
