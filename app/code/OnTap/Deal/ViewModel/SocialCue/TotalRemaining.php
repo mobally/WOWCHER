@@ -85,9 +85,16 @@ protected $_storeManager;
         }
  $storecode = $this->_storeManager->getStore()->getCode();
         if ($qty > 0 && $qty < 10) {
-        if($storecode == 'pl'){
+        if($qty == 1 && $storecode == 'pl'){
+            return __("PRAWIE WYPRZEDANE - pozostała tylko %1 sztuka!", $qty);
+            }
+            if($qty > 1 && $qty <= 5 && $storecode == 'pl'){
+            return __("PRAWIE WYPRZEDANE - pozostało tylko %1 sztuki!", $qty);
+            }
+            if($qty <= 10 && $storecode == 'pl'){
             return __("PRAWIE WYPRZEDANE - pozostało tylko %1 sztuk!", $qty);
-            }else{
+            }
+            else{
             return __("ALMOST GONE - only %1 remaining!", $qty);
             }
         } else if ($qty < 50) {
@@ -111,6 +118,7 @@ protected $_storeManager;
     
     public function getsocialCuedeal($sku){
     try{
+    $code = $this->_storeManager->getStore()->getCode();
         $url = "https://public-api.wowcher.co.uk/v1/socialcue/deal/$sku";
         //if the method is get
         $this->_curl->get($url);
@@ -123,6 +131,7 @@ protected $_storeManager;
        $lastSixHours = $result->lastSixHours;
        $lastTwelveHours = $result->lastTwelveHours;
        $lastTwentyFourHours = $result->lastTwentyFourHours;
+       //$lastTwentyFourHours = 6;
        $lastPurchasedTime = $result->lastPurchasedTime;
        if($current_hour < 6 && $lastTwentyFourHours > 1)
        {
@@ -134,8 +143,21 @@ protected $_storeManager;
        }else if($current_hour < 8 && $lastTwelveHours > 1){
          $hrtext = __("others have already bought this deal today!");
         return "$lastTwelveHours $hrtext";
-       }else if($lastTwentyFourHours > 1){
+       }
+       //else if($lastTwentyFourHours > 1){
+       else if($lastTwentyFourHours > 1){
+       if($lastTwentyFourHours == 1 && $code == 'pl'){
+        $hrtext = __("inna osoba kupiła tę ofertę w ciągu ostatnich 24 godzin!");
+        }
+        if($lastTwentyFourHours > 1 && $lastTwentyFourHours <= 5 && $code == 'pl'){
+        $hrtext = __("inne osoby kupiły tę ofertę w ciągu ostatnich 24 godzin!");
+        }
+        if($lastTwentyFourHours > 5 && $code == 'pl'){
+        $hrtext = __("innych osób kupiło tę ofertę w ciągu ostatnich 24 godzin!");
+        }
+        else{
         $hrtext = __("others bought this deal in the last 24 hours!");
+        }
         return "$lastTwentyFourHours $hrtext";
        }
     }
