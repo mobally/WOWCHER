@@ -83,9 +83,13 @@ protected $_storeManager;
         foreach ($collection as $item) {
             $qty += $this->getStockItem($item->getId());
         }
-
+ $storecode = $this->_storeManager->getStore()->getCode();
         if ($qty > 0 && $qty < 10) {
+        if($storecode == 'pl'){
+            return __("PRAWIE WYPRZEDANE - pozostało tylko %1 sztuk!", $qty);
+            }else{
             return __("ALMOST GONE - only %1 remaining!", $qty);
+            }
         } else if ($qty < 50) {
             return __('Limited Availability!');
         } else if ($this->getValue($product) > 100 && $qty > 0) {
