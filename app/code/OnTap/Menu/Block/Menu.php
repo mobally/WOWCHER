@@ -40,6 +40,8 @@ class Menu extends Topmenu
      */
     private CategoryListModel $categoryListModel;
 
+protected $_storeManager;
+
     /**
      * Menu constructor.
      * @param Template\Context $context
@@ -59,6 +61,7 @@ class Menu extends Topmenu
         CategoryFactory $categoryFactory,
         CategoryCollectionFactory $categoryCollectionFactory,
         CategoryListModel $categoryListModel,
+        \Magento\Store\Model\StoreManagerInterface $storeManager, 
         array $data = []
     ) {
         parent::__construct($context, $nodeFactory, $treeFactory, $data);
@@ -66,6 +69,7 @@ class Menu extends Topmenu
         $this->categoryFactory = $categoryFactory;
         $this->categoryCollectionFactory = $categoryCollectionFactory;
         $this->categoryListModel = $categoryListModel;
+        $this->_storeManager = $storeManager;  
     }
 
     /**
@@ -80,10 +84,18 @@ class Menu extends Topmenu
      */
     protected function _addSubMenu($child, $childLevel, $childrenWrapClass, $limit)
     {
+    
+    $store_id = $this->_storeManager->getStore()->getId();
         $html = '';
-        $dealTextPrefix = __('All');
+        
         //$dealTextSuffix = __('Deals');
-$dealTextSuffix = "";
+        if($store_id == 3){
+	$dealTextSuffix = __(' - Todas las ofertas');
+	$dealTextPrefix = '';
+	}else{
+	$dealTextSuffix = '';
+	$dealTextPrefix = __('All');
+	}
         if ((!$child->hasChildren())) {
             return $html;
         }
