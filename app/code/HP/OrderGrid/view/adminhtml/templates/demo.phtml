@@ -1,0 +1,32 @@
+<?php
+$objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+$productRepository = $objectManager->get('\Magento\Catalog\Model\ProductRepository');
+$redirect = $objectManager->get('\Magento\Framework\App\Response\Http');
+$request = $objectManager->get('Magento\Framework\App\RequestInterface');
+$deal_id = $request->getParam('deal_id');
+if($deal_id != 0){
+$old_id = $request->getParam('id');
+$productObj = $productRepository->get($deal_id);
+$new_id = $productObj->getId();
+$type_id = $productObj->getTypeId();
+$associatedProducts = $productObj->getTypeInstance()->getAssociatedProducts($productObj);
+echo "<table>";
+foreach($associatedProducts as $value){
+	$pro_id = $value->getId();
+	$sku = $value->getSku();
+	echo $name = "<tr>
+	<td class='group-list'>$sku</td>
+	<td class='group-list'><a href='https://wowcher-staging.idevelopment.site/admin/catalog/product/edit/id/$pro_id/deal_id/0' target='_blank'>".
+	$value->getName()."</a></td>
+	<td><a href='https://wowcher-staging.idevelopment.site/admin/catalog/product/edit/id/$pro_id/deal_id/0' target='_blank'>Edit</a></td>
+	</tr>";
+}
+
+echo "</table>";
+}
+?>
+<style>
+.group-list{
+    padding: 6px;
+}
+</style>
