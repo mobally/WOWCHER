@@ -16,11 +16,12 @@ foreach($associatedProducts as $value){
 	$sku = $value->getSku();
 	echo $name = "<tr>
 	<td class='group-list'>$sku</td>
-	<td class='group-list'><a href='https://wowcher-staging.idevelopment.site/admin/catalog/product/edit/id/$pro_id/deal_id/0' target='_blank'>".
+	<td class='group-list'><a href='https://www.wowcher.com/admin/catalog/product/edit/id/$pro_id/deal_id/0' target='_blank'>".
 	$value->getName()."</a></td>
-	<td><a href='https://wowcher-staging.idevelopment.site/admin/catalog/product/edit/id/$pro_id/deal_id/0' target='_blank'>Edit</a></td>
+	<td><a href='https://www.wowcher.com/admin/catalog/product/edit/id/$pro_id/deal_id/0' target='_blank'>Edit</a></td>
 	</tr>";
 }
+
 
 echo "</table>";
 }
