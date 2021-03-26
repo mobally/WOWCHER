@@ -1,23 +1,38 @@
 <?php
 $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
 $productRepository = $objectManager->get('\Magento\Catalog\Model\ProductRepository');
+$priceHelper = $objectManager->create('Magento\Framework\Pricing\Helper\Data'); // Instance of Pricing Helper
+
 $redirect = $objectManager->get('\Magento\Framework\App\Response\Http');
 $request = $objectManager->get('Magento\Framework\App\RequestInterface');
 $deal_id = $request->getParam('deal_id');
-if($deal_id != 0){
-$old_id = $request->getParam('id');
-$productObj = $productRepository->get($deal_id);
+$product_id = $request->getParam('id');
+$objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+$productObj = $objectManager->create('Magento\Catalog\Model\Product')->load($product_id);
+$type = $productObj->getTypeId();
+if($type == 'grouped'){
 $new_id = $productObj->getId();
 $type_id = $productObj->getTypeId();
 $associatedProducts = $productObj->getTypeInstance()->getAssociatedProducts($productObj);
-echo "<table>";
+echo "<table class='custTable data-grid'><thead><tr><th class='data-grid-th'>Product ID</th><th  class='data-grid-th'>Name</th><th  class='data-grid-th'>Price</th><th class='data-grid-th'>Status</th><th class='data-grid-th'>Actions</th></thead></tr>";
 foreach($associatedProducts as $value){
 	$pro_id = $value->getId();
 	$sku = $value->getSku();
-	echo $name = "<tr>
+	$price = $value->getPrice();
+	$formattedPrice = $priceHelper->currency($price, true, false);
+	$status = $value->getStatus();
+	if($status == 2){
+		$status = "Disable";
+	}else{
+		$status = "Enable";
+	}
+	echo $name = "
+	<tr class='data-row'>
 	<td class='group-list'>$sku</td>
 	<td class='group-list'><a href='https://www.wowcher.com/admin/catalog/product/edit/id/$pro_id/deal_id/0' target='_blank'>".
 	$value->getName()."</a></td>
+	<td>$formattedPrice</td>
+	<td>$status</td>
 	<td><a href='https://www.wowcher.com/admin/catalog/product/edit/id/$pro_id/deal_id/0' target='_blank'>Edit</a></td>
 	</tr>";
 }
@@ -29,5 +44,14 @@ echo "</table>";
 <style>
 .group-list{
     padding: 6px;
+}
+.data-grid.custTable tbody tr:nth-child(odd) td{
+	background-color: #f5f5f5;
+}
+.data-grid.custTable td{
+	padding: 2rem 1rem;
+}
+.data-grid.custTable td.group-list a{
+	color: #303030;
 }
 </style>

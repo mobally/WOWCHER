@@ -3,7 +3,7 @@
     <fieldset name="fieldname">
         <argument name="data" xsi:type="array">
             <item name="config" xsi:type="array">
-                <item name="label" xsi:type="string" translate="true">Simple Product Editor</item>
+                <item name="label" xsi:type="string" translate="true">Product ID Editor</item>
                 <item name="collapsible" xsi:type="boolean">true</item>
                 <item name="sortOrder" xsi:type="number">10</item>
             </item>
