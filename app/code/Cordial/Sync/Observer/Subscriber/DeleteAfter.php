@@ -35,7 +35,7 @@ class DeleteAfter extends Sync implements \Magento\Framework\Event\ObserverInter
         }
 
         /** @var  $subscriberApi \Cordial\Sync\Model\Api\Subscriber */
-        $subscriberApi = $this->objectManager->create(Cordial\Sync\Model\Api\Subscriber::class);
+        $subscriberApi = $this->objectManager->create(\Cordial\Sync\Model\Api\Subscriber::class);
         $subscriberApi->load($storeId);
         $res = $subscriberApi->delete($subscriber->getSubscriberEmail());
 

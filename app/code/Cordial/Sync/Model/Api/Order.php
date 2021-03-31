@@ -50,7 +50,8 @@ class Order extends Client
         \Cordial\Sync\Model\Touched $touched,
         \Psr\Log\LoggerInterface $logger,
         \Magento\Sales\Api\OrderRepositoryInterface $orderRepository,
-        \Magento\Catalog\Model\Product $productModel
+        \Magento\Catalog\Api\ProductRepositoryInterface $productRepository
+        //\Magento\Catalog\Model\Product $productModel
     ) {
 
         $this->helper = $helper;
@@ -60,7 +61,8 @@ class Order extends Client
         $this->touched = $touched;
         $this->logger = $logger;
         $this->orderRepository = $orderRepository;
-        $this->productModel = $productModel;
+        //$this->productModel = $productModel;
+        $this->productRepository = $productRepository;
     }
 
     /**
@@ -164,8 +166,17 @@ class Order extends Client
             if ($item->getParentItem()) {
                 continue;
             }
-            $product = $this->productModel->setStoreId($order->getStoreId())->load($item->getProductId());
-            $productUrl = $product->getUrlModel()->getUrl($product);
+
+            //try {
+			//$product = $this->productModel->setStoreId($order->getStoreId())->load($item->getProductId());
+			$product = $this->productRepository->getById(
+					$item->getProductId(),
+					false,
+					$order->getStoreId()
+				);
+			$productUrl = $product->getUrlModel()->getUrl($product);
+            //} catch (Exception $e) {;}
+
             if (is_null($productUrl)) {
                 $productUrl = '';
             }

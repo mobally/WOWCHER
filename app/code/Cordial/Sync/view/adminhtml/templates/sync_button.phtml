@@ -39,12 +39,18 @@
             this.urls['products'] = '<?php echo $this->getUrl('cordial_sync/sync/product'); ?>';
             this.urls['customers'] = '<?php echo $this->getUrl('cordial_sync/sync/customer'); ?>';
             this.urls['orders'] = '<?php echo $this->getUrl('cordial_sync/sync/order'); ?>';
+            this.urls['orders_recent'] = '<?php echo $this->getUrl('cordial_sync/sync/order'); ?>';
             this.urls['templates'] = '<?php echo $this->getUrl('cordial_sync/sync/template'); ?>';
 
             this.CordialOptions = function() {
                 if (this.iterator < this.options.length) {
                     var option = this.options[this.iterator].value;
-                    this.ajaxCordialCall(this.urls[option], 0);
+
+                    if (option === 'orders_recent') {
+                      this.ajaxCordialCall(this.urls[option], 0, {recentSync: 1});
+                    } else {
+                      this.ajaxCordialCall(this.urls[option], 0);
+                    }
                 }
 
                 if (this.iterator >= this.options.length) {
@@ -60,7 +66,7 @@
                 }
             }
 
-            this.ajaxCordialCall = function (url, startId) {
+            this.ajaxCordialCall = function (url, startId, data = {}) {
                 var storeId = '<?php echo $this->getStoreId(); ?>';
                 var self = this;
                 $.ajax({
@@ -68,7 +74,7 @@
                     type: 'POST',
                     dataType: 'json',
                     showLoader: true,
-                    data: {store: storeId, startId: startId}
+                    data: { ...data, store: storeId, startId: startId }
                 }).done(function (comp) {
                     if (comp) {
                         try {

@@ -1,11 +1,27 @@
 <?xml version="1.0"?>
-<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
     <default>
         <cordial_sync>
             <general>
                 <active>0</active>
                 <js_listener>
                     <![CDATA[<script>
+                        /*
+                        (function(C,O,R,D,I,A,L){
+													C.CordialObject=I,C[I]=C[I]||function(){(C[I].q=C[I].q||[]).push(arguments)};
+													C[I].l=1*new Date,C[I].q=[],A=O.createElement(R);
+													L=O.getElementsByTagName(R)[0],A.async=1,A.src=D,L.parentNode.insertBefore(A,L);
+												})(window, document, 'script', '//track.cordial.io/track.v2.js', 'crdl');
+
+												crdl('connect', '$accountkey', { 
+														trackUrl: "//events-handling-svc.cordial.com" ,
+														connectUrl: "//track.cordial.io" ,
+														cookieDomain: "cordial.io",
+														cookieLife: 365
+												});
+												*/
+
                         requirejs([], function() {
                             var t = document.createElement('script');
                             t.setAttribute("data-cordial-track-key", "$accountkey");

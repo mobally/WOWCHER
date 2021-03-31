@@ -42,8 +42,8 @@
                        showInWebsite="0" showInStore="1">
                     <label>Cordial API Key</label>
                 </field>
-                <field id="sync_options" translate="label comment" type="text" sortOrder="70" showInDefault="0"
-                       showInWebsite="0" showInStore="1">
+                <field id="sync_options" translate="label comment" type="text" 
+                    sortOrder="70" showInDefault="0" showInWebsite="0" showInStore="1">
                     <label>Post Data to Cordial</label>
                     <!--sync/system_config_form_field_syncOptions-->
                     <frontend_model>Cordial\Sync\Block\System\Config\Form\Field\SyncOptions</frontend_model>
@@ -51,6 +51,7 @@
                 </field>
                 <field id="sync_button" translate="label tooltip" type="button" sortOrder="71" showInDefault="0"
                        showInWebsite="0" showInStore="1">
+                    <label></label>
                     <frontend_model>Cordial\Sync\Block\System\Config\Form\Field\SyncButton</frontend_model>
                     <tooltip>Will post all records from each of the selected collections above. Useful for posting all historic data.</tooltip>
                 </field>
@@ -58,18 +59,28 @@
                        showInWebsite="0" showInStore="1">
                     <label>Cordial Account Key</label>
                 </field>
+
+                <field id="enable_jsv2" translate="label tooltip comment" type="select" sortOrder="35" showInDefault="0"
+                       showInWebsite="0" showInStore="1">
+                    <label>Enable Cordial TrackJS v2</label>
+                    <source_model>Magento\Config\Model\Config\Source\Enabledisable</source_model>
+                    <tooltip>If enabled, V2 tracking scripts aply for store.</tooltip>
+                </field>
+
                 <field id="js_listener" translate="label tooltip" type="textarea" sortOrder="30" showInDefault="1"
                        showInWebsite="1" showInStore="1">
                     <label>JavaScript Listener</label>
                     <frontend_model>Cordial\Sync\Block\System\Config\Form\Field\JsListener</frontend_model>
                     <tooltip>You may customize the base JavaScript code. Visit support.cordial.com for more details.</tooltip>
                 </field>
+
                 <field id="route" translate="label tooltip comment" type="select" sortOrder="35" showInDefault="0"
                        showInWebsite="0" showInStore="1">
                     <label>Send all Magento emails through Cordial</label>
                     <source_model>Magento\Config\Model\Config\Source\Enabledisable</source_model>
                     <tooltip>If enabled, each Magento system email will be delivered as a Cordial automation template.</tooltip>
                 </field>
+
                 <field id="customer_attributes_map" translate="label comment" sortOrder="50" showInDefault="0" showInWebsite="0" showInStore="1">
                     <label>Customer Attributes Mapping</label>
                     <frontend_model>Cordial\Sync\Block\System\Config\Form\Field\MapCustomerAttributes</frontend_model>

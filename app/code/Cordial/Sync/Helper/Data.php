@@ -250,10 +250,16 @@ class Data extends Config
                 if ($currentCategory instanceof \Magento\Catalog\Model\Category) {
                     $data['category'] = $currentCategory->getName();
                     $data['url'] = $currentCategory->getUrl();
-                    $data['images'] = ($currentCategory->getImageUrl()) ? [$currentCategory->getImageUrl()] : [];
-                    $data['description'] = ($currentCategory->getDescription()) ? $currentCategory->getDescription() : '';
+                    $data['images'] = ($currentCategory->getImageUrl()) 
+                        ? [$currentCategory->getImageUrl()] 
+                        : [];
+
+                    $data['description'] = ($currentCategory->getDescription()) 
+                        ? $currentCategory->getDescription() 
+                        : '';
 
                     $properties = $this->jsonHelper->jsonEncode($data);
+
                     $jsCode = "cordial.event('browse-cat', $properties);";
                 }
                 break;
@@ -287,8 +293,10 @@ class Data extends Config
                     $data['productID'] = $currentProduct->getEntityId();
 
                     $properties = $this->jsonHelper->jsonEncode($data);
+
                     $jsCode = "cordial.event('browse', $properties);";
                 }
+
                 break;
 
             // cms page view
@@ -299,6 +307,7 @@ class Data extends Config
                     $data['url'] = $cmsPageHelper->getPageUrl($this->_page->getIdentifier());
                     $data['title'] = $this->_page->getTitle();
                     $properties = $this->jsonHelper->jsonEncode($data);
+
                     $jsCode = "cordial.event('cms-page', $properties);";
                 }
                 break;
@@ -309,19 +318,20 @@ class Data extends Config
                 $data['term'] = $searchHelper->getEscapedQueryText();
                 $data['result'] = $this->_urlBuilder->getCurrentUrl();
                 $properties = $this->jsonHelper->jsonEncode($data);
+
                 $jsCode = "cordial.event('search', $properties);";
                 break;
 
             // cart even
             case 'checkout_cart_index':
                 $jsCodeArray[] = "cordial.event('cart');";
-
             break;
 
             case 'checkout_onepage_success':
                 $orderId    = $this->checkoutSession->getLastRealOrderId();
                 $data['orderID'] = $orderId;
                 $properties = $this->jsonHelper->jsonEncode($data);
+
                 $jsCode = "cordial.event('purchase', $properties);";
 
                 // cordial.order() - Tracking Purchases
@@ -377,6 +387,7 @@ class Data extends Config
                 $data['status'] = 'new';
                 $data['shippingAndHandling'] = $order->getShippingAmount();
                 $properties = $this->jsonHelper->jsonEncode($data);
+
                 $jsCode .= "cordial.order('add',{$properties});";
 
                 $jsCodeArray[] = "cordial.clearcart();";
@@ -440,7 +451,7 @@ class Data extends Config
             }
 
             $properties = $this->jsonHelper->jsonEncode($items);
-            $jsCodeArray[] = "cordial.cartitem('add', $properties);";
+                $jsCodeArray[] = "cordial.cartitem('add', $properties);";
         }
 
 
@@ -449,8 +460,77 @@ class Data extends Config
         $jsCart = implode("\n  ", $jsCodeArray);
         $script = "\n";
         $script .= '<script type="text/javascript">' . "\n";
-        $script .= 'function cordialMagento() {' . "\n";
-        $script .= 'if (typeof cordial !== \'undefined\') {' . "\n";
+
+        if ($this->getJsV2Enabled()) {
+            //$script .= 'function cordialMagento() {' . "\n";
+            $script .= 'if (typeof crdl !== \'undefined\') {' . "\n";
+            $script .= "
+				var log = console.log;
+
+				var cordial = {
+					identify: email => {
+						log('identify:', email);
+						if (email) {
+							crdl('contact', {email}, {})
+						}
+					},
+					contact: data => {
+						log('contact:', data);
+						if (!data.email) {
+							return;
+						}
+						let auth = { email: data.email }
+						const emailData = {
+							address: data.email
+						}
+						//for now we will send it always, until we have the sync with Cordial
+						if (data.acceptsMarketing || true) {
+							emailData.subscribeStatus = 'subscribed'
+						}
+						const contactData = {
+							channels: {
+								email: emailData
+							}
+						}
+						crdl('contact', auth, contactData)
+					},
+					event: (name, data) => {
+						log('event:', name, data);
+						crdl('event', name, data)
+					},
+					order: (action, data) => {
+						log('order:', action, data);
+						crdl('order', action, data)
+					},
+					clearcart: () => {
+						log('clearcart');
+						crdl('cart', 'clear');
+					},
+					forget: () => {
+						log('forget');
+						crdl('forget')
+					},
+					cartitem: (action, items) => {
+						log('cartitem:', action, items);
+						crdl('cartitem', action, items);
+					},
+					clearAndSetCart: (items) => {
+						log('clearAndSetCart', items);
+						crdl('cart', 'clear');
+						if (Object.keys(items).length > 0) {
+							crdl('cartitem', 'set', items);
+						}
+					},
+				};
+			";
+
+            $script .= 'function cordialMagento() {' . "\n";
+            $script .= 'if (typeof cordial !== \'undefined\') {' . "\n";
+        } else {
+            $script .= 'function cordialMagento() {' . "\n";
+            $script .= 'if (typeof cordial !== \'undefined\') {' . "\n";
+        }
+
         if (!empty($jsContact)) {
             $script .= "  " . $jsContact . "\n";
         }
@@ -459,7 +539,15 @@ class Data extends Config
         }
         $script .= "  " . $jsCart . "\n";
         $script .= '}' . "\n";
-        $script .= '}' . "\n";
+
+        if ($this->getJsV2Enabled()) { 
+            $script .= '}' . "\n";
+            $script .= '}' . "\n";
+            $script .= "window.addEventListener('load',  cordialMagento, false); \n";
+        } else {
+            $script .= '}' . "\n";
+        }
+
         $script .= '</script>';
 
         return $script;
@@ -484,7 +572,6 @@ class Data extends Config
     public function getCordialVariables()
     {
         $newCordialVars = [];
-        $cordialVars = '';
         if ($this->registry->registry(\Cordial\Sync\Helper\Config::CORDIAL_VARS)) {
             $cordialVars = $this->registry->registry(\Cordial\Sync\Helper\Config::CORDIAL_VARS);
         }

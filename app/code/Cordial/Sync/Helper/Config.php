@@ -18,6 +18,7 @@ class Config extends \Magento\Framework\App\Helper\AbstractHelper
     const XML_PATH_ROUTE = 'cordial_sync/general/route';
     const XML_PATH_API_KEY = 'cordial_sync/general/api_key';
     const XML_PATH_ACCOUNT_KEY = 'cordial_sync/general/account_key';
+    const XML_PATH_ENABLE_TRACK_JSV2 = 'cordial_sync/general/enable_jsv2';
     const XML_PATH_JS_LISTENER = 'cordial_sync/general/js_listener';
     const XML_PATH_CUSTOMER_ATTRIBUTES_MAP = 'cordial_sync/general/customer_attributes_map';
     const ENTITY_TYPE_PRODUCT = 'catalog_product';
@@ -76,6 +77,11 @@ class Config extends \Magento\Framework\App\Helper\AbstractHelper
     public function getAccountKey($storeId = null)
     {
         return $this->getConfig(self::XML_PATH_ACCOUNT_KEY, $storeId);
+    }
+
+    public function getJsV2Enabled($storeId = null)
+    {
+        return $this->getConfig(self::XML_PATH_ENABLE_TRACK_JSV2, $storeId);
     }
 
     public function getJsLoader($storeId = null)

@@ -11,6 +11,8 @@
 
 namespace Cordial\Sync\Controller\Adminhtml\Sync;
 
+use Cordial\Sync\Model\Sync;
+
 class Order extends \Magento\Backend\App\Action
 {
 
@@ -82,25 +84,45 @@ class Order extends \Magento\Backend\App\Action
         try {
             $startId = $this->getRequest()->getParam('startId');
             $storeId = $this->getRequest()->getParam('store');
+            $recentSync = $this->getRequest()->getParam('recentSync');
+
             $result = ['status' => 'success', 'sync' => true];
             $sync = true;
 
+            $syncAttr = $this->helperData->getSyncAttrCode();
+
+            $perPage = $recentSync 
+                ? \Cordial\Sync\Model\Api\Config::SYNC_STEP_SIZE_S
+                : \Cordial\Sync\Model\Api\Config::SYNC_STEP_SIZE;
+
             $collection = $this->orderCollectionFactory->create();
             $collection->addFieldToFilter('store_id', $storeId);
-            $syncAttr = $this->helperData->getSyncAttrCode();
             $collection->addAttributeToFilter($syncAttr, [['null' => true], ['eq' => 1]], 'left');
             $collection->addAttributeToFilter('entity_id', ['gt' => $startId]);
-            $perPage = \Cordial\Sync\Model\Api\Config::SYNC_STEP_SIZE;
             $collection->setPageSize($perPage);
+
+            if ($recentSync) {
+                $collection->addFieldToFilter(
+                    'created_at', 
+                    array('from' => date('Y-m-d h:i:s', 
+                        strtotime(\Cordial\Sync\Model\Api\Config::SYNC_RECENT_PERIOD)))
+                );
+            }
 
             if ($collection->getSize()) {
                 foreach ($collection as $item) {
                     $startId = $item->getId();
-                    $syncEntity = $this->sync->_syncEntity($item->getId(), \Magento\Sales\Model\Order::ENTITY, $storeId);
+
+                    $syncEntity = $this->sync->_syncEntity($item->getId(), 
+                        \Magento\Sales\Model\Order::ENTITY, 
+                        $storeId, 
+                        $recentSync ? Sync::SYNC_FORCE : Sync::SYNC_NONFORCE);
+
                     if (!$syncEntity) {
                         $sync = false;
                     }
                 }
+
                 $result = ['status' => 'success', 'sync' => $sync, 'startId' => $startId];
                 return $this->jsonResponse($result);
             }

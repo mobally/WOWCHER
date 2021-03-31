@@ -136,11 +136,6 @@ class Customer extends Client
      */
     public function create($customer, $update = false)
     {
-    
-    $storeID   = 0;
-    	$objectManager =  \Magento\Framework\App\ObjectManager::getInstance();        
-	$storeManager  = $objectManager->get('\Magento\Store\Model\StoreManagerInterface');
-	$storeID       = $storeManager->getStore()->getStoreId(); 
         //Magento\Customer\Api\CustomerRepositoryInterface
         if (is_numeric($customer)) {
             $customer = $this->customerFactory->create()->load($customer);
@@ -154,7 +149,7 @@ class Customer extends Client
         }
 
         $customerId = $customer->getId();
-        $path = "contacts";
+        $path       = "contacts";
         $subscriber = $this->subscriber->loadByEmail($customer->getEmail());
 
         switch ($subscriber->getStatus()) {
@@ -169,35 +164,33 @@ class Customer extends Client
             case \Magento\Newsletter\Model\Subscriber::STATUS_UNCONFIRMED:
             case \Magento\Newsletter\Model\Subscriber::STATUS_NOT_ACTIVE:
             default:
-                $subscribeStatus = 'none';
+                //$subscribeStatus = 'none';
+                $subscribeStatus = false;
                 break;
         }
+        //var_dump(51815542, $customerId, $subscriber->getStatus(), $customer->getEmail(), $subscribeStatus, debug_backtrace(2), $data);exit;
+
         $data = [
             'channels' => [
                 'email' => [
                     'address' => $customer->getEmail(),
-                    'subscribeStatus' => $subscribeStatus
                 ]
             ],
 
         ];
-                
-        if ($subscribeStatus == 'subscribed') {
-            $data['forceSubscribe'] = true;
-            if($storeID == 4){
-            $data['Belgium'] = true;
-            }
-            elseif($storeID == 3){
-            $data['Spain'] = true;
-            }
-            elseif($storeID == 2){
-            $data['Poland'] = true;
-            }
-            else{
-            $data['promotional'] = true;
-            }
+
+        // MAG-29 Magento - Users creating an account overwriting existing opt-in statuses
+        // 2020-08-18
+        if ($subscribeStatus) {
+            $data['channels']['email']['subscribeStatus'] = $subscribeStatus;
         }
-//var_dump(51815542, $customerId, $subscriber->getStatus(), $customer->getEmail(), $subscribeStatus, debug_backtrace(2), $data);exit;
+
+        if ($subscribeStatus == 'subscribed') {
+            // Tzook request
+            // Tue Aug 18 15:46:42 2020
+            $data['forceSubscribe'] = false;
+            $data['promotional'] = true;
+        }
 
         $wishlistProducts = [];
         $wishlist = $this->wishlistFactory->create()->loadByCustomerId($customer->getId());

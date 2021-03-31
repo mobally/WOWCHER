@@ -69,4 +69,15 @@ class Loader extends \Magento\Framework\View\Element\Template
     {
         return $this->helper->getJsEvent();
     }
+
+    /**
+     * Returns JS V2 enabled
+     *
+     * @return string
+     */
+    public function getJsV2Enabled()
+    {
+        return $this->helper->getJsV2Enabled();
+    }
 }
+

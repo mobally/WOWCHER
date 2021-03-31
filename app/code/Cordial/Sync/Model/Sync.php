@@ -105,6 +105,15 @@ class Sync
         return $this->apiFactory->create($name);
     }
 
+    /**
+	 * Notes: Mon Oct 19 12:34:58 2020
+        - Products, Customers, Orders load by batch 40 items, and for each item (product, order) 
+		request for update saved into table [cordial_sync_touched]
+
+		- By several batch iterations, all items (products) saved into request for update table [cordial_sync_touched]
+
+		- Later by Cronjob, products, orders, customers, synced with Cordial by batch 40 items 
+	**/
     public function _syncEntity($entity, $entityType, $storeId, $force = false)
     {
         if (is_numeric($entity)) {
@@ -115,7 +124,8 @@ class Sync
 
         $entityTypeId	= $this->getEntityTypeId($entityType);
         $showMessage	= false;
-        $this->logger->debug('*** _syncEntity/Model/Sync: ' . $entityId . ':' . $force . ':' . $this->config->syncImmediately());
+        $this->logger->debug('*** _syncEntity/Model/Sync: ' . $entityId . ':' . $entityType . ':' 
+            . $force . ':' . $this->config->syncImmediately());
 
         try {
             if (!$this->config->isEnabled($storeId)) {
@@ -141,7 +151,7 @@ class Sync
             if (!$sync) {
                 // update updated_at for cron queue
                 // remove failed sync from further queue
-        				$touched->setTodo(0);
+        	    $touched->setTodo(0);
                 $touched->save();
                 return false;
             }
@@ -184,7 +194,6 @@ class Sync
 
     public function _deleteEntity($entity, $entityType, $force = false)
     {
-        $storeIds = null;
         if (is_numeric($entity)) {
             $entityId = $entity;
         } else {
@@ -195,9 +204,7 @@ class Sync
             foreach ($stores as $store) {
                 $storesInWebsite[$store->getWebsiteId()][] = $store->getId();
             }
-            if (!empty($entity->getWebsiteId())) {
-                $storeIds = $storesInWebsite[$entity->getWebsiteId()];
-            }
+            $storeIds = $storesInWebsite[$entity->getWebsiteId()];
         }
         $entityTypeId = $this->getEntityTypeId($entityType);
         $success = true;

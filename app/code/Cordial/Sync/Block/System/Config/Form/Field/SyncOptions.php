@@ -42,7 +42,8 @@ class SyncOptions extends Field
         $values = [];
         $values['products'] = __('Products');
         $values['customers'] = __('Customers');
-        $values['orders'] = __('Orders');
+        $values['orders'] = __('All Orders');
+        $values['orders_recent'] = __('Recent Orders (last 90 days)');
         $values['templates'] = __('Templates');
         return $values;
     }

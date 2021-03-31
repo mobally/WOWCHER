@@ -4,12 +4,20 @@
 
 /* @var $block \Cordial\Sync\Block\Html\Loader */
 
-if ($block->isEnable()):
-    $events = $block->getJsEvent();
+if ($block->isEnable()): 
+  $events = $block->getJsEvent();
 ?>
+
+<?php if ($block->getJsV2Enabled()): ?>
 <div data-bind="scope: 'cordial'">
     <div data-bind="html: events().data"><?php echo $events; ?></div>
 </div>
+<?php else: ?>
+<div data-bind="scope: 'cordial'">
+    <div data-bind="html: events().data"><?php echo $events; ?></div>
+</div>
+<?php endif; ?>
+
 <script type="text/x-magento-init">
         {
             "*": {
