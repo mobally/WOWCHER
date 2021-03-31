@@ -1,0 +1,35 @@
+//
+//  Admin Actions Log Styles
+//  ____________________________________________
+
+//
+//  Variables
+//  ____________________________________________
+
+@amactionslog-field-error__color: #e0b4b4;
+
+//
+//  Common
+//  ____________________________________________
+
+& when (@media-common = true) {
+    .adminhtml-system_config-edit .amactionslog-input {
+        &:focus,
+        &:active {
+            border: 1px solid #2196f3;
+        }
+
+        &.mage-error {
+            border-color: @amactionslog-field-error__color !important;
+            border-radius: 1px;
+        }
+
+        & + .mage-error {
+            border: 1px solid @amactionslog-field-error__color;
+            border-radius: 1px;
+            background: #fff6f3;
+            color: #a03a35;
+            line-height: 16px;
+        }
+    }
+}
