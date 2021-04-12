@@ -232,6 +232,19 @@
 			.lib-vendor-prefix-flex-grow(1);
 			.lib-vendor-prefix-justify-content();
 			position: relative;
+			.deal-status-bar-value.small{
+				font-size: 1.5rem;
+				line-height: 1.6rem;
+			}
+			.deal-status-bar-value.medium{
+				font-size: 1.6rem;
+				line-height: 1.8rem;
+			}
+			.deal-status-bar-value.large{
+				font-size: 2.4rem;
+				line-height: 1;
+				display: block;
+			}
 		}
 
 		.deal-status-bar-item-buttons {
@@ -879,6 +892,20 @@
 
 .media-width(@extremum, @break) when (@extremum = 'max') and (@break = @screen__m) {
 	.static-product-page {
+		&.catalog-product-view{
+			.deal-lead-status-bar{
+				.deal-status-bar-item-countdown{
+					display: inline-block;
+					text-align: center;
+					.deal-status-bar-value.large{
+						color: #eb008c;
+						font-size: 1.4rem;
+						font-weight: bold;
+						line-height: 1.4;
+					}
+				}
+			}
+		}
 		.sidebar.sidebar-main {
 			order: 0;
 		}
@@ -1005,19 +1032,19 @@
 				bottom: 0;
 				left: auto;
 				z-index: 2 !important;
-				width: 85px;
-				height: 70px;
+				width: 105px;
+				height: 80px;
 				pointer-events: auto;
 				-webkit-transform: inherit;
 				-ms-transform: inherit;
 				transform: inherit;
 
 				.deal-main-price-splat {
-					.lib-font-size(12);
+					.lib-font-size(11);
 					background-size: auto 200%;
-					padding-left: 23px;
-					width: 85px;
-					height: 70px;
+					padding-left: 26px;
+					width: 105px;
+					height: 80px;
 
 					.price-box {
 						padding-top: 30px;
@@ -1060,8 +1087,8 @@
 					bottom: 5px;
 					left: auto;
 					z-index: 2 !important;
-					width: 85px;
-					height: 70px;
+					width: 105px;
+					height: 80px;
 					-webkit-transform: inherit;
 					-ms-transform: inherit;
 					transform: inherit;
@@ -1070,8 +1097,8 @@
 						.lib-font-size(12);
 						background-size: auto 200%;
 						padding-left: 23px;
-						width: 85px;
-						height: 70px;
+						width: 105px;
+						height: 80px;
 
 						.price-box {
 							padding-top: 30px;
@@ -1329,6 +1356,13 @@
 			display: none;
 		}
 	}
+	.deal-container-bottom, .deals-side-container {
+		.deal-summary .deal-summary-main-price-splat .price-box{
+			.price{
+				font-size: 1.8rem !important;
+			}
+		}		
+	}
 }
 
 .media-width(@extremum, @break) when (@extremum = 'max') and (@break = @screen__m991) {
@@ -1444,6 +1478,11 @@
 
 		.deal-status-bar-item-stats {
 			.deal-status-bar-value {
+				.lib-font-size(26);
+			}
+		}
+		.deal-status-bar-item-countdown {
+			.deal-status-bar-value.large{
 				.lib-font-size(26);
 			}
 		}
