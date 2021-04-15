@@ -43,6 +43,12 @@ $collection_count = count($collection);
 
 <?php //foreach ($block->getBottomLimitedProductCollection() as $product):
 foreach ($collection as $product):
+$pro_id = $product->getId();
+$product_data = $objectManager->create('Magento\Catalog\Model\Product')->load($pro_id);
+$exipry_date = $product_data['countdown_timer'];
+$formated_date = substr($exipry_date, 0, -3);
+$date_time = date('m/d/Y H:i:s', $formated_date);
+$pro_id = $product->getId();
 $cats = $product->getCategoryIds();
          $firstCategoryId = "";
                                 if(count($cats) ){
@@ -113,9 +119,16 @@ $cats = $product->getCategoryIds();
                             <div class="deal-status-bar-value"><?= $saveUpToCue->getValue($product) ?></div>
                         </div>
                     <?php endif; ?>
-
+			
                     <div class="deal-status-bar-item deal-status-bar-item-countdown">
-                        <div class="deal-status-bar__countdown"></div>
+                    <?php
+                        
+                        if($exipry_date != ''){
+                        ?>
+                        <div class="deal-status-bar-label">Time Remaining</div>
+                        <div class="deal-status-bar-value medium" id="race<?php echo $pro_id; ?>"></div>
+                        <?php } ?>  
+                        
                     </div>
 
                     <div class="deal-status-bar-item deal-status-bar-item-buttons">
@@ -137,4 +150,81 @@ $cats = $product->getCategoryIds();
      }
       ?>
 </div>
+<script>
+// Set the date we're counting down to
+var countdownsR = [
+<?php foreach ($collection as $product) {
+$pro_id = $product->getId();
+$product_data = $objectManager->create('Magento\Catalog\Model\Product')->load($pro_id);
+$exipry_date = $product_data['countdown_timer'];
+$formated_date = substr($exipry_date, 0, -3);
+$date_time = date('m/d/Y H:i:s', $formated_date);
+$pro_id = $product->getId();
+ if($exipry_date != ''){
+?>
+  {
+    id: <?php echo $product->getId() ?>,
+    date: new Date("<?php echo date('M j, Y H:i:s', strtotime($date_time));?>").getTime()
+  },
+<?php } }?>
+];
+
+// Update the count down every 1 second
+var timer = setInterval(function() {
+  // Get todays date and time
+  var now = Date.now();
+
+  var index = countdownsR.length - 1;
+
+  // we have to loop backwards since we will be removing
+  // countdowns when they are finished
+  while(index >= 0) {
+    var countdown = countdownsR[index];
+
+    // Find the distance between now and the count down date
+    var distance = countdown.date - now;
+
+    // Time calculations for days, hours, minutes and seconds
+    var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+    var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+    var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+    var timerElement = document.getElementById("race" + countdown.id);
+
+    // If the count down is over, write some text 
+    if (distance < 0) {
+      var date = new Date(countdown.date);
+	var next_threedate = date.setDate(date.getDate() + 3);
+    var distance = next_threedate - now;
+     var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+    var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+    var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+    if(days == 0){
+      timerElement.innerHTML =  hours + "h " + minutes + "m " + seconds + "s ";
+      }
+      else{
+      timerElement.innerHTML =  days + "d " + hours + "h " + minutes + "m " + seconds + "s ";
+      }
+      //countdownsR.splice(index, 1);
+    } else {
+    if(days == 0){
+      timerElement.innerHTML =  hours + "h " + minutes + "m " + seconds + "s ";
+      }
+      else{
+      timerElement.innerHTML =  days + "d " + hours + "h " + minutes + "m " + seconds + "s ";
+      }
+      //timerElement.innerHTML =  days + "D " + hours + "H " + minutes + "M ";
+    }
+
+    index -= 1;
+  }
+
+  // if all countdowns have finished, stop timer
+  if (countdownsR.length < 1) {
+    clearInterval(timer);
+  }
+}, 1000);
+</script>  
 
