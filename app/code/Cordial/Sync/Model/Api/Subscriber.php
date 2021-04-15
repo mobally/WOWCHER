@@ -23,6 +23,10 @@ class Subscriber extends Client
      */
     public function setSubscriberStatus($subscriber)
     {
+        
+        $objectManager =  \Magento\Framework\App\ObjectManager::getInstance();        
+	$storeManager  = $objectManager->get('\Magento\Store\Model\StoreManagerInterface');
+	$storeID       = $storeManager->getStore()->getStoreId(); 
         $path = "contacts";
         switch ($subscriber->getStatus()) {
             case \Magento\Newsletter\Model\Subscriber::STATUS_SUBSCRIBED:
@@ -47,7 +51,19 @@ class Subscriber extends Client
         ];
         if ($subscribeStatus == 'subscribed') {
             $data['forceSubscribe'] = true;
-            $data['promotional'] = true;
+            if($storeID == 4){
+            $data['Belgium'] = true;
+            }else if($storeID == 3)
+            {
+            $data['Spain'] = true;
+            }
+            else if($storeID == 2)
+            {
+            $data['Poland'] = true;
+            }
+            else{
+            $data['Poland'] = true;
+            }
         }
 
         $purchaseDate = $this->getLastPurchaseByEmail($subscriber->getSubscriberEmail());

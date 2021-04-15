@@ -136,6 +136,9 @@ class Customer extends Client
      */
     public function create($customer, $update = false)
     {
+    $objectManager =  \Magento\Framework\App\ObjectManager::getInstance();        
+	$storeManager  = $objectManager->get('\Magento\Store\Model\StoreManagerInterface');
+	$storeID       = $storeManager->getStore()->getStoreId(); 
         //Magento\Customer\Api\CustomerRepositoryInterface
         if (is_numeric($customer)) {
             $customer = $this->customerFactory->create()->load($customer);
@@ -186,10 +189,20 @@ class Customer extends Client
         }
 
         if ($subscribeStatus == 'subscribed') {
-            // Tzook request
-            // Tue Aug 18 15:46:42 2020
-            $data['forceSubscribe'] = false;
-            $data['promotional'] = true;
+            $data['forceSubscribe'] = true;
+            if($storeID == 4){
+            $data['Belgium'] = true;
+            }else if($storeID == 3)
+            {
+            $data['Spain'] = true;
+            }
+            else if($storeID == 2)
+            {
+            $data['Poland'] = true;
+            }
+            else{
+            $data['Poland'] = true;
+            }
         }
 
         $wishlistProducts = [];
