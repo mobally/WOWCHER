@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Cron:etc/crontab.xsd">
+   <group id="wowcher">
+      <job instance="Rvs\Timer\Model\ProductProcessBatch" method="execute" name="rvs_timer_product_attribute_update_cron">
+         <schedule>*/5 * * * *</schedule>
+      </job>
+   </group>
+</config>
+
+
