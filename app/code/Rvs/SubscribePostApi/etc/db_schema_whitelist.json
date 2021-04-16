@@ -1,0 +1,13 @@
+{
+    "newsletter_subscriber": {
+        "column": {
+            "optin_url": true,
+            "dob": true,
+            "postcode": true,
+            "co_sponsor": true,
+            "living_social": true,
+            "c_firstname": true,
+            "c_lastname": true
+        }
+    }
+}

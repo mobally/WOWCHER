@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+
+<schema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Setup/Declaration/Schema/etc/schema.xsd">
+   <table name="newsletter_subscriber" resource="default" engine="innodb" comment="">
+      <column xsi:type="varchar" name="optin_url" nullable="false" length="255" comment="OptinUrl" />
+      <column xsi:type="varchar" name="dob" nullable="false" length="255" comment="dateofbirth" />
+      <column xsi:type="varchar" name="postcode" nullable="false" length="255" comment="Postcode" />
+      <column xsi:type="varchar" name="co_sponsor" nullable="false" length="255" comment="subscriptionSource" />
+      <column xsi:type="varchar" name="living_social" nullable="false" length="255" comment="brand" />
+      <column xsi:type="varchar" name="c_firstname" nullable="false" length="255" comment="first name" />
+      <column xsi:type="varchar" name="c_lastname" nullable="false" length="255" comment="last name" />
+   </table>
+</schema>
