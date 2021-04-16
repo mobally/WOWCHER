@@ -37,7 +37,7 @@ $pro_id = $product->getId();
                         $exipry_date = $product->getCountdownTimer();
                         if($exipry_date != ''){
                         ?>
-                        <div class="deal-status-bar-label">Time Remaining</div>
+                        <div class="deal-status-bar-label"><?php echo __('Time Remaining') ?></div>
                         <div class="deal-status-bar-value large" id="race<?php echo $pro_id; ?>"></div>
                         <?php } ?>  
     </div>
