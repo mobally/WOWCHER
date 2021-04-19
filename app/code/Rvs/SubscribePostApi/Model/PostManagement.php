@@ -14,7 +14,7 @@ public function __construct(
 }
     
     
-    public function customPostMethod($storeid,$email,$dob,$optin_url,$postcode,$co_sponsor,$living_social,$c_firstname,$c_lastname)
+    public function customPostMethod($storeid,$email,$dob,$optin_url,$postcode,$co_sponsor,$c_firstname,$c_lastname)
     {
         try{
                 $response = $this->subscriberFactory->create()->subscribe($email);
