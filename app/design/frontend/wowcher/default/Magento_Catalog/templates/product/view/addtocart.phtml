@@ -9,7 +9,9 @@
 <?php $_product = $block->getProduct();
 $associatedProducts = $_product->getTypeInstance()->getAssociatedProducts($_product);
 $child_count = count($associatedProducts);
- ?>
+$objectManager =  \Magento\Framework\App\ObjectManager::getInstance();        
+$customerSession = $objectManager->get('Magento\Customer\Model\Session');
+?>
 <?php $buttonTitle = __('Add to Cart'); ?>
 <?php if ($_product->isSaleable()) :?>
 <div class="box-tocart">
@@ -31,7 +33,7 @@ $child_count = count($associatedProducts);
         </div>
         <?php endif;
          ?>
-        <div class="actions <?php if ($child_count == 1) { echo "mobilebutton"; } ?>">
+        <div class="actions <?php if ($child_count == 1 && !$customerSession->isLoggedIn())  { echo "mobilebutton"; } ?>">
             <?php //if($child_count > 1){ ?>
             <button type="submit"
                     title="<?= $block->escapeHtmlAttr($buttonTitle) ?>"
