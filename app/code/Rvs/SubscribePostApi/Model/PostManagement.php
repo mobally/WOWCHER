@@ -22,7 +22,7 @@ public function __construct(
                $objectManager = \Magento\Framework\App\ObjectManager::getInstance(); // Instance of object manager
 	        $resource = $objectManager->get('Magento\Framework\App\ResourceConnection');
 		 $connection = $resource->getConnection();
-		$sql = "Update newsletter_subscriber set store_id = '$storeid',optin_url='$optin_url',dob='$dob',postcode='$postcode',co_sponsor='$co_sponsor',living_social='$living_social',
+		$sql = "Update newsletter_subscriber set store_id = '$storeid',optin_url='$optin_url',dob='$dob',postcode='$postcode',co_sponsor='$co_sponsor',living_social='wowcher',
 		c_firstname='$c_firstname',c_lastname='$c_lastname' where subscriber_email = '$email'";
 		$connection->query($sql);
                
