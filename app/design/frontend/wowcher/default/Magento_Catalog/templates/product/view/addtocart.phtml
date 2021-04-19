@@ -39,8 +39,9 @@ $child_count = count($associatedProducts);
                     id="product-addtocart-button" disabled>
                 <span><?= $block->escapeHtml($buttonTitle) ?></span>
             </button>
-            <?= $block->getChildHtml('', true) ?>
+            
         </div>
+        <?= $block->getChildHtml('', true) ?>
     </div>
 </div>
 <?php endif; ?>
