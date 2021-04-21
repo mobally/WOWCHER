@@ -11,6 +11,11 @@
                <item name="update product attribute" xsi:type="object">Rvs\ExpiryProduct\Console\Command\ProductAttributeUpdate</item>
            </argument>
        </arguments>
+       <arguments>
+           <argument name="commands" xsi:type="array">
+               <item name="update product category" xsi:type="object">Rvs\ExpiryProduct\Console\Command\ProductCategoryAssign</item>
+           </argument>
+       </arguments>
    </type>
 </config>
 
