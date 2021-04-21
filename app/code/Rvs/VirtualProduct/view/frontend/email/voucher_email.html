@@ -1,0 +1,51 @@
+<!--
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<!--@subject {{trans "Your voucher %store_name confirmation" store_name=$store.frontend_name}} @-->
+<!--@vars {
+"var order.increment_id":"Order Id",
+"var created_at_formatted":"Order Created At (datetime)",
+"var store.frontend_name":"Store Frontend Name",
+"var store_phone":"Store Phone",
+"var store_email":"Store Email",
+"var order_data.is_not_virtual":"Order Type",
+"var order":"Order",
+"var order_data.customer_name":"Customer Name"
+"var voucher_code": "Voucher Code",
+"var voucher_url": "Voucher URL",
+"var voucher_expiration_date": "Voucher Expiration Date"
+} @-->
+
+{{template config_path="design/email/header_template"}}
+
+<table>
+    <tr class="email-intro">
+        <td>
+            <p class="greeting">{{trans "%customer_name," customer_name=$order_data.customer_name}}</p>
+            <p>
+                {{trans "Thank you for your order from %store_name." store_name=$store.frontend_name}}
+            </p>
+            <p>
+                {{trans 'Your Order <span class="no-link">#%increment_id</span>' increment_id=$order.increment_id |raw}}, {{trans 'Placed on <span class="no-link">%created_at</span>' created_at=$created_at_formatted |raw}}
+            </p>            
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <p>
+                {{trans 'YOUR VOUCHER CODE <strong class="no-link">%voucher_code</strong>' voucher_code=$voucher.code |raw}}, {{trans '<a href="%voucher_url">Click Here</a> to REDEEM Your VOUCHER' voucher_url=$voucher.url |raw}}
+            </p>
+            <p>
+                {{trans "VOUCHER Validate up to %voucher_expiration_date." voucher_expiration_date=$voucher.expiration_date |raw}}
+            </p>
+            <p>
+                {{trans 'If you have questions about your VOUCHER, you can email us at <a href="mailto:%store_email">%store_email</a>' store_email=$store_email |raw}}{{depend store_phone}} {{trans 'or call us at <a href="tel:%store_phone">%store_phone</a>' store_phone=$store_phone |raw}}{{/depend}}.
+            </p>
+        </td>
+    </tr>    
+</table>
+
+{{template config_path="design/email/footer_template"}}

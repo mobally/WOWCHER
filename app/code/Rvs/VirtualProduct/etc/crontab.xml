@@ -1,0 +1,11 @@
+<?xml version="1.0" ?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Cron:etc/crontab.xsd">
+	<group id="default">
+		<job instance="Rvs\VirtualProduct\Cron\ProcessOrder" method="execute" name="rvs_virtualproduct_processorder">
+			<schedule>*/5 * * * *</schedule>
+		</job>
+		<job instance="Rvs\VirtualProduct\Cron\ProcessEmail" method="execute" name="rvs_virtualproduct_processemail">
+			<schedule>*/5 * * * *</schedule>
+		</job>
+	</group>
+</config>
