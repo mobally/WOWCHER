@@ -158,6 +158,15 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
         );
 
         $fieldset->addField(
+            'order_id',
+            'hidden',
+            [
+                'name' => 'order_id',
+                'value' => $this->_formValues['order_id']
+            ]
+        );
+
+        $fieldset->addField(
             'sku',
             'text',
             [
@@ -218,7 +227,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
             ]
         );
 
-        $fieldset->addField(
+        /* $fieldset->addField(
             'order_id',
             'text',
             [
@@ -228,7 +237,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
                 'disabled' => true,
                 'value' => $this->_formValues['order_id']
             ]
-        );
+        ); */
 
         $this->setForm($form);
         $this->_formPostInit($form);
