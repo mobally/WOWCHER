@@ -5,8 +5,7 @@
 			<argument name="mainTable" xsi:type="string">rvs_voucher_list</argument>
 			<argument name="resourceModel" xsi:type="string">Rvs\VirtualProduct\Model\ResourceModel\Voucher\Collection</argument>
 		</arguments>
-	</virtualType>	
-	
+	</virtualType>
 	<type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
 		<arguments>
 			<argument name="collections" xsi:type="array">
@@ -14,4 +13,11 @@
 			</argument>
 		</arguments>
 	</type>
+	<type name="Magento\ImportExport\Model\Import\SampleFileProvider">
+        <arguments>
+            <argument name="samples" xsi:type="array">
+                <item name="voucher" xsi:type="string">Rvs_VirtualProduct</item>
+            </argument>
+        </arguments>
+    </type>
 </config>
