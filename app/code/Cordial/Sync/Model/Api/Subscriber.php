@@ -49,6 +49,13 @@ class Subscriber extends Client
             ],
 
         ];
+        
+        $objectManager =  \Magento\Framework\App\ObjectManager::getInstance();        
+	$catalogSession = $objectManager->get('\Magento\Catalog\Model\Session');
+    	$api_session = $catalogSession->getStoreId();
+       if($api_session){
+       $storeID = $api_session;
+       }
         if ($subscribeStatus == 'subscribed') {
             $data['forceSubscribe'] = true;
             if($storeID == 4){
@@ -62,7 +69,7 @@ class Subscriber extends Client
             $data['Poland'] = true;
             }
             else{
-            $data['Poland'] = true;
+            $data['promotional'] = true;
             }
         }
 
@@ -92,7 +99,7 @@ class Subscriber extends Client
         if (!$result) {
             return false;
         }
-
+$catalogSession->unsStoreId();
         return true;
     }
 

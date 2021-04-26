@@ -14,18 +14,22 @@ public function __construct(
 }
     
     
-    public function customPostMethod($storeid,$email,$dob,$optin_url,$postcode,$co_sponsor,$c_firstname,$c_lastname)
+    public function customPostMethod($storeid,$email,$dob,$optin_url,$postcode,$co_sponsor,$c_firstname,$c_lastname,$gender,$competition)
     {
+    
+    	$objectManager =  \Magento\Framework\App\ObjectManager::getInstance();        
+	
         try{
-        $objectManager = \Magento\Framework\App\ObjectManager::getInstance(); // Instance of object manager
-	        $resource = $objectManager->get('Magento\Framework\App\ResourceConnection');
+               $resource = $objectManager->get('Magento\Framework\App\ResourceConnection');
 		 $connection = $resource->getConnection();
         $sql = "Select * FROM newsletter_subscriber where subscriber_email = '$email'";
 			$result = $connection->fetchAll($sql);
 			if(!$result){
-                $response = $this->subscriberFactory->create()->subscribe($email);
+			$catalogSession = $objectManager->get('\Magento\Catalog\Model\Session');
+    	$catalogSession->setStoreId($storeid);
+                $response = $this->subscriberFactory->create()->subscribe($email,3);
                $sql = "Update newsletter_subscriber set store_id = '$storeid',optin_url='$optin_url',dob='$dob',postcode='$postcode',co_sponsor='$co_sponsor',living_social='wowcher',
-		c_firstname='$c_firstname',c_lastname='$c_lastname' where subscriber_email = '$email'";
+		c_firstname='$c_firstname',c_lastname='$c_lastname',gender='$gender',competition='$competition' where subscriber_email = '$email'";
 		$connection->query($sql);
 		}else{
 		

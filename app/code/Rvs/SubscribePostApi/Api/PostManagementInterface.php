@@ -14,7 +14,9 @@ interface PostManagementInterface {
      * @param string $c_firstname
      * @param string $c_lastname
      * @param string $storeid
+     * @param string $gender
+     * @param string $competition
      * @return string
      */
-    public function customPostMethod($storeid,$email,$dob,$optin_url,$postcode,$co_sponsor,$c_firstname,$c_lastname);
+    public function customPostMethod($storeid,$email,$dob,$optin_url,$postcode,$co_sponsor,$c_firstname,$c_lastname,$gender,$competition);
 }

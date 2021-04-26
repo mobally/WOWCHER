@@ -32,16 +32,19 @@ if ($minProduct) {
 <?php if ($minProduct) : ?>
     <?php if($block->getSaleableItem()->getData('display_price_text')): ?>
         <?php if (!empty($block->getSaleableItem()->getData('price_text'))): ?>
-        <div class="deal-main-price-splat-label">
-        <?php
-        $label_text = $escaper->escapeHtml($block->getSaleableItem()->getData('price_text'));
-        if($label_text == 'from')
-        {
-        echo "À PARTIR DE";
-        }else{
-        echo $label_text;
-        }
-         ?></div>
+        <div class="deal-main-price-splat-label 22"><?php
+        
+         $label = $escaper->escapeHtml($block->getSaleableItem()->getData('price_text'));
+         if($label == 'now'){
+         echo "À PARTIR DE";
+         }else if($label == 'from'){
+         echo "À PARTIR DE";
+         }
+         else{
+         echo $label;
+         }
+          ?></div>
+        
         <?php else: ?>
             <div class="deal-main-price-splat-label"><?= __('From') ?></div>
         <?php endif; ?>

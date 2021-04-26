@@ -1,4 +1,7 @@
 <?xml version="1.0"?>
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
     <preference for="Rvs\SubscribePostApi\Api\PostManagementInterface" type="Rvs\SubscribePostApi\Model\PostManagement"/>
+    <type name="Magento\Newsletter\Model\Subscriber">
+        <plugin name="disable_newsletter_success" type="Rvs\SubscribePostApi\Plugin\Newsletter\Model\Subscriber" />
+    </type>
 </config>

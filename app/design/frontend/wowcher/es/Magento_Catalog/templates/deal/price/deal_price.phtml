@@ -33,18 +33,19 @@ if ($minProduct) {
     <?php if($block->getSaleableItem()->getData('display_price_text')): ?>
         <?php if (!empty($block->getSaleableItem()->getData('price_text'))): ?>
         <div class="deal-main-price-splat-label 22"><?php
-        $label = $escaper->escapeHtml($block->getSaleableItem()->getData('price_text'));
+        
+         $label = $escaper->escapeHtml($block->getSaleableItem()->getData('price_text'));
          if($label == 'now'){
-         echo "TERAZ";
+         echo "AHORA";
          }else if($label == 'from'){
-         echo "TERAZ";
+         echo "DESDE";
          }
          else{
          echo $label;
          }
           ?></div>
         <?php else: ?>
-            <div class="deal-main-price-splat-label"><?= __('From') ?></div>
+            <div class="deal-main-price-splat-label"><?= __('DESDE') ?></div>
         <?php endif; ?>
     <?php endif; ?>
     <div class="deal-main-price-splat-new-price deal-main-price-splat-new-price-has-currency">

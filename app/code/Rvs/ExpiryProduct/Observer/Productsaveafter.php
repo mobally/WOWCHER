@@ -7,7 +7,7 @@ use Magento\Framework\Event\ObserverInterface;
 class Productsaveafter implements ObserverInterface
 {    
 
- protected $_request;
+protected $_request;
 
 	public function __construct(
 	    \Magento\Framework\App\RequestInterface $request
@@ -34,17 +34,7 @@ class Productsaveafter implements ObserverInterface
         throw new \Magento\Framework\Exception\LocalizedException(__('Fix error before enabling this product - JSON format is invalid in productdisplay_column'));
   	}
         $status = $_product->getStatus();
-        $deal_status = $_product->getDealStatus();
-        $countdown_timer = $_product->getCountdownTimer();
-        if($status == 2){
-	$_product->setDealStatus(12);
-	$_product->save();
-	}
-	if($deal_status == 11 && $countdown_timer == ''){
-	$time_new = mt_rand(0, 23) . ":" . str_pad(mt_rand(0, 59) , 2, "0", STR_PAD_LEFT) . ':59 ';
-	$NewDate = Date('Y-m-d ' . $time_new, strtotime('+2 days'));
-        $countdown_timer = strtotime($NewDate) . '000';
-        $_product->setCountdownTimer($countdown_timer);
+	if($status == 2){
 	$_product->setDealStatus(12);
 	$_product->save();
 	}
