@@ -73,7 +73,7 @@ public function execute()
        $templateId = '9'; // template id
         $fromEmail = 'info@wowcher.com';  // sender Email id
         $fromName = 'Admin';             // sender Name
-        $toEmail = 'harpreet@rvsmedia.com'; // receiver email id
+        $toEmail = 'thomas.routledge@wowcher.co.uk'; // receiver email id
 
         try {
             // template variables pass here
@@ -96,7 +96,7 @@ public function execute()
                 ->setTemplateVars($templateVars)
                 ->setFrom($from)
                 ->addTo($toEmail)
-                //->addCc("mehul.parekh@wowcher.co.uk")
+                ->addCc("mehul.parekh@wowcher.co.uk")
                 ->getTransport();
             $transport->sendMessage();
             $this->inlineTranslation->resume();
