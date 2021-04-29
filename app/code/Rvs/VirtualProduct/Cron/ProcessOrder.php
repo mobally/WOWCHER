@@ -7,7 +7,7 @@ use Magento\Framework\ObjectManagerInterface;
 
 class ProcessOrder
 {
-    const SYNC_PERIOD = '- 10 minutes';
+    const SYNC_PERIOD = '- 7 minutes';
 
     protected $logger;
     
@@ -38,12 +38,23 @@ class ProcessOrder
                     ;
                 foreach ($itemCollection as $item) {
 
+                    //check if order already processed
+                    $voucherProcessedCollection = $this->voucherCollection->create()
+                        ->addFieldToSelect('voucher_id')
+                        //->addFieldToFilter('status',['eq'=>'0'])
+                        //->addFieldToFilter('order_id',['null' => true])
+                        ->addFieldToFilter('order_id',['eq'=>$item->getOrderId()])
+                        ->addFieldToFilter('final_sku',['eq'=>$item->getSku()]);
+
+                    if($voucherProcessedCollection->getSize()){
+                        continue;
+                    }
+
                     $voucherCollection = $this->voucherCollection->create()
                         ->addFieldToSelect('voucher_id')
                         ->addFieldToFilter('status',['eq'=>'0'])
                         ->addFieldToFilter('order_id',['null' => true])
-                        //->addFieldToFilter('order_id',['neq'=>$item->getOrderId()])
-                        ->addFieldToFilter('final_sku',['eq'=>$item->getSku()]);                    
+                        ->addFieldToFilter('final_sku',['eq'=>$item->getSku()]);
                     
                     if($voucherCollection->getSize()){
                         $voucherId = $voucherCollection->getFirstItem()->getVoucherId();
