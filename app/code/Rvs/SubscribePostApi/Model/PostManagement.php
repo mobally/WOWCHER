@@ -29,7 +29,7 @@ public function __construct(
     	$catalogSession->setStoreId($storeid);
                 $response = $this->subscriberFactory->create()->subscribe($email,3);
                $sql = "Update newsletter_subscriber set store_id = '$storeid',optin_url='$optin_url',dob='$dob',postcode='$postcode',co_sponsor='$co_sponsor',living_social='wowcher',
-		c_firstname='$c_firstname',c_lastname='$c_lastname',gender='$gender',competition='$competition' where subscriber_email = '$email'";
+		c_firstname='$c_firstname',c_lastname='$c_lastname',gender='$gender',competition='$competition',subscription_source='lead gen' where subscriber_email = '$email'";
 		$connection->query($sql);
 		}else{
 		
