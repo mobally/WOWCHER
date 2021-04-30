@@ -113,11 +113,11 @@ class Importer
      * @param string $url
      * @throws \Magento\Framework\Exception\LocalizedException
      */
-    public function importFromUrl(string $url): void
+    public function importFromUrl(string $url,$input): void
     {
         $this->logger->debug(sprintf('Fetching data from: %s', $url));
 
-        $data = $this->feedDownloader->fetchData($url);
+        $data = $this->feedDownloader->fetchData($url,$input);
 
         if (empty($data)) {
             throw new \Exception('API returned empty response');

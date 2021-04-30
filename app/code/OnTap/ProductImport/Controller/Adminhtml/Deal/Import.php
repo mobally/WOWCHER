@@ -42,7 +42,11 @@ class Import extends Action implements HttpPostActionInterface
     public function execute()
     {
         $dealId = $this->getRequest()->getParam('deal_id');
-
+        $country_code = $this->getRequest()->getParam('country_code');
+        $input = "";
+        if($country_code == "IE"){
+        $input = "wowchercatalogimportfromfeedfeedIE";
+        }
         if (!is_numeric($dealId)) {
             $this->messageManager->addErrorMessage('Invalid DEAL ID provided');
             return $this->_redirect('productimport/deal/index');
@@ -51,7 +55,7 @@ class Import extends Action implements HttpPostActionInterface
         try {
             $url = sprintf('https://public-api.wowcher.co.uk/europe/deal/%s', $dealId);
             //$url = sprintf('https://public-api.wowcher.co.uk/v1/deal/%s', $dealId);
-            $this->importer->importFromUrl($url);
+            $this->importer->importFromUrl($url,$input);
             $this->messageManager->addSuccessMessage("Import successful");
         } catch (\Exception $e) {
             $this->messageManager->addExceptionMessage($e);
