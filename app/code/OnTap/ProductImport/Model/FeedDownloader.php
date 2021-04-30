@@ -28,16 +28,21 @@ class FeedDownloader
      * @param string $url
      * @return string
      */
-    public function fetchData(string $url): string
+    public function fetchData(string $url,$input): string
     {
+        $input = preg_replace("/[^a-zA-Z]+/", "", $input);
+        
         $curl = $this->curlFactory->create();
         $curl->setConfig(
             [
                 'timeout'   => 10
             ]
         );
-        $curl->write(\Zend_Http_Client::GET, $url, '1.1');
-
+        if($input == 'wowchercatalogimportfromfeedfeedIE'){
+        $curl->write(\Zend_Http_Client::GET, $url, '1.1',["country-code:IE","brand:living-social"]);
+	}else{
+	$curl->write(\Zend_Http_Client::GET, $url, '1.1');
+	}
         $data = $curl->read();
         $data = preg_split('/^\r?$/m', $data, 2);
         $data = trim($data[1]);

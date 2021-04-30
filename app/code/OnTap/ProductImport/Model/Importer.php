@@ -186,12 +186,10 @@ class Importer
      
      
      
-    public function importAll(): void
+    public function importAll($input): void
     {
-        $data = $this->feedDownloader->fetchData(
-            //'https://feed-eu09.devwowcher.co.uk/europe/deal/feed'
-            'https://public-api.wowcher.co.uk/europe/deal/feed'
-        );
+      //'https://feed-eu09.devwowcher.co.uk/europe/deal/feed'
+        $data = $this->feedDownloader->fetchData('https://public-api.wowcher.co.uk/europe/deal/feed',$input);
 
         if (empty($data)) {
             throw new \Exception('API returned empty response');
@@ -203,16 +201,17 @@ class Importer
 
         $serializer = new \Magento\Framework\Serialize\Serializer\Json();
         $data = $serializer->unserialize($data);
+        
 	$result = array();
 	foreach ($data as $deal) {
 	$result[] = $deal['id'];
 	}
 	$magento_array = $this->grouplist->getGroupList();
 	$data = array_diff($result,$magento_array);
-$count_deals = count($data);
-if($count_deals > 0){
-echo $count_deals.' New deals start to import';
-}
+	$count_deals = count($data);
+	if($count_deals > 0){
+	echo $count_deals.' New deals start to import';
+	}
 //exit;
         if (empty($data)) {
             throw new \Exception('No deals returned from the API');
@@ -241,10 +240,9 @@ echo $count_deals.' New deals start to import';
 
             $this->logger->debug(sprintf('Fetching data from: %s', $url));
 
-            $data = $this->feedDownloader->fetchData($url);
+            $data = $this->feedDownloader->fetchData($url,$input);
 
             $data = $serializer->unserialize($data);
-
             $product = $this->collection->getItemByColumnValue('sku', $data['id']);
             if (!empty($product)) {
                 $data['is_new'] = false;

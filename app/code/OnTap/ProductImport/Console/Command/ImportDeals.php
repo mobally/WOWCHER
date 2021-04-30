@@ -11,6 +11,7 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use OnTap\ProductImport\Model\FeedDownloader;
+use Symfony\Component\Console\Input\InputOption;
 
 class ImportDeals extends Command
 {
@@ -28,7 +29,7 @@ class ImportDeals extends Command
      * @var LoggerInterface
      */
     protected LoggerInterface $logger;
-
+const NAME = 'feed';
     /**
      * ImportDealFromUrl constructor.
      * @param Importer $importer
@@ -53,8 +54,13 @@ class ImportDeals extends Command
      */
     protected function configure(): void
     {
-        $this->setName('wowcher:catalog:import-from-feed')
-            ->setDescription('Imports products from feed.');
+        $this->setName('wowcher:catalog:import-from-feed')->setDescription('Imports products from feed.');
+        $this->addOption(
+                self::NAME,
+                null,
+                InputOption::VALUE_REQUIRED,
+                'Name'
+            );
     }
 
     /**
@@ -64,7 +70,7 @@ class ImportDeals extends Command
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $this->importer->setLogger($this->logger);
-        $this->importer->importAll();
+        $this->importer->importAll($input);
         return 0;
     }
 }
