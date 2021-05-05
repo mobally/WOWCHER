@@ -26,7 +26,7 @@ class GeoIpNoticeControl extends \Magento\Framework\View\Element\Template implem
             $website = $this->_storeManager->getWebsite($store->getWebsiteId());
             $options[] = [
                 'label' => __('%1 (%2)', $website->getName(), $store->getName()),
-                'value' => $store->getBaseUrl(),
+                'value' => (strtolower($store->getName()) == 'english') ? 'https://www.wowcher.co.uk/deals/shop' : $store->getBaseUrl(),
                 'selected' => strtolower($store->getCode()) === strtolower($this->getData('selected_country_id'))
             ];
         }
