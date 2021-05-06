@@ -8,6 +8,7 @@
             <argument name="commands" xsi:type="array">
                 <item name="ontapProductImportDealFromUrl" xsi:type="object">OnTap\ProductImport\Console\Command\ImportDealFromUrl</item>
                 <item name="ontapProductImportDeals" xsi:type="object">OnTap\ProductImport\Console\Command\ImportDeals</item>
+				<item name="ontapProductUpdateDeals" xsi:type="object">OnTap\ProductImport\Console\Command\UpdateDeals</item>
             </argument>
         </arguments>
     </type>

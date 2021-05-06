@@ -19,7 +19,7 @@ class Importer
      * @var FeedDownloader
      */
     protected FeedDownloader $feedDownloader;
-
+	protected $productRepository;
     /**
      * @var Mapper
      */
@@ -54,6 +54,7 @@ class Importer
      * @var LoggerInterface
      */
     protected $logger;
+	protected $productAction;
 
     /**
      * Converter constructor.
@@ -73,7 +74,9 @@ class Importer
         ProductResource $productResource,
         CollectionFactory $collectionFactory,
         LoggerInterface $logger,
-        \Rvs\ExpiryProduct\Model\Grouplist $Grouplist
+        \Rvs\ExpiryProduct\Model\Grouplist $Grouplist,
+		\Magento\Catalog\Api\ProductRepositoryInterface $productRepository,
+		\Magento\Catalog\Model\ResourceModel\Product\Action $productAction
     ) {
         $this->feedDownloader = $feedDownloader;
         $this->mapper = $mapper;
@@ -83,6 +86,8 @@ class Importer
         $this->collectionFactory = $collectionFactory;
         $this->logger = $logger;
         $this->grouplist = $Grouplist;
+		$this->productRepository = $productRepository;
+		$this->productAction = $productAction;
     }
 
     /**
@@ -183,8 +188,76 @@ class Importer
      * @throws \Magento\Framework\Exception\LocalizedException
      */
      
+     public function updateAll($input)
+    {
+        $data = $this->feedDownloader->fetchData('https://public-api.wowcher.co.uk/europe/deal/feed',$input);
+
+        if (empty($data)) {
+            throw new \Exception('API returned empty response');
+        }
+        $serializer = new \Magento\Framework\Serialize\Serializer\Json();
+        $data = $serializer->unserialize($data);
+        
+	$result = array();
+	foreach ($data as $deal) {
+	$result[] = $deal['id'];
+	}
+	
+	$magento_array = $this->grouplist->getGroupList();
+	
+	$data = array_intersect($result,$magento_array);
+	//print_r($data);
+	$array_prepare = array();
+	   foreach ($data as $deal) {
+            $url = sprintf(
+                //'https://deal-eu09.devwowcher.co.uk/europe/deal/%s',
+                'https://public-api.wowcher.co.uk/europe/deal/%s',
+                $deal
+            );
+echo nl2br($url);
+            $this->logger->debug(sprintf('Fetching data from: %s', $url));
+
+            $data = $this->feedDownloader->fetchData($url,$input);
+
+            $data = $serializer->unserialize($data);
+			$array_prepare[] = array("id" => $data['id'],"closingDate" => $data['closingDate'],"expiryDate" => $data['expiryDate'],"status" => $data['status']);
+		}
+		$this->updateProductdata($array_prepare);
+		
+	}
      
-     
+	 public function updateProductdata($array_prepare)
+    {
+		$storeIds = array(0,1,2,3,4);
+		$current_date = date("Y-m-d h:i:sa");
+		$strTotime = strTotime($current_date).'000';		
+        foreach($array_prepare as $val)
+		{
+		$closing_date = $val['closingDate'];
+		if($closing_date > $strTotime){
+	    $sku = $val['id'];
+        $product_id = $this->getProductData($sku);
+        $updateAttributes['closingDate'] = $closing_date;
+		$updateAttributes['is_expiry'] = 0;
+		$updateAttributes['status'] = 1;
+          foreach ($storeIds as $storeId) {
+	    $this->productAction->updateAttributes([$product_id], $updateAttributes, $storeId); 
+	}
+		}
+	}
+	}
+	 
+	 public function getProductData($sku)
+    {
+        if ($this->productRepository->get($sku)) 
+        {
+            $product = $this->productRepository->get($sku);
+            $id = $product->getEntityId();
+            return $id;
+        }
+    }
+
+	 
      
     public function importAll($input): void
     {
