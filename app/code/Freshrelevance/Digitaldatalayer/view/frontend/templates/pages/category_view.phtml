@@ -1,0 +1,12 @@
+<?php
+/** @var \Freshrelevance\Digitaldatalayer\Block\DdlProduct $block */
+$data = $block->getDDLData();
+?>
+
+<script type="text/javascript">
+	require(['jquery', 'domReady!'], function ($) {
+	<?php 
+	echo $block->getProductDetailsFbJs();
+	?>
+	});
+	</script>	

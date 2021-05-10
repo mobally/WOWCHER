@@ -48,4 +48,41 @@ class DdlProduct extends AbstractBlock
 
         return $data;
     }
+     private function specialchars($string) {
+        return addslashes($string);
+    }
+    
+    private function getEol($htmlOutput = 0) {
+        $eol = PHP_EOL;
+        if ($htmlOutput == 1) {
+            $eol = "<br />";
+        }
+        return $eol;
+    }
+    
+    public function getProductDetailsFbJs($html = 0) {
+			
+			$product = $this->getProduct();
+			$fbSku = $this->specialchars($product->getSku());
+			$fbName = $this->specialchars($product->getName());
+			$fbPrice = round($product->getFinalPrice(), 2);
+            $eol = ($this->getEol($html));
+               $productId = $product->getId();
+			    $productName = $this->specialchars($product->getName());
+						
+					$fbProduct =	"fbq('track', 'ViewContent', { 
+							content_type: 'product',
+							content_ids: ['$fbSku'],
+							content_name: '$fbName'
+							
+							});
+						" .$eol;
+						
+    
+	
+        
+        return $fbProduct;
+            
+    }
+    
 }

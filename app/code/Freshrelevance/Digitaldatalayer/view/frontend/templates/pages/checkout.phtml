@@ -57,3 +57,12 @@ $pro_id = $item->getProductId();
     </script>
 <?php endif; ?>
 
+<script type="text/javascript">
+fbq('track', 'InitiateCheckout', { 
+	"content_ids": <?php echo $deal_id; ?>,
+	"content_type": 'checkout',
+	"num_items": <?php echo $item_count; ?>,
+	"value": <?php echo $subTotal; ?>,
+	});
+</script>
+

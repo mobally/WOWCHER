@@ -1,9 +1,6 @@
 <?php
 /** @var \Freshrelevance\Digitaldatalayer\Block\DdlProduct $block */
 $data = $block->getDDLData();
-//echo "<pre>";
-//print_r($data);
-//echo "</pre>";
 ?>
 <?php if ($block->moduleEnabled()): ?>
     <script type="text/javascript">
@@ -13,3 +10,10 @@ $data = $block->getDDLData();
     </script>
 <?php endif; ?>
 
+<script type="text/javascript">
+	require(['jquery', 'domReady!'], function ($) {
+	<?php 
+	echo $block->getProductDetailsFbJs();
+	?>
+	});
+	</script>	
