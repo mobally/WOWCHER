@@ -230,6 +230,7 @@ echo nl2br($url);
      
 	 public function updateProductdata($array_prepare)
     {
+		
 		$this->state->setAreaCode(\Magento\Framework\App\Area::AREA_ADMINHTML);
 		$storeIds = array(0,1,2,3,4);
 		$current_date = date("Y-m-d h:i:sa");
@@ -239,7 +240,9 @@ echo nl2br($url);
 		$closing_date = $val['closingDate'];
 		if($closing_date > $strTotime){
 	    $sku = $val['id'];
-        $product_id = $this->getProductData($sku);
+		$product_id = $this->getProductData($sku);
+        $getProductTranslatedStatus = $this->getProductTranslatedStatus($sku);
+		if($getProductTranslatedStatus == 14){
         $updateAttributes['closingDate'] = $closing_date;
 		$updateAttributes['is_expiry'] = 0;
 		$updateAttributes['status'] = 1;
@@ -247,6 +250,7 @@ echo nl2br($url);
           foreach ($storeIds as $storeId) {
 	    $this->productAction->updateAttributes([$product_id], $updateAttributes, $storeId); 
 	}
+		}
 		}
 	}
 	}
@@ -261,7 +265,15 @@ echo nl2br($url);
         }
     }
 
-	 
+	 public function getProductTranslatedStatus($sku)
+    {
+        if ($this->productRepository->get($sku)) 
+        {
+            $product = $this->productRepository->get($sku);
+            $translation_status = $product->getTranslationStatus();
+            return $translation_status;
+        }
+    }
      
     public function importAll($input): void
     {
