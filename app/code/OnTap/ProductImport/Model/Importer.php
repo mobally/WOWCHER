@@ -55,7 +55,7 @@ class Importer
      */
     protected $logger;
 	protected $productAction;
-
+private $state;
     /**
      * Converter constructor.
      * @param FeedDownloader $feedDownloader
@@ -76,7 +76,8 @@ class Importer
         LoggerInterface $logger,
         \Rvs\ExpiryProduct\Model\Grouplist $Grouplist,
 		\Magento\Catalog\Api\ProductRepositoryInterface $productRepository,
-		\Magento\Catalog\Model\ResourceModel\Product\Action $productAction
+		\Magento\Catalog\Model\ResourceModel\Product\Action $productAction,
+		\Magento\Framework\App\State $state
     ) {
         $this->feedDownloader = $feedDownloader;
         $this->mapper = $mapper;
@@ -88,6 +89,7 @@ class Importer
         $this->grouplist = $Grouplist;
 		$this->productRepository = $productRepository;
 		$this->productAction = $productAction;
+		$this->state = $state;
     }
 
     /**
@@ -228,6 +230,7 @@ echo nl2br($url);
      
 	 public function updateProductdata($array_prepare)
     {
+		$this->state->setAreaCode(\Magento\Framework\App\Area::AREA_ADMINHTML);
 		$storeIds = array(0,1,2,3,4);
 		$current_date = date("Y-m-d h:i:sa");
 		$strTotime = strTotime($current_date).'000';		
@@ -240,6 +243,7 @@ echo nl2br($url);
         $updateAttributes['closingDate'] = $closing_date;
 		$updateAttributes['is_expiry'] = 0;
 		$updateAttributes['status'] = 1;
+		$updateAttributes['deal_status'] = 11;
           foreach ($storeIds as $storeId) {
 	    $this->productAction->updateAttributes([$product_id], $updateAttributes, $storeId); 
 	}

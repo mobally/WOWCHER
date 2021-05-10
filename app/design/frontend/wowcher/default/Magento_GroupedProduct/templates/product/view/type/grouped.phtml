@@ -59,6 +59,26 @@
 							<button type="button"  id="<?= /* @escapeNotVerified */ $_item->getId() ?>-upt" class="increaseQty">+</button>   
                     </div>
 					
+					<script type="text/javascript">
+require(["jquery"],function($){
+    $('#<?php echo $_item->getId();?>-upt, #<?php echo $_item->getId();?>-dec').on("click",function(){ 
+        var $this = $(this);
+        var ctrl = ($(this).attr('id').replace('-upt','')).replace('-dec','');          
+        var currentQty = $("#cart-"+ctrl+"-qty").val();
+        if($this.hasClass('increaseQty')){
+            var newAdd = parseInt(currentQty)+parseInt(1);
+             $("#cart-"+ctrl+"-qty").val(newAdd);
+        }else{
+             if(currentQty>0){
+                var newAdd = parseInt(currentQty)-parseInt(1);
+                $("#cart-"+ctrl+"-qty").val(newAdd); 
+             }
+        }
+    });
+});
+</script>
+
+					
                 <?php else : ?>
                     <div class="stock unavailable" title="<?= $block->escapeHtmlAttr(__('Availability')) ?>">
                         <span><?= $block->escapeHtml(__('Out of stock')) ?></span>
@@ -97,21 +117,3 @@
     </table>
 </div>
 <div id="validation-message-box"></div>
-<script type="text/javascript">
-require(["jquery"],function($){
-    $('#<?php echo $_product->getId();?>-upt, #<?php echo $_product->getId();?>-dec').on("click",function(){ 
-        var $this = $(this);
-        var ctrl = ($(this).attr('id').replace('-upt','')).replace('-dec','');          
-        var currentQty = $("#cart-"+ctrl+"-qty").val();
-        if($this.hasClass('increaseQty')){
-            var newAdd = parseInt(currentQty)+parseInt(1);
-             $("#cart-"+ctrl+"-qty").val(newAdd);
-        }else{
-             if(currentQty>1){
-                var newAdd = parseInt(currentQty)-parseInt(1);
-                $("#cart-"+ctrl+"-qty").val(newAdd); 
-             }
-        }
-    });
-});
-</script>
