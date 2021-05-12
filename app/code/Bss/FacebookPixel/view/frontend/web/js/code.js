@@ -141,6 +141,9 @@ define([
                 fbq('track', 'CompleteRegistration', {
                     customer_id: registration.customer_id
                 });
+				fbq('track', 'Lead', {
+                    content_type: 'Lead'
+                });
             }
         };
         return window.fb();
