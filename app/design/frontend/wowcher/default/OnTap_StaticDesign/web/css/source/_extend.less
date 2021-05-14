@@ -892,7 +892,7 @@
 				}
 			}
 		}
-	}
+	}	
 }
 
 //
@@ -1414,6 +1414,49 @@
 					font-size: 16px !important;
 				}
 			}
+		}
+	}
+	.page-product-grouped{
+		.deals-primary-deal{
+			.deal-details-wide{
+				.box-tocart{
+					.fieldset{
+						& > .actions{
+							background: #ffffff;
+							position: fixed;
+							left: 0;
+							bottom: 0;
+							width: 100%;
+							padding-bottom: 15px;
+							z-index: 2;
+						}
+					}
+					.tocart{
+					    font-size: 18px !important;
+						font-weight: 700;
+						letter-spacing: 0.5px;
+						width: 100%;						
+					}
+				}
+			}
+		}
+		&.static-product-page{
+			.deal-container-main{
+				.deals-item {
+					z-index: 3;
+				}
+			}
+		}
+		.page-footer{
+			position: relative;
+			z-index: 3;
+		}
+		.page-bottom{			
+			background: #ffffff;
+			padding-bottom: 15px;
+			margin-bottom: 0;
+			position: relative;
+			z-index: 3;
 		}
 	}
 }
