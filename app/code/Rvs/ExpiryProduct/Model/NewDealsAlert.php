@@ -65,8 +65,8 @@ $objectManager = \Magento\Framework\App\ObjectManager::getInstance(); // Instanc
        
        $templateId = '10'; // template id
         $fromEmail = 'info@wowcher.com';  // sender Email id
-        $fromName = 'Admin';             // sender Name
-        $toEmail = 'harpreet@rvsmedia.com'; // receiver email id
+        $fromName = 'WOWCHER';             // sender Name
+        $toEmail = 'thomas.routledge@wowcher.co.uk'; // receiver email id
 
         try {
             // template variables pass here
@@ -89,7 +89,7 @@ $objectManager = \Magento\Framework\App\ObjectManager::getInstance(); // Instanc
                 ->setTemplateVars($templateVars)
                 ->setFrom($from)
                 ->addTo($toEmail)
-                //->addCc("mehul.parekh@wowcher.co.uk")
+                ->addCc("mehul.parekh@wowcher.co.uk")
                 ->getTransport();
             $transport->sendMessage();
             $this->inlineTranslation->resume();
