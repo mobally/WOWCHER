@@ -21,6 +21,11 @@
                <item name="disable deals reminder" xsi:type="object">Rvs\ExpiryProduct\Console\Command\DisableDeals</item>
            </argument>
        </arguments>
+	   <arguments>
+           <argument name="commands" xsi:type="array">
+               <item name="new deals alert" xsi:type="object">Rvs\ExpiryProduct\Console\Command\NewDealsAlert</item>
+           </argument>
+       </arguments>
    </type>
 </config>
 
