@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+        <add id="Awin_AdvertiserTracking::root"
+             title="Awin - Advertiser Tracking"
+             module="Awin_AdvertiserTracking"
+             sortOrder="9999"
+             resource="Awin_AdvertiserTracking::settings"
+             parent="Magento_Backend::marketing"/>
+        <add id="Awin_AdvertiserTracking::settings"
+             title="General settings"
+             module="Awin_AdvertiserTracking"
+             sortOrder="0"
+             action="adminhtml/system_config/edit/section/awin_settings"
+             resource="Awin_AdvertiserTracking::settings"
+             parent="Awin_AdvertiserTracking::root"/>
+    </menu>
+</config>

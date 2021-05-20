@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<csp_whitelist xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Csp:etc/csp_whitelist.xsd">
+        <policies>
+            <policy id="script-src">
+                <values>
+                    <value id="awin1" type="host">*.awin1.com</value>
+                    <value id="dwin1" type="host">www.dwin1.com</value>
+                    <value id="zenaps" type="host">*.zenaps.com</value>
+                    <value id="science" type="host">https://the.sciencebehindecommerce.com</value>                    
+                </values>
+            </policy>
+            <policy id="img-src">
+                <values>
+                    <value id="awin1" type="host">*.awin1.com</value>
+                    <value id="zenaps" type="host">*.zenaps.com</value>             
+                </values>
+            </policy>
+            <policy id="frame-src">
+                <values>
+                    <value id="awin1" type="host">*.awin1.com</value>
+                    <value id="zenaps" type="host">*.zenaps.com</value>
+                    <value id="doubleclick" type="host">*.fls.doubleclick.net</value>
+                </values>
+            </policy>
+            <policy id="child-src">
+                <values>
+                    <value id="awin1" type="host">*.awin1.com</value>
+                    <value id="zenaps" type="host">*.zenaps.com</value>
+                </values>
+            </policy>         
+            <policy id="connect-src">
+                <values>
+                    <value id="science" type="host">https://the.sciencebehindecommerce.com</value>   
+                </values>
+            </policy>            
+        </policies>
+</csp_whitelist>

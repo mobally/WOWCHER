@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <tab id="awin" translate="label" sortOrder="9999999">
+            <label>Awin - Advertiser Tracking</label>
+        </tab>
+        <section id="awin_settings" translate="label" sortOrder="130" showInDefault="1" showInWebsite="1" showInStore="1">
+            <class>separator-top</class>
+            <label>General settings</label>
+            <tab>awin</tab>
+            <resource>Awin_AdvertiserTracking::settings</resource>
+            <group id="general" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>General settings</label>
+                <field id="awin_advertiser_id" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Advertiser Id</label>
+                    <comment>Your Awin advertiser id</comment>
+                    <config_path>awin_settings/general/awin_advertiser_id</config_path>
+                    <validate>required-entry validate-digits validate-no-empty</validate>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>

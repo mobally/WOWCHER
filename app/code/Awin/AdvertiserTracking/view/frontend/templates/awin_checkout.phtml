@@ -1,0 +1,57 @@
+<?php /* @var $block \Awin\AdvertiserTracking\Block\Success */ ?>
+<?php
+
+$helper = $this->helper( 'Awin\AdvertiserTracking\Helper\Data' );
+$advertiserId = $helper->getAdvertiserId();
+
+if($advertiserId > 0)
+{
+    $order = $block->getOrderItemsDetails();
+
+    $couponCode = $order->getCouponCode();
+    if($couponCode == null || $couponCode == ''){
+        $couponCode = $order->getDiscountDescription();
+    }
+
+    $orderId = $order->getRealOrderId();
+    $grandTotal = $order->getGrandTotal();
+    $taxTotal = $order->getTaxAmount();
+    $shippingCost = $order->getShippingAmount();
+    $totalAmount = $grandTotal - $shippingCost - $taxTotal;
+    $channel = $block->getChannelParameterValue();
+    $voucher = urlencode($couponCode);
+    $currency =  $order->getGlobalCurrencyCode();
+    $p1 = 'magento2Module_1.0.5';
+
+?>
+<img border="0" height="0" src="https://www.awin1.com/sread.img?tt=ns&tv=2&merchant=<?php echo "{$advertiserId}&amount={$totalAmount}&ch={$channel}&cr={$currency}&parts=DEFAULT:{$totalAmount}&ref={$orderId}&vc={$voucher}&p1={$p1}&testmode=0"?>" style="display: none;" width="0" />
+<form style="display: none;" name="aw_basket_form">
+<textarea wrap="physical" id="aw_basket"><?php
+    $items = $order->getAllItems();
+
+    foreach ($items as $item) {
+        $itemSku = $item->getSku();
+        $itemProductId  = urlencode($item->getProductId());
+        $itemProductName  = urlencode($item->getName());
+        $itemCategory = urlencode($item->getProduct()->getCategory());
+        $itemQuantity  = $item->getQtyOrdered();
+        $itemPrice = $item->getProduct()->getFinalPrice($itemQuantity);
+        echo "AW:P|{$advertiserId}|{$orderId}|{$itemProductId}|{$itemProductName}|{$itemPrice}|{$itemQuantity}|{$itemSku}|DEFAULT|{$itemCategory}\n";        
+    }
+    ?></textarea>
+</form>
+<script type="text/javascript">
+    var AWIN = {};
+    AWIN.Tracking = {};
+    AWIN.Tracking.Sale = {};
+    AWIN.Tracking.Sale.amount = "<?php echo $totalAmount; ?>";
+    AWIN.Tracking.Sale.channel = "<?php echo $channel; ?>";
+    AWIN.Tracking.Sale.currency = "<?php echo $currency ?>";
+    AWIN.Tracking.Sale.orderRef = "<?php echo $orderId ?>";
+    AWIN.Tracking.Sale.parts = "DEFAULT:<?php echo $totalAmount ?>";
+    AWIN.Tracking.Sale.voucher = "<?php echo $voucher ?>";
+    AWIN.Tracking.Sale.custom = ["<?php echo $p1 ?>"];
+    AWIN.Tracking.Sale.test = "0";
+
+</script>
+<?php } ?>
