@@ -49,10 +49,16 @@ class Subscriber extends Client
             ],
 
         ];
-        
+        $data['customer_id'] = $subscriber->getSubscriberId();
         $objectManager =  \Magento\Framework\App\ObjectManager::getInstance();        
 	$catalogSession = $objectManager->get('\Magento\Catalog\Model\Session');
     	$api_session = $catalogSession->getStoreId();
+		$subscription_source = $catalogSession->getSubSource();
+		if($subscription_source == 'lead gen'){
+			$data['subscription_source'] = "lead gen";
+		}else{
+			$data['subscription_source'] = "web";
+		}
        if($api_session){
        $storeID = $api_session;
        }
